@@ -33,3 +33,7 @@ yarn-error.log*
 /playwright/.cache/
 
 /.npm-only-allow
+package.json
+pnpm-lock.yaml
+package-lock.json
+.vscode/settings.json

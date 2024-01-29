@@ -1,5 +1,5 @@
-import React from 'react'
-import CustomButton from '../../../common/CustomButton'
+import React from "react"
+import CustomButton from "../../../common/CustomButton"
 
 type Props = {
   onLogout?: () => void
@@ -7,28 +7,21 @@ type Props = {
 
 const DropDownMenu = ({ onLogout }: Props) => {
   return (
-    <div className="bg-slate-200 rounded-lg h-fit w-52 z-[999]">
-      <div className="p-8">
-        <p className="font-medium">A4inGJ...ttj</p>
-        <div className="flex items-center gap-1 mb-6">
-          <span className="text-bold text-md">0.05</span>
-          <img src="/icons/solana-icon.png" alt="" className="w-4 h-4" />
-          <span className="text-gray-400 font-normal text-sm">~ 1.23$</span>
-        </div>
-        <div className="flex items-center text-gray-400 font-normal text-sm gap-1">
-          <img src="/icons/solana-icon.png" alt="" className="w-4 h-4" />
-          = 24.63 USD
+    <div className="z-[999] h-fit w-52 rounded-lg bg-slate-200">
+      <div className="p-8 text-center">
+        <p className="font-medium">Account Name</p>
+
+        <div className="flex flex-col items-center gap-1 text-center text-sm font-normal text-gray-400">
+          <img src="https://p7.hiclipart.com/preview/0/241/241/pepe-the-frog-internet-meme-humour-frog.jpg" alt="avatar" className="h-10 w-10" />
+          In-game Name
         </div>
       </div>
-      <div className="border-t border-gray-300 p-4 flex flex-col gap-4">
-        <div className="hover hover:bg-slate-300 px-4 py-2 cursor-pointer rounded-md">Owned NFTs</div>
-        <div className="hover hover:bg-slate-300 px-4 py-2 cursor-pointer rounded-md">Active offers</div>
-        <div className="hover hover:bg-slate-300 px-4 py-2 cursor-pointer rounded-md">Favorites</div>
-        <div className="hover hover:bg-slate-300 px-4 py-2 cursor-pointer rounded-md mb-8">Activity</div>
-        <CustomButton
-          label='Log out'
-          onClick={onLogout}
-        />
+      <div className="flex flex-col gap-4 border-t border-gray-300 p-4">
+        <div className="hover cursor-pointer rounded-md px-4 py-2 hover:bg-slate-300">Owned NFTs</div>
+        <div className="hover cursor-pointer rounded-md px-4 py-2 hover:bg-slate-300">Active offers</div>
+        <div className="hover cursor-pointer rounded-md px-4 py-2 hover:bg-slate-300">Favorites</div>
+        <div className="hover mb-8 cursor-pointer rounded-md px-4 py-2 hover:bg-slate-300">Activity</div>
+        <CustomButton label="Log out" onClick={onLogout} />
       </div>
     </div>
   )
