@@ -165,7 +165,6 @@ export default function App() {
                         <Button color="danger" className="w-full">
                             <p className="font-bold">View Profile</p>
                         </Button>
-
                     </CardFooter>
                 </Card>
             ))}

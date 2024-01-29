@@ -2,15 +2,14 @@ import { Tab, Tabs} from "@nextui-org/react";
 import React from "react";
 
 export default function App() {
+    const tabList = ['Activity', 'Customer Feedback', 'Finished Boosts', 'Max Rank Achived', 'Alphabetical'];
+
     return (
         <div className="flex w-full flex-col pb-5">
-            <Tabs aria-label="Options" className="place-content-end" color="danger">
-                <Tab key="photos" title="Photos">
-                </Tab>
-                <Tab key="music" title="Music">
-                </Tab>
-                <Tab key="videos" title="Videos">
-                </Tab>
+            <Tabs aria-label="Options" className="place-content-end" color="danger" size="lg">
+                tablist={tabList.map((tab, index) => (
+                    <Tab key={index} title={tab} />
+                ))}
             </Tabs>
         </div>
     );
