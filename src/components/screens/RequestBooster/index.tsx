@@ -6,12 +6,18 @@ import CarrerForm from "./components/CarrerForm"
 
 const RequestBooster = () => {
   return (
-    <>
+    <div className="bg-gray-800">
       <Overview />
       <ServiceRules />
-      <PositionRequirement />
-      <CarrerForm />
-    </>
+      <div className="flex h-[40rem] gap-10">
+        <div className="flex-1 h-full">
+          <PositionRequirement/>
+        </div>
+        <div className="flex-1 h-full">
+          <CarrerForm />
+        </div>
+      </div>
+    </div>
   )
 }
 

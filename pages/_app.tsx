@@ -1,11 +1,11 @@
 import "../styles/tailwind.css"
 import "react-toastify/dist/ReactToastify.css"
-import { SessionProvider } from "next-auth/react"
-import { AppProps } from "next/app"
 import { NextUIProvider } from "@nextui-org/react"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-import { SLATE_TIME_QUERY } from "@constants/query"
+import { AppProps } from "next/app"
+import { SessionProvider } from "next-auth/react"
 import { ToastContainer } from "react-toastify"
+import { SLATE_TIME_QUERY } from "@constants/query"
 
 const queryClient = new QueryClient({
   defaultOptions: {
