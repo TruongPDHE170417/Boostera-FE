@@ -3,6 +3,8 @@ const { nextui } = require("@nextui-org/react");
 const { pick, omit } = require("lodash")
 const colors = require("tailwindcss/colors")
 const defaultTheme = require("tailwindcss/defaultTheme")
+const { nextui } = require("@nextui-org/react");
+
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -27,6 +29,7 @@ module.exports = {
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    
     extend: {
       colors: {
         primary: {
@@ -37,6 +40,33 @@ module.exports = {
         },
 
         theme: "#25293C",
+        whitesmoke: "#f5f5f5",
+        dimgray: {
+          "100": "#525252",
+          "200": "rgba(82, 91, 112, 0.2)",
+        },
+        white: "#fff",
+        gainsboro: {
+          "100": "#dbdbdb",
+          "200": "rgba(230, 230, 230, 0.1)",
+          "300": "rgba(230, 230, 230, 0.5)",
+          "400": "rgba(230, 230, 230, 0.09)",
+        },
+        crimson: {
+          "100": "#fc266e",
+          "200": "#d70147",
+          "300": "rgba(252, 38, 110, 0.09)",
+        },
+        darkslategray: {
+          "100": "#323232",
+          "200": "#242d3c",
+        },
+        gray: {
+          "100": "rgba(255, 255, 255, 0.1)",
+          "200": "rgba(255, 255, 255, 0.7)",
+          "300": "rgba(255, 255, 255, 0.5)",
+        },
+        black: "#000",
       },
       fontFamily: {
         body: [
@@ -88,6 +118,26 @@ module.exports = {
       },
       minWidth: {
         ...defaultTheme.width,
+      },
+      width: {
+        '75%': '75%',
+        '65%': '65%',
+        '55%': '55%'
+      },
+      
+    },
+       screens: {
+      lg: {
+        max: "1200px",
+      },
+      mq1050: {
+        raw: "screen and (max-width: 1050px)",
+      },
+      mq750: {
+        raw: "screen and (max-width: 750px)",
+      },
+      mq450: {
+        raw: "screen and (max-width: 450px)",
       },
     },
   },
