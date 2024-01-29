@@ -2,12 +2,12 @@
 const { pick, omit } = require("lodash")
 const colors = require("tailwindcss/colors")
 const defaultTheme = require("tailwindcss/defaultTheme")
-const {nextui} = require("@nextui-org/react");
+const { nextui } = require("@nextui-org/react");
 
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  plugins: [require("daisyui"),nextui()],
+  plugins: [require("daisyui"), nextui()],
   daisyui: {
     themes: false, // false: only light + dark | true: all themes | array: specific themes like this ["light", "dark", "cupcake"]
     darkTheme: "dark", // name of one of the included themes for dark mode
@@ -87,6 +87,11 @@ module.exports = {
       },
       minWidth: {
         ...defaultTheme.width,
+      },
+      width: {
+        '75%': '75%',
+        '65%': '65%',
+        '55%': '55%'
       },
     },
   },
