@@ -25,7 +25,7 @@ const ServiceRules = () => {
       )}
       {showRulesDetail && (
         <div>
-          <div className=" mx-auto my-5 h-auto w-5/6  space-x-60 bg-slate-700  py-5 text-center text-lg text-white">
+          <div className=" mx-auto my-5 h-auto w-5/6 px-20 bg-slate-700  py-5 text-center text-lg text-white">
             <div className="mb-5">
               <h1 className="text-3xl font-semibold">Service Rules</h1>
             </div>
@@ -37,7 +37,7 @@ const ServiceRules = () => {
                   <ul className="list-inside list-decimal">
                     <li>
                       <span className="m-0 text-white">Having at least an Diamond 1 Rank on your Account</span>
-                    </li>
+                    </li> 
                     <li>
                       <span className="text-white">
                         The use of any hacks or scripts on a customer&apos;s account will lead to a ban on the service
