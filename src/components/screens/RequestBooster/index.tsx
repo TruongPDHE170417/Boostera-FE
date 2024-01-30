@@ -2,7 +2,7 @@ import React from "react"
 import Overview from "./components/Overview"
 import ServiceRules from "./components/ServiceRules"
 import PositionRequirement from "./components/PositionRequirement"
-import CarrerForm from "./components/CarrerForm"
+import CareerForm from "./components/CareerForm"
 
 const RequestBooster = () => {
   return (
@@ -14,7 +14,7 @@ const RequestBooster = () => {
           <PositionRequirement/>
         </div>
         <div className="flex-1 h-full">
-          <CarrerForm />
+          <CareerForm />
         </div>
       </div>
     </div>
