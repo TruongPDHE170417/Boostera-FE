@@ -72,9 +72,8 @@ const Header = () => {
 
   return (
     <div
-      className={`sticky top-0 z-[999] h-10 ${
-        isTransParent ? "bg-black/30 backdrop-blur-lg" : "bg-theme shadow-lg"
-      } z-99 flex w-screen items-center justify-between p-8 text-slate-900`}
+      className={`sticky top-0 z-[999] h-10 ${isTransParent ? "bg-black/30 backdrop-blur-lg" : "bg-theme shadow-lg"
+        } z-99 flex w-screen items-center justify-between p-8 text-slate-900`}
     >
       <div className="logo-block flex items-center gap-8">
         <div className="logo">
