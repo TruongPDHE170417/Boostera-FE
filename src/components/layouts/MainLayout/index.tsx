@@ -18,7 +18,7 @@ const MainLayout: React.FC<Props> = (props) => {
             <div className="flex justify-center fixed w-full z-30 ">
               <Header />
             </div>
-            <div className="mt-4 flex-grow bg-[#F4F5F6]">{children}</div>
+            <div className="pt-[60px] flex-grow bg-[#F4F5F6]">{children}</div>
             <Footer />
           </div>
         </div>

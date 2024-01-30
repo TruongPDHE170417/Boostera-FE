@@ -1,0 +1,34 @@
+import React from 'react'
+import Image from 'next/image'
+import { RANK_TYPE } from '@models/rank'
+
+const RANK_IMAGES = [
+  "iron",
+  "bronze",
+  "silver",
+  "gold",
+  "platinum",
+  "emerald",
+  "diamond",
+  "master",
+  "grandmaster",
+  "challenger"
+]
+
+type Props = {
+  level: RANK_TYPE
+  isSelect?: boolean
+  onSelect: () => void
+}
+
+const RankType = ({ level, isSelect = false, onSelect }: Props) => {
+  return (
+    <div className={`border border-gray-300 rounded-md w-fit px-1 cursor-pointer transition-all ${isSelect ? 'bg-red-600' : 'hover:bg-red-400'}`} onClick={onSelect}>
+      {level === 0 ? <div className="w-7"></div> :
+        <Image src={`/images/${RANK_IMAGES[level - 1]}.png`} alt={RANK_IMAGES[level - 1]} width={30} height={30} />
+      }
+    </div>
+  )
+}
+
+export default RankType

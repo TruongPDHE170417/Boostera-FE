@@ -15,9 +15,10 @@ const Header = () => {
   const toggleRef = useRef<HTMLDivElement>(null);
   const dropDownRef = useRef<HTMLDivElement>(null);
 
-  const { accountInfo, removeAccountInfo } = useBoundStore((store) => ({
+  const { saveAccountInfo, accountInfo, removeAccountInfo } = useBoundStore((store) => ({
     accountInfo: store.accountInfo,
     removeAccountInfo: store.removeAccountInfo,
+    saveAccountInfo: store.saveAccountInfo
   }));
 
   useClickOutside(dropDownRef, toggleRef, () => setIsOpenDropDownMenu(false));
