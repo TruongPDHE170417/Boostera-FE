@@ -21,6 +21,12 @@ const Footer = () => {
           <Link href={'/become-booster'} className="font-semibold"> this page.</Link>
         </p>
       </nav>
+      <nav>
+        <header className="footer-title">Become a Booster</header>
+        <p>If you want to become a booster, please fill out the form on  
+          <Link href={'/become-booster'} className="font-semibold"> this page.</Link>
+        </p>
+      </nav>
     </footer>
   )
 }
