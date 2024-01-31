@@ -1,6 +1,6 @@
+import React, { useState } from "react"
 import { Button, Divider } from "@nextui-org/react"
 import { motion } from "framer-motion"
-import React, { useState } from "react"
 
 const variant = {
   open: { opacity: 1, y: 0, height: "auto", overflow: "visible" },
@@ -10,29 +10,27 @@ const variant = {
 const ServiceRules = () => {
   const [showRulesDetail, setShowRulesDetail] = useState(false)
   const [showRulesGeneral, setShowRulesGeneral] = useState(true)
+
   const toggleRulesDetail = () => {
     setShowRulesDetail(!showRulesDetail)
     setShowRulesGeneral(!showRulesGeneral)
   }
+
   return (
     <>
       <motion.div animate={showRulesGeneral ? "open" : "closed"} variants={variant} transition={{ duration: 0.5 }}>
-        <div className=" mx-auto my-5 flex h-auto w-5/6  items-center justify-center space-x-60 bg-slate-700  py-5 align-middle text-lg text-white">
+        <div className="mx-auto my-5 flex h-auto w-5/6 items-center justify-center space-x-60 bg-slate-700 py-5 align-middle text-lg text-white">
           <div>
             <h1 className="text-xl">Service Rules</h1>
           </div>
-          <div>
-            <Button color="primary" size="lg" className="px-28" onClick={toggleRulesDetail}>
-              Read
-            </Button>
-          </div>
+          <Button color="primary" size="lg" className="px-28" onClick={toggleRulesDetail}>
+            Read
+          </Button>
         </div>
       </motion.div>
       <motion.div animate={showRulesDetail ? "open" : "closed"} variants={variant} transition={{ duration: 0.5 }}>
         <div className=" mx-auto my-5 h-auto w-5/6 bg-slate-700 px-20  py-5 text-center text-lg text-white">
-          <div className="mb-5">
-            <h1 className="text-3xl font-semibold">Service Rules</h1>
-          </div>
+          <h1 className="mb-5 text-3xl font-semibold">Service Rules</h1>
           <div className="grid grid-cols-3 gap-3 text-left">
             <div>
               <h3 className="text-xl font-semibold text-white">General</h3>

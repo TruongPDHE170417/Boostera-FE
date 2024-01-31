@@ -44,44 +44,18 @@ const CareerForm = () => {
   })
   const validateForm = () => {
     let isValid = true
-    const newErrorMessage: CareerRequest = {
-      nickname: "",
-      discordUserName: "",
-      accountLink: "",
-      about: "",
-      country: "",
-      email: "",
-    }
 
     // Validate each field
-    if (!careerReq.nickname) {
-      newErrorMessage.nickname = "Nickname is required"
-      isValid = false
-    }
+    Object.entries(careerReq).forEach(([key, value]) => {
+      if (!value) {
+        isValid = false
+      }
+      setErrorMessage({ ...errorMessage, [key]: !value ? `${key} is require` : "" })
+    })
 
-    if (!careerReq.discordUserName) {
-      newErrorMessage.discordUserName = "Discord username is required"
-      isValid = false
+    if (isValid) {
+      isValid = validateEmail()
     }
-    if (!careerReq.accountLink) {
-      newErrorMessage.accountLink = "Account Link is required"
-      isValid = false
-    }
-    if (!careerReq.about) {
-      newErrorMessage.about = "About is required"
-      isValid = false
-    }
-    if (!careerReq.country) {
-      newErrorMessage.country = "Country is required"
-      isValid = false
-    }
-    if (!careerReq.email) {
-      newErrorMessage.email = "Email username is required"
-      isValid = false
-    }
-
-    setErrorMessage(newErrorMessage)
-
     return isValid
   }
 
@@ -90,10 +64,19 @@ const CareerForm = () => {
     if (validateForm()) {
       mutation.mutate(careerReq)
     } else {
-      Object.values(errorMessage).forEach((e) => {
-        notify(NOTIFICATION_TYPE.ERROR, `${e}`)
-      })
+      //handle later
     }
+  }
+  const validateEmail = (): boolean => {
+    const isValid = Boolean(
+      String(careerReq.email)
+        .toLowerCase()
+        .match(
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        )
+    )
+    setErrorMessage({ ...errorMessage, email: isValid ? "" : "Email is not in a valid format!" })
+    return isValid
   }
 
   const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
@@ -106,11 +89,11 @@ const CareerForm = () => {
   }
 
   return (
-    <div className="h-full p-9 text-white">
+    <div className="h-full px-20 py-9 text-white">
       <h3 className="text-2xl font-semibold">
         If you think you meet the requirements, please fill out the following form:
       </h3>
-      <form method="POST" onSubmit={handleSubmit} className="">
+      <form onSubmit={handleSubmit}>
         <div className="my-5">
           <Input
             label="Nickname on the service:"
@@ -236,6 +219,7 @@ const CareerForm = () => {
             <Input
               label="E-mail:"
               radius="lg"
+              onBlur={validateEmail}
               name="email"
               onChange={handleChangeInput}
               classNames={{
@@ -255,6 +239,7 @@ const CareerForm = () => {
               placeholder=" "
               isRequired
             />
+            {errorMessage.email && <span className="text-red-600">{errorMessage.email}</span>}
           </div>
         </div>
         <Button
