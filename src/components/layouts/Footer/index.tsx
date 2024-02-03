@@ -11,7 +11,7 @@ const Footer = () => {
       <nav>
         <header className="footer-title">Contacts</header>
         <p>
-          For all inquiries or support needs, connect with Boostera's dedicated team through Facebook Messenger, drop
+          For all inquiries or support needs, connect with Boostera dedicated team through Facebook Messenger, drop
           us an email at boostera@fu.com.vn, or get in touch via our Facebook Page.
         </p>
       </nav>
