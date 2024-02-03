@@ -1,10 +1,10 @@
 import React, { memo, useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { useBoundStore } from "@zustand/total"
+import Navigation from "./components/Navigation"
 import { useClickOutside } from "@hooks/useClickOutside"
 import { ROLE_ACCOUNT } from "@models/common"
-import GuestNav from "./components/GuestNav"
-import BoosterNav from "./components/BoosterNav"
+
 const SCROLL_THRESHOLD = 100
 
 const Header = () => {
@@ -57,22 +57,10 @@ const Header = () => {
     setIsOpenDropDownMenu((prev) => !prev)
   }
 
-  const renderNav = () => {
-    switch (accountInfo.role) {
-      case ROLE_ACCOUNT.GUEST:
-        return <GuestNav />
-      case ROLE_ACCOUNT.BOOSTER:
-        return <BoosterNav />
-      default:
-        return null
-    }
-  }
-
   return (
     <div
-      className={`sticky top-0 z-[999] h-10 ${
-        isTransParent ? "bg-black/30 backdrop-blur-lg" : "border-b border-primary-400 bg-theme shadow-lg"
-      } z-99 flex w-screen items-center justify-between p-8 text-slate-900`}
+      className={`sticky top-0 z-[999] h-10 ${isTransParent ? "bg-black/30 backdrop-blur-lg" : "bg-theme shadow-lg"
+        } z-99 flex w-screen items-center justify-between p-8 text-slate-900`}
     >
       <div className="logo-block flex items-center gap-8">
         <div className="logo">
@@ -93,9 +81,8 @@ const Header = () => {
           <span className="font-bold text-primary-500">LOL ELO BOOST</span>
         </div>
       </div>
-      {renderNav()}
+      <Navigation />
     </div>
-    // </div>
   )
 }
 
