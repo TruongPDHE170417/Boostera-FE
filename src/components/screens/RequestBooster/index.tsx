@@ -1,19 +1,19 @@
 import React from "react"
-import Overview from "./components/Overview"
-import ServiceRules from "./components/ServiceRules"
-import PositionRequirement from "./components/PositionRequirement"
 import CareerForm from "./components/CareerForm"
+import Overview from "./components/Overview"
+import PositionRequirement from "./components/PositionRequirement"
+import ServiceRules from "./components/ServiceRules"
 
-const RequestBooster = () => {
+const RequestBoosterScreen = () => {
   return (
     <div className="bg-gray-800">
       <Overview />
       <ServiceRules />
       <div className="flex h-[40rem]">
-        <div className="flex-1 h-full">
-          <PositionRequirement/>
+        <div className="h-full flex-1">
+          <PositionRequirement />
         </div>
-        <div className="flex-1 h-full px-20">
+        <div className="h-full flex-1 px-20">
           <CareerForm />
         </div>
       </div>
@@ -21,4 +21,4 @@ const RequestBooster = () => {
   )
 }
 
-export default RequestBooster
+export default RequestBoosterScreen
