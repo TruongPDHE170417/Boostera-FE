@@ -5,6 +5,7 @@ import { useClickOutside } from "@hooks/useClickOutside"
 import { ROLE_ACCOUNT } from "@models/common"
 import GuestNav from "./components/GuestNav"
 import BoosterNav from "./components/BoosterNav"
+
 const SCROLL_THRESHOLD = 100
 
 const Header = () => {

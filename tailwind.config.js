@@ -1,13 +1,12 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+const { nextui } = require("@nextui-org/react");
 const { pick, omit } = require("lodash")
 const colors = require("tailwindcss/colors")
 const defaultTheme = require("tailwindcss/defaultTheme")
-const {nextui} = require("@nextui-org/react");
-
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  plugins: [require("daisyui"),nextui()],
+  plugins: [require("daisyui"), nextui()],
   daisyui: {
     themes: false, // false: only light + dark | true: all themes | array: specific themes like this ["light", "dark", "cupcake"]
     darkTheme: "dark", // name of one of the included themes for dark mode
@@ -21,7 +20,6 @@ module.exports = {
   darkMode: "class",
   content: [
     "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -37,6 +35,7 @@ module.exports = {
           400: "#242d3c",
           500: "#d70147",
         },
+
         theme: "#25293C",
       },
       fontFamily: {

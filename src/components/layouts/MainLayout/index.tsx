@@ -1,7 +1,11 @@
 import React, { HTMLAttributes, PropsWithChildren } from 'react'
-import Header from '../Header'
-import Footer from '../Footer'
 import Head from 'next/head'
+import dynamic from 'next/dynamic'
+import Footer from '../Footer'
+
+const Header = dynamic(() => import("../Header/index").then(mod => mod.default), {
+  ssr: false,
+})
 
 type Props = PropsWithChildren & HTMLAttributes<HTMLDivElement>
 
@@ -12,13 +16,13 @@ const MainLayout: React.FC<Props> = (props) => {
       <Head>
         <title>{title}</title>
       </Head>
-      <main className="sm:flex min-h-screen font-plus">
+      <main className="sm:flex min-h-screen font-plus bg-theme">
         <div className={`flex-auto container-w ${className || ''}`}>
           <div className="min-h-screen flex flex-col">
             <div className="flex justify-center fixed w-full z-30 ">
               <Header />
             </div>
-            <div className="mt-4 flex-grow bg-[#F4F5F6]">{children}</div>
+            <div className="pt-16 flex-grow bg-[#F4F5F6]">{children}</div>
             <Footer />
           </div>
         </div>
