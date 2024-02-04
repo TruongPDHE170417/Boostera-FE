@@ -1,22 +1,38 @@
 import Link from "next/link"
-import React from "react"
-
+import React, { useRef, useState } from "react"
+import { useClickOutside } from "@hooks/useClickOutside"
+import { useBoundStore } from "@zustand/total"
+import DropDownMenu from "./DropDownMenu"
 const ManagerNav = () => {
+  const [isOpenDropDownMenu, setIsOpenDropDownMenu] = useState<boolean>(false)
+  const toggleRef = useRef<HTMLDivElement>(null)
+  const dropDownRef = useRef<HTMLDivElement>(null)
+  useClickOutside(dropDownRef, toggleRef, () => setIsOpenDropDownMenu(false))
+
+  const handleMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.stopPropagation()
+    setIsOpenDropDownMenu((prev) => !prev)
+  }
+
+  const { accountInfo, removeAccountInfo } = useBoundStore((store) => ({
+    accountInfo: store.accountInfo,
+    removeAccountInfo: store.removeAccountInfo,
+  }))
   return (
     <div className="flex items-center font-semibold">
-      <Link href="/request-withdraw">
+      {/* <Link href="/request-withdraw">
         <p className="cursor-pointer rounded-lg px-4 py-2 text-white transition-all delay-[20ms] hover:text-primary-500">
           Request Withdraw
         </p>
-      </Link>
-      {/* <div className="relative" ref={toggleRef} onMouseDown={handleMouseDown}>
+      </Link> */}
+      <div className="relative" ref={toggleRef} onMouseDown={handleMouseDown}>
         <div className="cursor-pointer rounded-xl border bg-black px-4 py-2 text-sm font-semibold text-white transition-all delay-75 hover:border-black hover:bg-white hover:text-black">
           {accountInfo?.username?.slice(0, 7)}...
         </div>
       </div>
       <div className={`absolute right-8 top-16 ${isOpenDropDownMenu ? "menu-show" : "menu-hidden"}`} ref={dropDownRef}>
         <DropDownMenu onLogout={removeAccountInfo} />
-      </div> */}
+      </div>
     </div>
   )
 }

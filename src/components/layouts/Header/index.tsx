@@ -1,15 +1,16 @@
-import React, { memo, useEffect, useRef, useState } from "react"
 import Link from "next/link"
-import { useBoundStore } from "@zustand/total"
+import React, { memo, useEffect, useRef, useState } from "react"
 import { useClickOutside } from "@hooks/useClickOutside"
 import { ROLE_ACCOUNT } from "@models/common"
-import GuestNav from "./components/GuestNav"
+import { useBoundStore } from "@zustand/total"
+import AdminNav from "./components/AdminNav"
 import BoosterNav from "./components/BoosterNav"
+import GuestNav from "./components/GuestNav"
+import ManagerNav from "./components/ManagerNav"
 
 const SCROLL_THRESHOLD = 100
 
 const Header = () => {
-  const [searchValue, setSearchValue] = useState<string>("")
   const [isTransParent, setIsTransParent] = useState<boolean>(false)
   const [isOpenDropDownMenu, setIsOpenDropDownMenu] = useState<boolean>(false)
   const toggleRef = useRef<HTMLDivElement>(null)
@@ -53,17 +54,16 @@ const Header = () => {
     }
   }, [])
 
-  const handleMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.stopPropagation()
-    setIsOpenDropDownMenu((prev) => !prev)
-  }
-
   const renderNav = () => {
     switch (accountInfo.role) {
       case ROLE_ACCOUNT.GUEST:
         return <GuestNav />
       case ROLE_ACCOUNT.BOOSTER:
         return <BoosterNav />
+      case ROLE_ACCOUNT.MANAGER:
+        return <ManagerNav />
+      case ROLE_ACCOUNT.ADMIN:
+        return <AdminNav />
       default:
         return null
     }
@@ -96,7 +96,6 @@ const Header = () => {
       </div>
       {renderNav()}
     </div>
-    // </div>
   )
 }
 
