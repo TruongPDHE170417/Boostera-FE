@@ -1,12 +1,13 @@
 import Link from "next/link"
 import React, { memo, useEffect, useRef, useState } from "react"
+import Navigation from "./components/Navigation"
 import { useClickOutside } from "@hooks/useClickOutside"
 import { ROLE_ACCOUNT } from "@models/common"
 import { useBoundStore } from "@zustand/total"
-import AdminNav from "./components/AdminNav"
+/* import AdminNav from "./components/AdminNav"
 import BoosterNav from "./components/BoosterNav"
 import GuestNav from "./components/GuestNav"
-import ManagerNav from "./components/ManagerNav"
+import ManagerNav from "./components/ManagerNav" */
 
 const SCROLL_THRESHOLD = 100
 
@@ -54,7 +55,7 @@ const Header = () => {
     }
   }, [])
 
-  const renderNav = () => {
+  /* const renderNav = () => {
     switch (accountInfo.role) {
       case ROLE_ACCOUNT.GUEST:
         return <GuestNav />
@@ -67,12 +68,12 @@ const Header = () => {
       default:
         return null
     }
-  }
+  } */
 
   return (
     <div
       className={`sticky top-0 z-[999] h-10 ${
-        isTransParent ? "bg-black/30 backdrop-blur-lg" : "border-b border-primary-400 bg-theme shadow-lg"
+        isTransParent ? "bg-black/30 backdrop-blur-lg" : "bg-theme shadow-lg"
       } z-99 flex w-screen items-center justify-between p-8 text-slate-900`}
     >
       <div className="logo-block flex items-center gap-8">
@@ -94,7 +95,7 @@ const Header = () => {
           <span className="font-bold text-primary-500">LOL ELO BOOST</span>
         </div>
       </div>
-      {renderNav()}
+      <Navigation />
     </div>
   )
 }
