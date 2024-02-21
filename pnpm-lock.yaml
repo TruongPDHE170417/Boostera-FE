@@ -41,6 +41,12 @@ dependencies:
   lodash:
     specifier: ^4.17.21
     version: 4.17.21
+  lucide:
+    specifier: ^0.316.0
+    version: 0.316.0
+  lucide-react:
+    specifier: ^0.316.0
+    version: 0.316.0(react@18.2.0)
   next:
     specifier: ^13.5.5
     version: 13.5.5(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)
@@ -53,6 +59,9 @@ dependencies:
   path:
     specifier: ^0.12.7
     version: 0.12.7
+  pnpm:
+    specifier: ^8.15.0
+    version: 8.15.0
   react:
     specifier: ^18.2.0
     version: 18.2.0
@@ -7575,6 +7584,18 @@ packages:
     dependencies:
       yallist: 4.0.0
 
+  /lucide-react@0.316.0(react@18.2.0):
+    resolution: {integrity: sha512-dTmYX1H4IXsRfVcj/KUxworV6814ApTl7iXaS21AimK2RUEl4j4AfOmqD3VR8phe5V91m4vEJ8tCK4uT1jE5nA==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+    dev: false
+
+  /lucide@0.316.0:
+    resolution: {integrity: sha512-SEdWzsaScYxP+H9E7yGcGETdDWOrtsJX0JwQqDrTG9EvT46PZ0ips1hGfyRlxLPDsGEpJ71Fs6kmhIHq6i7Aqw==}
+    dev: false
+
   /media-typer@0.3.0:
     resolution: {integrity: sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==}
     engines: {node: '>= 0.6'}
@@ -8122,6 +8143,12 @@ packages:
   /pluralize@8.0.0:
     resolution: {integrity: sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==}
     engines: {node: '>=4'}
+    dev: false
+
+  /pnpm@8.15.0:
+    resolution: {integrity: sha512-6kVRfVKF0SPqwCw3k1Bfof1tqQovxg0ejZ4MHpKSiG7Pr/UT8GK50cyAIbuGFQM7GsW+o7LuP8FlptcDS75rAw==}
+    engines: {node: '>=16.14'}
+    hasBin: true
     dev: false
 
   /postcss-import@15.1.0(postcss@8.4.31):
