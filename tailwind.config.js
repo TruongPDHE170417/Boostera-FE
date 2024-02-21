@@ -32,10 +32,6 @@ module.exports = {
     
     extend: {
       colors: {
-        primary: {
-          300: "#5A71DD",
-          400: "#5C5CCF",
-        },
         theme: "#25293C",
         whitesmoke: "#f5f5f5",
         dimgray: {
