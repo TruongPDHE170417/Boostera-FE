@@ -1,13 +1,9 @@
-import Link from "next/link"
 import React, { memo, useEffect, useRef, useState } from "react"
+import Link from "next/link"
+import { useBoundStore } from "@zustand/total"
 import Navigation from "./components/Navigation"
 import { useClickOutside } from "@hooks/useClickOutside"
 import { ROLE_ACCOUNT } from "@models/common"
-import { useBoundStore } from "@zustand/total"
-/* import AdminNav from "./components/AdminNav"
-import BoosterNav from "./components/BoosterNav"
-import GuestNav from "./components/GuestNav"
-import ManagerNav from "./components/ManagerNav" */
 
 const SCROLL_THRESHOLD = 100
 
@@ -54,21 +50,6 @@ const Header = () => {
       }
     }
   }, [])
-
-  /* const renderNav = () => {
-    switch (accountInfo.role) {
-      case ROLE_ACCOUNT.GUEST:
-        return <GuestNav />
-      case ROLE_ACCOUNT.BOOSTER:
-        return <BoosterNav />
-      case ROLE_ACCOUNT.MANAGER:
-        return <ManagerNav />
-      case ROLE_ACCOUNT.ADMIN:
-        return <AdminNav />
-      default:
-        return null
-    }
-  } */
 
   return (
     <div

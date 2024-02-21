@@ -27,23 +27,14 @@ module.exports = {
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    
     extend: {
       colors: {
-        primary: {
-          100: "#39414C",
-          300: "#5A71DD",
-          400: "#242d3c",
-          500: "#d70147",
-        },
-
         theme: "#25293C",
         whitesmoke: "#f5f5f5",
         dimgray: {
           "100": "#525252",
           "200": "rgba(82, 91, 112, 0.2)",
         },
-        white: "#fff",
         gainsboro: {
           "100": "#dbdbdb",
           "200": "rgba(230, 230, 230, 0.1)",
@@ -59,12 +50,6 @@ module.exports = {
           "100": "#323232",
           "200": "#242d3c",
         },
-        gray: {
-          "100": "rgba(255, 255, 255, 0.1)",
-          "200": "rgba(255, 255, 255, 0.7)",
-          "300": "rgba(255, 255, 255, 0.5)",
-        },
-        black: "#000",
       },
       fontFamily: {
         body: [
