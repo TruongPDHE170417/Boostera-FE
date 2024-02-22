@@ -12,6 +12,9 @@ export interface AuthInfo {
 }
 
 export enum ROLE_ACCOUNT {
-  STUDENT = 1,
-  STAFF = 2,
+  GUEST = 0,
+  CUSTOMER = 1,
+  BOOSTER = 2,
+  MANAGER = 3,
+  ADMIN = 4
 }
