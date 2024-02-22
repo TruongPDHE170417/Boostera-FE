@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const { nextui } = require("@nextui-org/react");
-const colors = require("tailwindcss/colors")
 const defaultTheme = require("tailwindcss/defaultTheme")
 
 
@@ -101,13 +100,7 @@ module.exports = {
       },
       minWidth: {
         ...defaultTheme.width,
-      },
-      width: {
-        '75%': '75%',
-        '65%': '65%',
-        '55%': '55%'
-      },
-      
+      },      
     },
        screens: {
       lg: {

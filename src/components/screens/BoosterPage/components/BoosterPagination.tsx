@@ -1,7 +1,7 @@
-import { Pagination } from "@nextui-org/react";
 import React from "react";
+import { Pagination } from "@nextui-org/react";
 
-export default function App() {
+export default function BoosterPagination() {
 
     return (
         <div className="grid place-content-center mt-10">
