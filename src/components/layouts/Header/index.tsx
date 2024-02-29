@@ -4,6 +4,7 @@ import { useBoundStore } from "@zustand/total"
 import Navigation from "./components/Navigation"
 import { useClickOutside } from "@hooks/useClickOutside"
 import { ROLE_ACCOUNT } from "@models/common"
+import Image from "next/image"
 
 const SCROLL_THRESHOLD = 100
 
@@ -59,11 +60,12 @@ const Header = () => {
       <div className="logo-block flex items-center gap-8">
         <div className="logo">
           <Link href="/">
-            <img
-              width={60}
+            <Image
+              width={50}
+              height={50}
               alt="logo"
-              src="https://i.kym-cdn.com/entries/icons/original/000/025/382/Screen_Shot_2018-02-06_at_3.37.14_PM.png"
-            ></img>
+              src="/images/logo.png"
+            ></Image>
           </Link>
         </div>
         <div className="main-container">
@@ -72,7 +74,7 @@ const Header = () => {
               <span className="text-white">BOOSTERA</span>
             </p>
           </Link>
-          <span className="font-bold text-primary-500">LOL ELO BOOST</span>
+          <span className="font-bold text-red-500">LOL ELO BOOST</span>
         </div>
       </div>
       <Navigation />

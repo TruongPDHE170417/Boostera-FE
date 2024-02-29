@@ -3,7 +3,7 @@ import React from "react"
 
 const Footer = () => {
   return (
-    <footer className="bg-base-200 p-10 text-base-content">
+    <footer className="bg-theme text-white p-10 border-t-2 border-white mt-20">
       <footer className="footer">
         <aside>
           <svg
@@ -53,7 +53,7 @@ const Footer = () => {
       </footer>
       <div className="mt-20">
         <header className="footer-title text-center">Legal Disclaimer</header>
-        <p style={{paddingLeft: "250px", paddingRight: "250px"}}>
+        <p style={{ paddingLeft: "250px", paddingRight: "250px" }} className="text-center">
           This website is not endorsed or in any way affiliated with Activision Inc, Electronic Arts Inc, Valve
           Corporation, Riot Games Inc, Respawn Entertainment or Epic Games and does not reflect the views or opinions of
           the aforementioned entities or anyone officially involved in producing or managing Call of Duty Franchise,

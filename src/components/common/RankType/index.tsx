@@ -1,19 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
-import { RANK_TYPE } from '@models/rank'
-
-const RANK_IMAGES = [
-  "iron",
-  "bronze",
-  "silver",
-  "gold",
-  "platinum",
-  "emerald",
-  "diamond",
-  "master",
-  "grandmaster",
-  "challenger"
-]
+import { RANK_IMAGES, RANK_TYPE } from '@models/rank'
 
 type Props = {
   level: RANK_TYPE

@@ -32,6 +32,7 @@ export const useBoundStore = create<StoreSlice>()(
     }),
     {
       name: ZUSTAND_STORAGE_NAME,
+      skipHydration: true,
     }
   )
 )

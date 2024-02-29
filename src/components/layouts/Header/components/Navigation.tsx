@@ -20,7 +20,7 @@ const Navigation = () => {
 
   return (
     <>
-      {accountInfo?.role ? ROLE_NAV[accountInfo.role] : <></>}
+      {accountInfo?.role ? ROLE_NAV[accountInfo.role] : <GuestNav />}
     </>
   )
 }

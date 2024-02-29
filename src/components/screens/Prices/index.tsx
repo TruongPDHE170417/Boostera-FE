@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Slider, SliderValue, Tab, Tabs } from '@nextui-org/react'
+import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Slider, SliderValue, Tab, Tabs } from '@nextui-org/react'
+import { useBoundStore } from '@zustand/total'
 import Icon from '@components/icons'
 import RankType from '@components/common/RankType'
 import RankLevel from '@components/common/RankLevel'
@@ -7,6 +8,7 @@ import RankPoint from '@components/common/RankPoint'
 import Options, { OPTIONS } from './components/Options'
 import Purchase from './components/Purchase'
 import { RANK_LEVEL, RANK_POINT, RANK_TYPE } from '@models/rank'
+import CustomerInformationModal from './components/CustomerInformationModal'
 
 export enum BOOSTER_TYPE {
   DIVISION_BOOSTING = 1,
@@ -25,6 +27,11 @@ const PricesScreen = () => {
   const [options, setOptions] = useState<OPTIONS[]>([])
   const [isPurchaing, setIsPurchasing] = useState<boolean>(false)
   const [typeBooster, setTypeBooster] = useState<BOOSTER_TYPE>(BOOSTER_TYPE.DIVISION_BOOSTING)
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
+
+  const { accountInfo } = useBoundStore((store) => ({
+    accountInfo: store.accountInfo,
+  }))
 
   const handleSelectOption = (selectedOption: OPTIONS) => {
     if (option === selectedOption) {
@@ -45,18 +52,28 @@ const PricesScreen = () => {
   }
 
   const handlePurchase = () => {
-    setIsPurchasing(true)
+    // TODO: update check accountInfo
+    if (!!accountInfo.username) {
+      setIsOpenModal(true)
+    } else {
+      // TODO: handle purchase
+      setIsPurchasing(true)
+    }
   }
 
   const handleChangeBoosterType = (key: React.Key) => {
     setTypeBooster(key as BOOSTER_TYPE)
   }
 
+  const handleChangeOpenModal = () => {
+    setIsOpenModal(!isOpenModal)
+  }
+
   return (
-    <>
+    <div className="min-h-screen bg-theme text-white">
       <div className="px-40">
-        <div className="flex w-full flex-col items-center my-8">
-          <Tabs aria-label="Options" className="w-full flex justify-center border-b-2 py-4" onSelectionChange={handleChangeBoosterType}>
+        <div className="flex w-full flex-col items-center py-8">
+          <Tabs aria-label="Options" className="w-full flex justify-center border-b-2 py-4" onSelectionChange={handleChangeBoosterType} color="danger">
             <Tab key={BOOSTER_TYPE.DIVISION_BOOSTING} title="Division Boosting" className="w-full px-20">
               <div className="flex w-full">
                 <div className="w-1/2">
@@ -169,35 +186,35 @@ const PricesScreen = () => {
           </Tabs>
           <div className="border-t-2 flex gap-4 font-semibold text-gray-500 text-sm py-4 my-8">
             <div
-              className={`cursor-pointer flex gap-1 ${options.includes(OPTIONS.DUO_BOOST) ? 'text-red-500' : option === OPTIONS.DUO_BOOST ? 'text-black' : ''}`}
+              className={`cursor-pointer flex gap-1 ${options.includes(OPTIONS.DUO_BOOST) ? 'text-red-500' : option === OPTIONS.DUO_BOOST ? 'text-white' : ''}`}
               onClick={() => handleSelectOption(OPTIONS.DUO_BOOST)}
             >
               {options.includes(OPTIONS.DUO_BOOST) && <Icon name="check-circle" size={16} />}
               Duo Boost
             </div>
             <div
-              className={`cursor-pointer flex gap-1 ${options.includes(OPTIONS.SELECT_BOOSTER) ? 'text-red-500' : option === OPTIONS.SELECT_BOOSTER ? 'text-black' : ''}`}
+              className={`cursor-pointer flex gap-1 ${options.includes(OPTIONS.SELECT_BOOSTER) ? 'text-red-500' : option === OPTIONS.SELECT_BOOSTER ? 'text-white' : ''}`}
               onClick={() => handleSelectOption(OPTIONS.SELECT_BOOSTER)}
             >
               {options.includes(OPTIONS.SELECT_BOOSTER) && <Icon name="check-circle" size={16} />}
               Select Booster
             </div>
             <div
-              className={`cursor-pointer flex gap-1 ${options.includes(OPTIONS.TURBO_BOOST) ? 'text-red-500' : option === OPTIONS.TURBO_BOOST ? 'text-black' : ''}`}
+              className={`cursor-pointer flex gap-1 ${options.includes(OPTIONS.TURBO_BOOST) ? 'text-red-500' : option === OPTIONS.TURBO_BOOST ? 'text-white' : ''}`}
               onClick={() => handleSelectOption(OPTIONS.TURBO_BOOST)}
             >
               {options.includes(OPTIONS.TURBO_BOOST) && <Icon name="check-circle" size={16} />}
               Turbo Boost
             </div>
             <div
-              className={`cursor-pointer flex gap-1 ${options.includes(OPTIONS.CHOOSE_CHAMPIONS) ? 'text-red-500' : option === OPTIONS.CHOOSE_CHAMPIONS ? 'text-black' : ''}`}
+              className={`cursor-pointer flex gap-1 ${options.includes(OPTIONS.CHOOSE_CHAMPIONS) ? 'text-red-500' : option === OPTIONS.CHOOSE_CHAMPIONS ? 'text-white' : ''}`}
               onClick={() => handleSelectOption(OPTIONS.CHOOSE_CHAMPIONS)}
             >
               {options.includes(OPTIONS.CHOOSE_CHAMPIONS) && <Icon name="check-circle" size={16} />}
               Choose Champions
             </div>
             <div
-              className={`cursor-pointer flex gap-1 ${options.includes(OPTIONS.STREAMING) ? 'text-red-500' : option === OPTIONS.STREAMING ? 'text-black' : ''}`} onClick={() => handleSelectOption(OPTIONS.STREAMING)}
+              className={`cursor-pointer flex gap-1 ${options.includes(OPTIONS.STREAMING) ? 'text-red-500' : option === OPTIONS.STREAMING ? 'text-white' : ''}`} onClick={() => handleSelectOption(OPTIONS.STREAMING)}
             >
               {options.includes(OPTIONS.STREAMING) && <Icon name="check-circle" size={16} />}
               Streaming
@@ -208,8 +225,8 @@ const PricesScreen = () => {
           </div>
         </div>
       </div >
-      <div className="bg-gray-300 h-3"></div>
-      <div className="px-60 my-4">
+      <div className="bg-white h-2"></div>
+      <div className="px-60 py-4">
         <Purchase
           rankType={currentRank}
           rankLevel={currentLevel}
@@ -224,7 +241,8 @@ const PricesScreen = () => {
           handlePurchase={handlePurchase}
         />
       </div>
-    </>
+      <CustomerInformationModal isOpenModal={isOpenModal} handleChangeOpenModal={handleChangeOpenModal} />
+    </div>
   )
 }
 

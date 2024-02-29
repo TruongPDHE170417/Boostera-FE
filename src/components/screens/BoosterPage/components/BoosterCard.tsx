@@ -127,7 +127,7 @@ const MOCK_BOOSTERS_LIST = [
 export default function BoosterCard() {
 
     return (
-        <div className="gap-5 grid grid-cols-3 sm:grid-cols-3">
+        <div className="gap-8 grid grid-cols-3 sm:grid-cols-3">
             {MOCK_BOOSTERS_LIST.map((item, index) => (
                 <Card shadow="sm" key={index} isPressable onPress={() => console.log("item pressed")}>
                     <CardBody className="overflow-hidden p-0 h-[350px]">
