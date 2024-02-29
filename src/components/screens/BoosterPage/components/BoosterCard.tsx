@@ -125,7 +125,6 @@ const MOCK_BOOSTERS_LIST = [
 ];
 
 export default function BoosterCard() {
-
     return (
         <div className="gap-8 grid grid-cols-3 sm:grid-cols-3">
             {MOCK_BOOSTERS_LIST.map((item, index) => (
@@ -163,8 +162,8 @@ export default function BoosterCard() {
                             <b className="text-lg">Rating</b>
                             <p className="font-bold text-xl">{item.rating}</p>
                         </CardFooter>
-                        <Button color="danger" className="w-full">
-                            <p className="font-bold">View Profile</p>
+                        <Button color="danger" className="w-full font-bold">
+                            View Profile
                         </Button>
                     </CardFooter>
                 </Card>
