@@ -6,7 +6,7 @@ import ServiceRules from "./components/ServiceRules"
 
 const RequestBoosterScreen = () => {
   return (
-    <div className="bg-gray-800">
+    <div className="bg-theme">
       <Overview />
       <ServiceRules />
       <div className="flex h-[40rem]">

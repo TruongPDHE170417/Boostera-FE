@@ -11,11 +11,11 @@ const Login = () => {
 
   return (
     <div className="hero min-h-screen bg-theme">
-      <div className="flex gap-12">
-        <div className="w-1/2 card shadow-2xl hidden lg:flex justify-center items-center p-8">
-          <img src="images/auth-login.png" alt="" className="w-[80%]" />
+      <div className="flex h-full">
+        <div className="basis-1/2">
+          <img src="images/auth-login.webp" alt="" className="w-full h-full object-cover" />
         </div>
-        <div className="shrink-0 w-full lg:w-1/2 max-w-sm px-8 lg:px-2">
+        <div className="shrink-0 basis-1/2 px-40 my-auto">
           <div className="text-center lg:text-left text-slate-400">
             <h1 className="text-5xl font-bold">Welcome to Boostera! 👋🏻</h1>
             <p className="py-6">Please sign-in to your account and start the adventure.</p>

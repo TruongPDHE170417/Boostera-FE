@@ -6,7 +6,7 @@ const Intro: NextPage = () => {
     <div className="self-stretch flex flex-row items-start justify-start pt-0 px-0 pb-59 box-border max-w-full mb-24">
       <header className="flex-1 flex flex-col items-center justify-start pt-33 pb-27 pr-31 pl-5 box-border gap-30 bg-header-image bg-cover bg-no-repeat bg-top mix-blend-normal max-w-full text-center text-5xl text-white font-roboto">
 
-        <div className="flex flex-row items-start justify-start py-0 pr-0 pl-11 box-border max-w-full">
+        <div className="flex flex-row items-start justify-start px-10 box-border max-w-full">
           <div className="flex flex-col items-center justify-start gap-10 max-w-full">
             <h1 className="m-0 leading-34 ">
               Meet Our Exceptional LoL Elo Boosters - The Crème de la Crème at

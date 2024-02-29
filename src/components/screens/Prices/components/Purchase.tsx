@@ -25,7 +25,7 @@ const Purchase = ({ rankType, rankLevel, rankPoint, desiredRank, desiredLevel, e
     <>
       <div className="flex justify-between items-start">
         <div className="flex items-center gap-2">
-          <div className="border border-black border-dashed rounded-full p-1">
+          <div className="border border-white border-dashed rounded-full p-1">
             <Icon name="hourglass" size={12} />
           </div>
           <div>

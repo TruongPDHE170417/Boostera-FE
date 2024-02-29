@@ -8,10 +8,10 @@ import Overview from './components/Overview';
 
 const BoosterPageScreen = () => {
   return (
-    <div className="mt-12 md:mt-0 md:py-24 md:px-12 lg:px-16 xl:px-80 w-screen bg-theme">
-      <Intro/>
+    <div className="py-24 md:px-12 lg:px-16 xl:px-80 w-screen bg-theme">
+      <Intro />
       <Overview />
-      <div className="container w-[75%] mx-auto px-4">
+      <div className="container mx-auto px-20">
         <Tabs />
         <BoosterCard />
         <Pagination />

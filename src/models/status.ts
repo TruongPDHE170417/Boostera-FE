@@ -1,0 +1,5 @@
+export enum JOB_STATUS {
+  DOING = 'DOING',
+  COMPLETED = 'COMPLETED',
+  CANCELED = 'CANCELED',
+}
