@@ -12,6 +12,19 @@ export enum RANK_TYPE {
   CHALLENGER,
 }
 
+export const RANK_IMAGES = [
+  "iron",
+  "bronze",
+  "silver",
+  "gold",
+  "platinum",
+  "emerald",
+  "diamond",
+  "master",
+  "grandmaster",
+  "challenger"
+]
+
 export const RANK_TYPE_LABEL = ["IRON", "BRONZE", "SILVER", "GOLD", "PLATINUM", "EMERALD", "DIAMOND", "MASTER", "GRANDMASTER", "CHALLENGER"]
 
 export enum RANK_LEVEL {

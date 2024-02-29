@@ -1,6 +1,7 @@
 import { useRouter } from "next/router"
 import MainLayout from "@components/layouts/MainLayout"
 import CustomButton from "@components/common/CustomButton"
+import { Button } from "@nextui-org/react"
 
 const Page404 = () => {
   const router = useRouter()
@@ -11,10 +12,10 @@ const Page404 = () => {
 
   return (
     <MainLayout className="h-full" title="404 - Not Found">
-      <div className="text-primary flex h-[calc(100vh-120px)] flex-col items-center justify-center">
+      <div className="bg-theme text-white flex h-[calc(100vh-120px)] flex-col items-center justify-center">
         <p className="text-center text-[5rem] font-bold sm:text-[6rem]">404</p>
-        <p className="mb-4 text-3xl font-semibold">Not Found</p>
-        <CustomButton label="Back To Home" onClick={backToHome} />
+        <p className="mb-6 -mt-4 text-3xl font-semibold">Not Found</p>
+        <Button color="danger" onClick={backToHome}>Back to Home</Button>
       </div>
     </MainLayout>
   )
