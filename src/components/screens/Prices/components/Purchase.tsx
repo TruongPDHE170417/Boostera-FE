@@ -16,11 +16,12 @@ type Props = {
   boosterType: BOOSTER_TYPE
   previousSeasonRank: RANK_TYPE
   gamesCount: number
+  price: number
   isPurchasing: boolean
   handlePurchase: () => void
 }
 
-const Purchase = ({ rankType, rankLevel, rankPoint, desiredRank, desiredLevel, extraOptions, boosterType, previousSeasonRank, gamesCount, isPurchasing, handlePurchase }: Props) => {
+const Purchase = ({ rankType, rankLevel, rankPoint, desiredRank, desiredLevel, extraOptions, boosterType, previousSeasonRank, gamesCount, price, isPurchasing, handlePurchase }: Props) => {
   return (
     <>
       <div className="flex justify-between items-start">
@@ -63,7 +64,7 @@ const Purchase = ({ rankType, rankLevel, rankPoint, desiredRank, desiredLevel, e
         </div>
       </div>
       <div className="font-bold text-5xl mt-4">
-        $14.99
+        ${price ?? '--'}
       </div>
       <Button
         color="danger"

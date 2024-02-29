@@ -7,7 +7,7 @@ type Props = {
   onConfirm: () => void
 }
 
-const CustomerInformationModal = ({ isOpenModal, handleChangeOpenModal, onConfirm }: Props) => {
+const VerifyOtpModal = ({ isOpenModal, handleChangeOpenModal, onConfirm }: Props) => {
   return (
     <Modal
       backdrop="opaque"
@@ -22,28 +22,17 @@ const CustomerInformationModal = ({ isOpenModal, handleChangeOpenModal, onConfir
         closeButton: "hover:bg-white/5 active:bg-white/10",
       }}
       placement='center'
+      isDismissable={false}
     >
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader className="flex flex-col gap-1">Customer Information</ModalHeader>
+            <ModalHeader className="flex flex-col gap-1">Verify OTP</ModalHeader>
             <ModalBody>
               <Input
                 isRequired
                 type="email"
-                label="Email"
-                variant='underlined'
-              />
-              <Input
-                isRequired
-                type="text"
-                label="Game Account"
-                variant='underlined'
-              />
-              <Input
-                isRequired
-                type="text"
-                label="tagId"
+                label="Enter otp code"
                 variant='underlined'
               />
             </ModalBody>
@@ -62,4 +51,4 @@ const CustomerInformationModal = ({ isOpenModal, handleChangeOpenModal, onConfir
   )
 }
 
-export default CustomerInformationModal
+export default VerifyOtpModal
