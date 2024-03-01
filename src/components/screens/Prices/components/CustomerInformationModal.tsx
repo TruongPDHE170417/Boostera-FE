@@ -1,13 +1,14 @@
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@nextui-org/react'
 
 type Props = {
   isOpenModal: boolean
   handleChangeOpenModal: () => void
+  handleCustomerInformation: (e: ChangeEvent<HTMLInputElement>) => void
   onConfirm: () => void
 }
 
-const CustomerInformationModal = ({ isOpenModal, handleChangeOpenModal, onConfirm }: Props) => {
+const CustomerInformationModal = ({ isOpenModal, handleChangeOpenModal, handleCustomerInformation, onConfirm }: Props) => {
   return (
     <Modal
       backdrop="opaque"
@@ -33,18 +34,24 @@ const CustomerInformationModal = ({ isOpenModal, handleChangeOpenModal, onConfir
                 type="email"
                 label="Email"
                 variant='underlined'
+                name='email'
+                onChange={handleCustomerInformation}
               />
               <Input
                 isRequired
                 type="text"
                 label="Game Account"
                 variant='underlined'
+                name='accountName'
+                onChange={handleCustomerInformation}
               />
               <Input
                 isRequired
                 type="text"
                 label="tagId"
                 variant='underlined'
+                name='tagId'
+                onChange={handleCustomerInformation}
               />
             </ModalBody>
             <ModalFooter>

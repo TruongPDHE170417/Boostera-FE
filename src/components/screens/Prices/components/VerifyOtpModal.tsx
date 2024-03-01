@@ -1,13 +1,14 @@
-import React from 'react'
-import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@nextui-org/react'
+import React from "react"
+import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@nextui-org/react"
 
 type Props = {
   isOpenModal: boolean
   handleChangeOpenModal: () => void
   onConfirm: () => void
+  handleInputOtp: (e: ChangeEvent<HTMLInputElement>) => void
 }
 
-const VerifyOtpModal = ({ isOpenModal, handleChangeOpenModal, onConfirm }: Props) => {
+const VerifyOtpModal = ({ isOpenModal, handleChangeOpenModal, handleInputOtp, onConfirm }: Props) => {
   return (
     <Modal
       backdrop="opaque"
@@ -21,7 +22,7 @@ const VerifyOtpModal = ({ isOpenModal, handleChangeOpenModal, onConfirm }: Props
         footer: "border-t-[1px] border-[#292f46]",
         closeButton: "hover:bg-white/5 active:bg-white/10",
       }}
-      placement='center'
+      placement="center"
       isDismissable={false}
     >
       <ModalContent>
@@ -32,8 +33,10 @@ const VerifyOtpModal = ({ isOpenModal, handleChangeOpenModal, onConfirm }: Props
               <Input
                 isRequired
                 type="email"
+                name="otp"
                 label="Enter otp code"
-                variant='underlined'
+                variant="underlined"
+                onChange={handleInputOtp}
               />
             </ModalBody>
             <ModalFooter>
