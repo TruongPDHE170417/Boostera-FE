@@ -2,7 +2,7 @@
 import queryString from 'qs';
 
 const handler = async (req, res) => {
-    const uiRedirect = "become-booster" //after handle, what we will handle
+    const uiRedirect = "login" //after handle, what we will handle
     try {
         //find a way to send it to server   
         let vnpParam = await req.query;
@@ -10,8 +10,8 @@ const handler = async (req, res) => {
         serverApi += '?' + queryString.stringify(vnpParam, { encode: false })
         const transactionStatus = vnpParam['vnp_TransactionStatus'];
         if (transactionStatus !== "00") {
-
-        } else if (transactionStatus == "00") {
+            res.redirect(`/`);
+        } else if (transactionStatus === "00") {
             const response = await fetch(serverApi, {
                 method: "GET",
                 mode: "cors",
