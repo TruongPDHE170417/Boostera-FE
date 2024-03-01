@@ -46,4 +46,6 @@ export enum RANK_POINT {
   POINT_5,
 }
 
+export const RANK_POINT_CALC = [0, 21, 41, 61, 81]
+
 export const RANK_POINT_LABEL = ["0-20", "21-40", "41-60", "61-80", "81-99"]

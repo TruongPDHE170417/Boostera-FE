@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Slider, SliderValue, Tab, Tabs } from '@nextui-org/react'
+import React, { useEffect, useState } from 'react'
+import { Slider, SliderValue, Tab, Tabs } from '@nextui-org/react'
 import { useBoundStore } from '@zustand/total'
 import Icon from '@components/icons'
 import RankType from '@components/common/RankType'
@@ -7,8 +7,11 @@ import RankLevel from '@components/common/RankLevel'
 import RankPoint from '@components/common/RankPoint'
 import Options, { OPTIONS } from './components/Options'
 import Purchase from './components/Purchase'
-import { RANK_LEVEL, RANK_POINT, RANK_TYPE } from '@models/rank'
+import { RANK_IMAGES, RANK_LEVEL, RANK_POINT, RANK_POINT_CALC, RANK_TYPE } from '@models/rank'
 import CustomerInformationModal from './components/CustomerInformationModal'
+import VerifyOtpModal from './components/VerifyOtpModal'
+import { API_ENDPOINT } from '@models/api'
+import { PriceType } from "../../../types/price"
 
 export enum BOOSTER_TYPE {
   DIVISION_BOOSTING = 1,
@@ -25,9 +28,12 @@ const PricesScreen = () => {
   const [previousSeasonRank, setPreviousSeasonRank] = useState<RANK_TYPE>(RANK_TYPE.NONE)
   const [option, setOption] = useState<OPTIONS>(OPTIONS.NONE)
   const [options, setOptions] = useState<OPTIONS[]>([])
-  const [isPurchaing, setIsPurchasing] = useState<boolean>(false)
+  const [promotion, setPromotion] = useState<number>(0)
+  const [isPurchasing, setIsPurchasing] = useState<boolean>(false)
   const [typeBooster, setTypeBooster] = useState<BOOSTER_TYPE>(BOOSTER_TYPE.DIVISION_BOOSTING)
-  const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
+  const [isOpenModalInfo, setIsOpenModalInfo] = useState<boolean>(false)
+  const [isOpenModalVerify, setIsOpenModalVerify] = useState<boolean>(false)
+  const [price, setPrice] = useState<number>(0)
 
   const { accountInfo } = useBoundStore((store) => ({
     accountInfo: store.accountInfo,
@@ -54,7 +60,7 @@ const PricesScreen = () => {
   const handlePurchase = () => {
     // TODO: update check accountInfo
     if (!!accountInfo.username) {
-      setIsOpenModal(true)
+      setIsOpenModalInfo(true)
     } else {
       // TODO: handle purchase
       setIsPurchasing(true)
@@ -65,9 +71,48 @@ const PricesScreen = () => {
     setTypeBooster(key as BOOSTER_TYPE)
   }
 
-  const handleChangeOpenModal = () => {
-    setIsOpenModal(!isOpenModal)
+  const handleChangeOpenModalInfo = () => {
+    setIsOpenModalInfo(!isOpenModalInfo)
   }
+
+  const handleChangeOpenModalVerify = () => {
+    setIsOpenModalVerify(!isOpenModalVerify)
+  }
+
+  const handleConfirmInformation = () => {
+    setIsOpenModalInfo(false)
+    setIsOpenModalVerify(true)
+  }
+
+  const handleVerifyOtp = () => {
+    // TODO: handle create job, payment
+  }
+
+  useEffect(() => {
+    const handleGetPrice = async () => {
+      const response = await fetch(API_ENDPOINT + '/pricing/division/calc', {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          "rating_from_league": RANK_IMAGES[currentRank - 1]?.toUpperCase(),
+          "rating_from_division": currentLevel,
+          "rating_from_lp": RANK_POINT_CALC[currentPoint - 1],
+          "rating_to_league": RANK_IMAGES[desiredRank - 1]?.toUpperCase(),
+          "rating_to_division": desiredLevel,
+          "promotion": promotion,
+          "rating_options_duo_boost_active": options.includes(OPTIONS.DUO_BOOST),
+          "rating_options_select_booster_active": options.includes(OPTIONS.SELECT_BOOSTER),
+          "rating_options_turbo_boost_active": options.includes(OPTIONS.TURBO_BOOST),
+          "rating_options_pick_heroes_active": options.includes(OPTIONS.CHOOSE_CHAMPIONS),
+          "rating_options_streaming_active": options.includes(OPTIONS.STREAMING)
+        })
+      })
+      const priceData = await response.json() as PriceType
+      console.log(priceData)
+      setPrice(priceData.price)
+    }
+    handleGetPrice()
+  }, [currentRank, currentLevel, currentPoint, desiredRank, desiredLevel])
 
   return (
     <div className="min-h-screen bg-theme text-white">
@@ -113,12 +158,14 @@ const PricesScreen = () => {
                     <RankType level={RANK_TYPE.DIAMOND} isSelect={RANK_TYPE.DIAMOND === desiredRank} onSelect={() => setDesiredRank(RANK_TYPE.DIAMOND)} />
                     <RankType level={RANK_TYPE.MASTER} isSelect={RANK_TYPE.MASTER === desiredRank} onSelect={() => setDesiredRank(RANK_TYPE.MASTER)} />
                   </div>
-                  <div className='flex gap-2 my-2'>
-                    <RankLevel number={RANK_LEVEL.FOUR} isSelect={desiredLevel === RANK_LEVEL.FOUR} onSelect={() => setDesiredLevel(RANK_LEVEL.FOUR)} />
-                    <RankLevel number={RANK_LEVEL.THREE} isSelect={desiredLevel === RANK_LEVEL.THREE} onSelect={() => setDesiredLevel(RANK_LEVEL.THREE)} />
-                    <RankLevel number={RANK_LEVEL.TWO} isSelect={desiredLevel === RANK_LEVEL.TWO} onSelect={() => setDesiredLevel(RANK_LEVEL.TWO)} />
-                    <RankLevel number={RANK_LEVEL.ONE} isSelect={desiredLevel === RANK_LEVEL.ONE} onSelect={() => setDesiredLevel(RANK_LEVEL.ONE)} />
-                  </div>
+                  {desiredRank === RANK_TYPE.MASTER ? null :
+                    <div className='flex gap-2 my-2'>
+                      <RankLevel number={RANK_LEVEL.FOUR} isSelect={desiredLevel === RANK_LEVEL.FOUR} onSelect={() => setDesiredLevel(RANK_LEVEL.FOUR)} />
+                      <RankLevel number={RANK_LEVEL.THREE} isSelect={desiredLevel === RANK_LEVEL.THREE} onSelect={() => setDesiredLevel(RANK_LEVEL.THREE)} />
+                      <RankLevel number={RANK_LEVEL.TWO} isSelect={desiredLevel === RANK_LEVEL.TWO} onSelect={() => setDesiredLevel(RANK_LEVEL.TWO)} />
+                      <RankLevel number={RANK_LEVEL.ONE} isSelect={desiredLevel === RANK_LEVEL.ONE} onSelect={() => setDesiredLevel(RANK_LEVEL.ONE)} />
+                    </div>
+                  }
                 </div>
               </div>
             </Tab>
@@ -237,11 +284,21 @@ const PricesScreen = () => {
           boosterType={typeBooster}
           previousSeasonRank={previousSeasonRank}
           gamesCount={gamesCount as number}
-          isPurchasing={isPurchaing}
+          price={price}
+          isPurchasing={isPurchasing}
           handlePurchase={handlePurchase}
         />
       </div>
-      <CustomerInformationModal isOpenModal={isOpenModal} handleChangeOpenModal={handleChangeOpenModal} />
+      <CustomerInformationModal
+        isOpenModal={isOpenModalInfo}
+        handleChangeOpenModal={handleChangeOpenModalInfo}
+        onConfirm={handleConfirmInformation}
+      />
+      <VerifyOtpModal
+        isOpenModal={isOpenModalVerify}
+        handleChangeOpenModal={handleChangeOpenModalVerify}
+        onConfirm={handleVerifyOtp}
+      />
     </div>
   )
 }
