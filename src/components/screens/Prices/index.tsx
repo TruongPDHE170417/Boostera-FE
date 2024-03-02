@@ -149,21 +149,23 @@ const PricesScreen = () => {
     console.log("verify otp: " + input)
     //handle condition here
     const verifyOtp = async () => {
-      const inputedOtp = ""
-      const response = await fetch(API_ENDPOINT + "/otp/get-otp", {
+      const response = await fetch(API_ENDPOINT + "/otp/verify-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          to: customerInformation.email,
+          email: customerInformation.email,
+          code: input,
         }),
       })
-      const data = (await response.json()) as { otp: String }
-      const resultOtp = data.otp
-      console.log(input === resultOtp)
+      const data = (await response.json()) as { isValidOTP: boolean }
+      const resultOtp = data.isValidOTP
+      console.log(resultOtp)
     }
+    verifyOtp() //Delete later since i dont understand the logic of this function
     //if user NOT have existed account
     const createUser = async () => {
       const response = await fetch(API_ENDPOINT + "/user/register", {
+
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
