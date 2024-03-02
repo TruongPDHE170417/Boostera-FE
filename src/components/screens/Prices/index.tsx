@@ -111,7 +111,39 @@ const PricesScreen = () => {
     createOtp()
   }
 
-  const handleVerifyOtp = () => {
+  const paymentProc = async (email: string) => {
+    const createPayment = async () => {
+      const additionalParam = {
+        email: email,
+        fromPosition: currentRank,
+        fromLevel: currentLevel,
+        fromLp: currentPoint,
+        toPosition: desiredRank,
+        toLevel: desiredLevel,
+        extraService: options.length != 0? options : null,
+      }
+      const response = await fetch(API_ENDPOINT + "/payment/create_payment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          additionalParam: additionalParam,
+          amount: price * 26000,
+          locale: "vn",
+        }),
+      })
+      const data = (await response.json()) as { url: string; orderId: string }
+
+      const redirectUrl = data.url
+      if (redirectUrl) {
+        router.push(redirectUrl)
+      }
+      console.log(data)
+    }
+    //create payment when verify account complete
+    createPayment()
+  }
+
+  const handleVerifyOtp = async () => {
     // TODO: handle create job, payment
     const input = inputOtp.otp
     console.log("verify otp: " + input)
@@ -130,25 +162,33 @@ const PricesScreen = () => {
       console.log(resultOtp)
     }
     verifyOtp() //Delete later since i dont understand the logic of this function
-    const createEmptyPayment = () => {}
-    const createEmptyJob = () => {}
-    const createUser = () => {}
-    const createPayment = async () => {
-      const response = await fetch(API_ENDPOINT + "/create_payment", {
+    //if user NOT have existed account
+    const createUser = async () => {
+      const response = await fetch(API_ENDPOINT + "/user/register", {
+
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          amount: "",
-          locale: "vn",
+          name: customerInformation.email,
+          email: customerInformation.email,
+          ING: customerInformation.accountName,
+          tag: customerInformation.tagId,
         }),
       })
-      const data = (await response.json()) as { url: string }
-      const redirectUrl = data.url
-      if (redirectUrl) {
-        router.push(redirectUrl)
+      const data = (await response.json()) as {
+        message: string
+        data: {
+          name: string
+          email: string
+          password: string
+          ING: string
+          tag: string
+        }
       }
-      console.log(data)
+      return data.data
     }
+    const createdNewUser = await createUser()
+    paymentProc(createdNewUser.email)
   }
 
   const handleUpdateCustomerInformation = (e: ChangeEvent<HTMLInputElement>) => {
