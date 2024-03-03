@@ -1,14 +1,15 @@
-import React from "react"
+import React, { ChangeEvent } from "react"
 import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@nextui-org/react"
 
 type Props = {
   isOpenModal: boolean
   handleChangeOpenModal: () => void
+  isFailVerify: boolean
   onConfirm: () => void
   handleInputOtp: (e: ChangeEvent<HTMLInputElement>) => void
 }
 
-const VerifyOtpModal = ({ isOpenModal, handleChangeOpenModal, handleInputOtp, onConfirm }: Props) => {
+const VerifyOtpModal = ({ isOpenModal, handleChangeOpenModal, handleInputOtp, onConfirm, isFailVerify }: Props) => {
   return (
     <Modal
       backdrop="opaque"
@@ -38,6 +39,7 @@ const VerifyOtpModal = ({ isOpenModal, handleChangeOpenModal, handleInputOtp, on
                 variant="underlined"
                 onChange={handleInputOtp}
               />
+              {!!isFailVerify && <p>OTP verify failed</p>}
             </ModalBody>
             <ModalFooter>
               <Button color="danger" variant="light" onPress={onClose}>

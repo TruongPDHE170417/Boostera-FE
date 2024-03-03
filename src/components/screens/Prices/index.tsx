@@ -39,6 +39,7 @@ const PricesScreen = () => {
   const [isOpenModalInfo, setIsOpenModalInfo] = useState<boolean>(false)
   const [isOpenModalVerify, setIsOpenModalVerify] = useState<boolean>(false)
   const [price, setPrice] = useState<number>(0)
+  const [isFailVerify, setIsFailVerify] = useState<boolean>(false)
 
   const [customerInformation, setCustomerInformation] = useState<CustomerInformationRegister>({
     email: "",
@@ -115,12 +116,15 @@ const PricesScreen = () => {
     const createPayment = async () => {
       const additionalParam = {
         email: email,
-        fromPosition: currentRank,
+        name: email,
+        ING: customerInformation.accountName,
+        tag: customerInformation.tagId,
+        fromPosition: RANK_IMAGES[currentRank - 1]?.toUpperCase(),
         fromLevel: currentLevel,
-        fromLp: currentPoint,
-        toPosition: desiredRank,
+        fromLp: RANK_POINT_CALC[currentPoint - 1],
+        toPosition: RANK_IMAGES[desiredRank - 1]?.toUpperCase(),
         toLevel: desiredLevel,
-        extraService: options.length != 0? options : null,
+        extraService: options.length != 0 ? options : null,
       }
       const response = await fetch(API_ENDPOINT + "/payment/create_payment", {
         method: "POST",
@@ -146,9 +150,8 @@ const PricesScreen = () => {
   const handleVerifyOtp = async () => {
     // TODO: handle create job, payment
     const input = inputOtp.otp
-    console.log("verify otp: " + input)
     //handle condition here
-    const verifyOtp = async () => {
+    const verifyOtp = async (): Promise<boolean> => {
       const response = await fetch(API_ENDPOINT + "/otp/verify-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -158,37 +161,15 @@ const PricesScreen = () => {
         }),
       })
       const data = (await response.json()) as { isValidOTP: boolean }
-      const resultOtp = data.isValidOTP
-      console.log(resultOtp)
+      return data.isValidOTP
     }
-    verifyOtp() //Delete later since i dont understand the logic of this function
-    //if user NOT have existed account
-    const createUser = async () => {
-      const response = await fetch(API_ENDPOINT + "/user/register", {
-
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: customerInformation.email,
-          email: customerInformation.email,
-          ING: customerInformation.accountName,
-          tag: customerInformation.tagId,
-        }),
-      })
-      const data = (await response.json()) as {
-        message: string
-        data: {
-          name: string
-          email: string
-          password: string
-          ING: string
-          tag: string
-        }
-      }
-      return data.data
+    const verify: boolean = await verifyOtp()
+    if (verify) {
+      setIsFailVerify(false)
+      paymentProc(customerInformation.email)
+    } else {
+      setIsFailVerify(true)
     }
-    const createdNewUser = await createUser()
-    paymentProc(createdNewUser.email)
   }
 
   const handleUpdateCustomerInformation = (e: ChangeEvent<HTMLInputElement>) => {
@@ -207,7 +188,6 @@ const PricesScreen = () => {
       ...inputOtp,
       [name]: value,
     })
-    console.log(`input otp: ${inputOtp.otp}`)
   }
 
   useEffect(() => {
@@ -574,6 +554,7 @@ const PricesScreen = () => {
         onConfirm={handleConfirmInformation}
       />
       <VerifyOtpModal
+        isFailVerify={isFailVerify}
         isOpenModal={isOpenModalVerify}
         handleChangeOpenModal={handleChangeOpenModalVerify}
         handleInputOtp={handleUpdateInputOtp}
