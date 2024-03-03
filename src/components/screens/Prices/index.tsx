@@ -214,7 +214,7 @@ const PricesScreen = () => {
       setPrice(priceData.price)
     }
     handleGetPrice()
-  }, [currentRank, currentLevel, currentPoint, desiredRank, desiredLevel])
+  }, [currentRank, currentLevel, currentPoint, desiredRank, desiredLevel, options])
 
   console.log(customerInformation)
 
