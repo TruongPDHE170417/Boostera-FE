@@ -46,6 +46,7 @@ const PricesScreen = () => {
     accountName: "",
     tagId: "",
   })
+  
   const [inputOtp, setInputOtp] = useState<InputOtp>({
     otp: "",
   })
