@@ -75,7 +75,7 @@ const PricesScreen = () => {
   const handlePurchase = () => {
     // TODO: update check accountInfo
     if (!!accountInfo.username) {
-      setIsOpenModalInfo(true)
+      price > 0 && setIsOpenModalInfo(true)
     } else {
       // TODO: handle purchase
       setIsPurchasing(true)
@@ -97,7 +97,6 @@ const PricesScreen = () => {
   const handleConfirmInformation = () => {
     setIsOpenModalInfo(false)
     setIsOpenModalVerify(true)
-
     const createOtp = async () => {
       const response = await fetch(API_ENDPOINT + "/send-email/otp", {
         method: "POST",
@@ -131,7 +130,7 @@ const PricesScreen = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           additionalParam: additionalParam,
-          amount: price * 26000,
+          amount: price * 24655,
           locale: "vn",
         }),
       })
