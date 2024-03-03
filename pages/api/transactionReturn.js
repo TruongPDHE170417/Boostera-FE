@@ -1,5 +1,6 @@
 //handle when vnpay redirect back
 import queryString from 'qs';
+import { TRANSACTION_SUCCESS_CODE } from "@constants/payment"
 import { API_ENDPOINT } from "@models/api"
 
 const handler = async (req, res) => {
@@ -14,21 +15,21 @@ const handler = async (req, res) => {
                     email: email,
                     ING: accountName,
                     tag: tagId,
-                }),
+                }), 
             })
-            const data = (await response.json())
+            const data = await response.json()
             return data.data
         }
         //find a way to send it to server   
         let vnpParam = await req.query;
-        let serverApi = "http://localhost:9999/payment/vnpay_return"
+        let serverApi = API_ENDPOINT + "/payment/vnpay_return"
         serverApi += '?' + queryString.stringify(vnpParam, { encode: false })
         const transactionStatus = vnpParam['vnp_TransactionStatus'];
-        if (transactionStatus !== "00") {
+        if (transactionStatus !== TRANSACTION_SUCCESS_CODE) {
             const errorMessage = "Fail to create payment!";
             res.status(400).json({ error: errorMessage });
             res.redirect(`/prices?error=${errorMessage}`);
-        } else if (transactionStatus === "00") {
+        } else if (transactionStatus === TRANSACTION_SUCCESS_CODE) {
             const createdNewUser = await createUser(vnpParam['email'], vnpParam['ING'], vnpParam['tag']);
             if (createdNewUser) {
                 const response = await fetch(serverApi, {

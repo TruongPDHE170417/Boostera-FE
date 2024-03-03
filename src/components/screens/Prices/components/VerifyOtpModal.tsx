@@ -9,7 +9,7 @@ type Props = {
   handleInputOtp: (e: ChangeEvent<HTMLInputElement>) => void
 }
 
-const VerifyOtpModal = ({ isOpenModal, handleChangeOpenModal, handleInputOtp, onConfirm, isFailVerify }: Props) => {
+const VerifyOtpModal = ({ isOpenModal, isFailVerify, handleChangeOpenModal, handleInputOtp, onConfirm }: Props) => {
   return (
     <Modal
       backdrop="opaque"
@@ -39,7 +39,7 @@ const VerifyOtpModal = ({ isOpenModal, handleChangeOpenModal, handleInputOtp, on
                 variant="underlined"
                 onChange={handleInputOtp}
               />
-              {!!isFailVerify && <p>OTP verify failed</p>}
+              {isFailVerify && <p>OTP verify failed</p>}
             </ModalBody>
             <ModalFooter>
               <Button color="danger" variant="light" onPress={onClose}>
