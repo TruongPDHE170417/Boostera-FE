@@ -11,7 +11,7 @@ const BoosterPageScreen = () => {
     <div className="py-24 md:px-12 lg:px-16 xl:px-80 w-screen bg-theme">
       <Intro />
       <Overview />
-      <div className="container mx-auto px-20">
+      <div className="container mx-auto px-[15%]">
         <Tabs />
         <BoosterCard />
         <Pagination />

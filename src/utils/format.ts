@@ -97,3 +97,8 @@ export const formatCVC = (value: string, cardNumber: string, Payment: PaymentTyp
 
   return clearValue.slice(0, maxLength)
 }
+
+// Format the input value to capitalize the first letter
+export const capitalizeFirstLetter = (string: string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
