@@ -5,6 +5,7 @@ import { Booster } from "@models/booster";
 import { calculateDaysDifferent } from "@utils/dateCalculate";
 import { capitalizeFirstLetter } from "@utils/format";
 import { useRouter } from "next/router";
+import { convertRankToImageName } from "@utils/image";
 
 interface BoosterCardProps {
     boosters: Booster[];
@@ -27,32 +28,36 @@ export default function BoosterCard({boosters}: BoosterCardProps) {
                             shadow="sm"
                             radius="lg"
                             width="100%"
-                            alt={booster.rank}
+                            alt={booster.currentRank}
                             className="object-cover"
-                            src={`/images/${booster?.rank}.png`}
+                            src={booster.avatarUrl}
                         />
                     </CardBody>
                     <CardFooter className="flex-col text-white bg-gradient-to-r from-[#202832] to-[#283347]">
-                        <CardFooter className="justify-between">
-                            <b className=" text-3xl">{booster.user.name}</b>
+                        <div className="flex w-[90%] justify-between">
+                            <b className=" text-3xl">{booster.userId.name}</b>
                             <div className="flex items-center gap-3">
                                 <Image
                                     width="100%"
                                     height="100%"
                                     className="h-[50px] w-[50px]"
-                                    src={`/images/${booster?.rank}.png`} alt={booster.rank}
+                                    src={`/images/${convertRankToImageName(booster.currentRank)}.png`} alt={booster.currentRank}
                                 />
-                                <p className="text-lg font-bold">{capitalizeFirstLetter(booster.rank)}</p>
+                                <p className="text-lg font-bold">{capitalizeFirstLetter(booster.currentRank)}</p>
                             </div>
-                        </CardFooter>
-                        <CardFooter className="justify-between">
+                        </div>
+                        <div className="flex w-[90%] justify-between">
+                            <b className="text-lg">Languages</b>
+                            <p className="font-bold text-xl">{booster.languages}</p>
+                        </div>
+                        <div className="flex w-[90%] justify-between">
                             <b className="text-lg">Completed Boost</b>
-                            <p className="font-bold text-xl">{booster.completedBoost}</p>
-                        </CardFooter>
-                        <CardFooter className="justify-between">
+                            <p className="font-bold text-xl">{booster.completedBoosts}</p>
+                        </div>
+                        <div className="flex w-[90%] justify-between">
                             <b className="text-lg">On Boostera</b>
                             <p className="font-bold text-xl">{calculateDaysDifferent(booster.createdAt)}</p>
-                        </CardFooter>
+                        </div>
                         <Button color="danger" className="w-full font-bold" onClick={toBoosterDetail}>
                             View Profile
                         </Button>

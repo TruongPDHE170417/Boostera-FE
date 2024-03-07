@@ -4,6 +4,9 @@ const DAYS_IN_A_MONTH = 30
 const DAYS_IN_A_YEAR = 365
 
 export const calculateDaysDifferent = (createdDate: string) => {
+  if (!createdDate) {
+    return "1 day"
+  }
   const createdAt = new Date(createdDate)
   const currentDate = new Date()
   const differenceInTime = currentDate.getTime() - createdAt.getTime()

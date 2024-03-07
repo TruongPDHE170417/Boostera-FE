@@ -5,6 +5,7 @@ import { API_ENDPOINT } from "@models/api";
 import {Booster} from "@models/booster";
 import {calculateDaysDifferent} from "@utils/dateCalculate";
 import {capitalizeFirstLetter} from "@utils/format";
+import { convertRankToImageName } from "@utils/image";
 
 type Props = {
     boosterId: string
@@ -17,9 +18,10 @@ const BoosterDetail = ({boosterId}: Props) => {
 
     const router = useRouter();
 
-    const to404 = () => {
-        void router.push(`/404`)
-    }
+const to404 = () => {
+    const currentPath = router.asPath;
+    void router.push(`${currentPath}/404`);
+}
 
     useEffect(() => {
         const handleGetBoosterDetail = async () => {
@@ -53,26 +55,23 @@ const BoosterDetail = ({boosterId}: Props) => {
                 <Avatar 
                     className="w-[15%] h-auto"
                     isBordered color="danger"
-                    src="/images/default-user-img.jpg" />
+                    src={booster?.avatarUrl} />
 
-                <h1 className="font-bold text-4xl">{booster?.user.name}</h1>
+                <h1 className="font-bold text-4xl">{booster?.userId.name}</h1>
                 {/* Booster Rank */}
                 <div className="flex justify-center items-center gap-3">
                     <Image
                         width={65}
                         alt="Rank"
-                        src={`/images/${booster?.rank}.png`}
+                        src={`/images/${convertRankToImageName(booster?.currentRank ?? "")}.png`}
                     />
-                    <p className="font-bold text-2xl">{booster && capitalizeFirstLetter(booster?.rank)}</p>
+                    <p className="font-bold text-2xl">{booster && capitalizeFirstLetter(booster?.currentRank)}</p>
                 </div>
-                {/* Booster's Bio */}
-                <p className="text-gray-400">{booster?.bio}</p>
-
                 {/* Booster metrics */}
                 <div className="w-[100%] flex justify-between">
                     <div>
                         <p className="text-gray-400">Completed Boosts:</p>
-                        <p className="font-bold text-2xl">{booster?.completedBoost}</p>
+                        <p className="font-bold text-2xl">{booster?.completedBoosts}</p>
                     </div>
                     <div>
                         <p className="text-gray-400">Last Boost:</p>

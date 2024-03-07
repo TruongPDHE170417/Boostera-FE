@@ -1,14 +1,20 @@
 import { User } from './user'
 
 export interface Booster {
-  completedBoost: number
-  _id: string
-  IGN: string
-  tag: string
-  rank: string
-  bio: string
+  _id: string;
+  userId: User;
+  avatarUrl: string;
+  nickname: string;
+  gameName: string;
+  tagLine: string;
+  languages: string;
+  currentRank: string;
+  completedBoosts: number;
+  jobAssigned: string | null;
+  status: string;
+  country: string;
+  boosterRequest: string;
   createdAt: string
   updatedAt: string
-  __v: number
-  user: User
+  __v: number;
 }
