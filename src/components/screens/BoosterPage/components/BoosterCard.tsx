@@ -4,28 +4,24 @@ import { API_ENDPOINT } from "@models/api";
 import { Booster } from "@models/booster";
 import { calculateDaysDifferent } from "@utils/dateCalculate";
 import { capitalizeFirstLetter } from "@utils/format";
+import { useRouter } from "next/router";
 
-export default function BoosterCard() {
-    const [boosters, setBoosters] = useState<Booster[]>([]);
+interface BoosterCardProps {
+    boosters: Booster[];
+}
 
-    useEffect(() => {
-        const handleGetBoosterList = async () => {
-                const response = await fetch(`${API_ENDPOINT}/boosters/`);
-                const data = await response.json() as Booster[];
-                setBoosters(data);
-        };
-      
-        handleGetBoosterList();
+export default function BoosterCard({boosters}: BoosterCardProps) {
 
-        const handleGetLastBoost = async () => {
-            //TODO: Get last boost
-        }
-    }, []);
+    const router = useRouter()
+
+    const toBoosterDetail = () => {
+        void router.push(`/boosters/${boosters[0]._id}`)
+    }
 
     return (
         <div className="gap-8 grid grid-cols-3 sm:grid-cols-3">
             {boosters.map((booster, index) => (
-                <Card shadow="sm" key={index} isPressable onPress={() => console.log("item pressed")}>
+                <Card shadow="sm" key={index} isPressable onPress={toBoosterDetail}>
                     <CardBody className="overflow-hidden p-0 h-[350px]">
                         <Image
                             shadow="sm"
@@ -57,7 +53,7 @@ export default function BoosterCard() {
                             <b className="text-lg">On Boostera</b>
                             <p className="font-bold text-xl">{calculateDaysDifferent(booster.createdAt)}</p>
                         </CardFooter>
-                        <Button color="danger" className="w-full font-bold">
+                        <Button color="danger" className="w-full font-bold" onClick={toBoosterDetail}>
                             View Profile
                         </Button>
                     </CardFooter>

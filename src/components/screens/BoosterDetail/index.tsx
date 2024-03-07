@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import {Avatar, Image, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/react";
+import {Avatar, Image, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/react";
+import { useRouter } from "next/router";
 import { API_ENDPOINT } from "@models/api";
 import {Booster} from "@models/booster";
 import {calculateDaysDifferent} from "@utils/dateCalculate";
@@ -12,13 +13,25 @@ type Props = {
 const BoosterDetail = ({boosterId}: Props) => {
     const [booster, setBooster] = useState<Booster>();
     const [lastBoost, setLastBoost] = useState<string>("Not yet");
+    const [loading, setLoading] = useState(true);
+
+    const router = useRouter();
+
+    const to404 = () => {
+        void router.push(`/404`)
+    }
 
     useEffect(() => {
         const handleGetBoosterDetail = async () => {
             if (boosterId) {
                 const response = await fetch(`${API_ENDPOINT}/boosters/${boosterId}`);
                 const data = await response.json() as Booster;
-                setBooster(data);
+                if(response.ok && data) {
+                    setBooster(data);
+                    setLoading(false);
+                } else {
+                    to404();
+                }
             }
         };
       
@@ -28,6 +41,10 @@ const BoosterDetail = ({boosterId}: Props) => {
             //TODO: Get last boost
         }
     }, [boosterId]);
+
+    if (loading) {
+        return <Spinner color="primary" size="lg" className="w-[100%] h-[100%]" />;
+    }
 
     return (
         <div className="py-24 md:px-12 lg:px-16 xl:px-80 w-screen flex flex-col gap-5 bg-contentbg">
@@ -46,7 +63,7 @@ const BoosterDetail = ({boosterId}: Props) => {
                         alt="Rank"
                         src={`/images/${booster?.rank}.png`}
                     />
-                    <p className="font-bold text-2xl">{booster && capitalizeFirstLetter(booster.rank)}</p>
+                    <p className="font-bold text-2xl">{booster && capitalizeFirstLetter(booster?.rank)}</p>
                 </div>
                 {/* Booster's Bio */}
                 <p className="text-gray-400">{booster?.bio}</p>
@@ -68,6 +85,7 @@ const BoosterDetail = ({boosterId}: Props) => {
                 </div>
               </div>
               {/* TODO: Add a table for the booster's rank history after get job endpoint finised */}
+              {booster ? 
               <div className="flex justify-center">
                 <Table className="w-[75%] dark text-foreground" isStriped aria-label="Example static collection table">
                         <TableHeader>
@@ -124,7 +142,8 @@ const BoosterDetail = ({boosterId}: Props) => {
                             </TableRow>
                         </TableBody>
                     </Table>
-              </div>
+              </div> : <></>}
+              
         </div>
     );
 }
