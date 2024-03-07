@@ -15,7 +15,7 @@ const CustomerInformationModal = ({ isOpenModal, handleChangeOpenModal, handleCu
       isOpen={isOpenModal}
       onOpenChange={handleChangeOpenModal}
       classNames={{
-        body: "py-6",
+        body: "py-6 text-white",
         backdrop: "bg-[#292f46]/50 backdrop-opacity-40",
         base: "border-[#292f46] bg-[#19172c] dark:bg-[#19172c] text-[#a8b0d3]",
         header: "border-b-[1px] border-[#292f46]",
@@ -35,6 +35,9 @@ const CustomerInformationModal = ({ isOpenModal, handleChangeOpenModal, handleCu
                 label="Email"
                 variant='underlined'
                 name='email'
+                classNames={{
+                  input: "!text-white",
+                }}
                 onChange={handleCustomerInformation}
               />
               <Input
@@ -43,6 +46,9 @@ const CustomerInformationModal = ({ isOpenModal, handleChangeOpenModal, handleCu
                 label="Game Account"
                 variant='underlined'
                 name='accountName'
+                classNames={{
+                  input: "!text-white",
+                }}
                 onChange={handleCustomerInformation}
               />
               <Input
@@ -51,6 +57,9 @@ const CustomerInformationModal = ({ isOpenModal, handleChangeOpenModal, handleCu
                 label="tagId"
                 variant='underlined'
                 name='tagId'
+                classNames={{
+                  input: "!text-white",
+                }}
                 onChange={handleCustomerInformation}
               />
             </ModalBody>
