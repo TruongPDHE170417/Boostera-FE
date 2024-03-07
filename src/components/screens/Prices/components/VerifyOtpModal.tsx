@@ -37,6 +37,9 @@ const VerifyOtpModal = ({ isOpenModal, isFailVerify, handleChangeOpenModal, hand
                 name="otp"
                 label="Enter otp code"
                 variant="underlined"
+                classNames={{
+                  input: "!text-white",
+                }}
                 onChange={handleInputOtp}
               />
               {isFailVerify && <p>OTP verify failed</p>}
