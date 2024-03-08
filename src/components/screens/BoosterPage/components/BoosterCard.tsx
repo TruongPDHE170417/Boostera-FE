@@ -1,28 +1,27 @@
+import React from "react";
 import { Button, Card, CardBody, CardFooter, Image } from "@nextui-org/react";
-import React, { useEffect, useState } from "react";
-import { API_ENDPOINT } from "@models/api";
+import { useRouter } from "next/router";
 import { Booster } from "@models/booster";
 import { calculateDaysDifferent } from "@utils/dateCalculate";
 import { capitalizeFirstLetter } from "@utils/format";
-import { useRouter } from "next/router";
 import { convertRankToImageName } from "@utils/image";
 
-interface BoosterCardProps {
+type Props = {
     boosters: Booster[];
 }
 
-export default function BoosterCard({boosters}: BoosterCardProps) {
+export default function BoosterCard({boosters}: Props) {
 
     const router = useRouter()
 
-    const toBoosterDetail = () => {
-        void router.push(`/boosters/${boosters[0]._id}`)
+    const toBoosterDetail = (id: string) => {
+        void router.push(`/boosters/${id}`)
     }
 
     return (
         <div className="gap-8 grid grid-cols-3 sm:grid-cols-3">
             {boosters.map((booster, index) => (
-                <Card shadow="sm" key={index} isPressable onPress={toBoosterDetail}>
+                <Card shadow="sm" key={index} isPressable onPress={() => toBoosterDetail(booster._id)}>
                     <CardBody className="overflow-hidden p-0 h-[350px]">
                         <Image
                             shadow="sm"
@@ -58,7 +57,7 @@ export default function BoosterCard({boosters}: BoosterCardProps) {
                             <b className="text-lg">On Boostera</b>
                             <p className="font-bold text-xl">{calculateDaysDifferent(booster.createdAt)}</p>
                         </div>
-                        <Button color="danger" className="w-full font-bold" onClick={toBoosterDetail}>
+                        <Button color="danger" className="w-full font-bold" onClick={() => toBoosterDetail(booster._id)}>
                             View Profile
                         </Button>
                     </CardFooter>

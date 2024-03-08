@@ -3,36 +3,42 @@ import { API_ENDPOINT } from '@models/api';
 import { Booster } from '@models/booster';
 import BoosterCard from './components/BoosterCard'
 import Pagination from './components/BoosterPagination'
-import Tabs from './components/BoosterTabs'
 import Intro from './components/Intro';
 import Overview from './components/Overview';
+import { Spinner } from '@nextui-org/react';
 
+const ITEMS_PER_PAGE = 9;
 
 const BoosterPageScreen = () => {
 
   const [boosters, setBoosters] = useState<Booster[]>([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const ITEMS_PER_PAGE = 9;
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [isLoading, setLoading] = useState<boolean>(true);
 
-    useEffect(() => {
-        const handleGetBoosterList = async () => {
-            const response = await fetch(`${API_ENDPOINT}/boosters/`);
-            const data = await response.json() as Booster[];
-            setBoosters(data);
-        };
-
-        handleGetBoosterList();
-    }, []);
-
-    const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
-    const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
-    const currentItems = boosters.slice(indexOfFirstItem, indexOfLastItem);
-
-    const handlePageChange = (pageNumber: number) => {
-        setCurrentPage(pageNumber);
+  useEffect(() => {
+    const handleGetBoosterList = async () => {
+      const response = await fetch(`${API_ENDPOINT}/boosters/`);
+      const data = await response.json() as Booster[];
+      setBoosters(data);
+      setLoading(false);
     };
 
-    const total = Math.ceil(boosters.length / ITEMS_PER_PAGE);
+    handleGetBoosterList();
+  }, []);
+
+  const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
+  const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
+  const currentItems = boosters.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handlePageChange = (pageNumber: number) => {
+      setCurrentPage(pageNumber);
+  };
+
+  const total = Math.ceil(boosters.length / ITEMS_PER_PAGE);
+
+  if (isLoading) {
+    return <Spinner color="primary" size="lg" className="w-[100%] h-[100%]" />;
+}
 
   return (
     <div className="py-24 md:px-12 lg:px-16 xl:px-80 w-screen bg-theme">

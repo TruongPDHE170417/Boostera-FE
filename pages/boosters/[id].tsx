@@ -1,5 +1,5 @@
-import { useRouter } from 'next/router'
 import React from 'react'
+import { useRouter } from 'next/router'
 import MainLayout from '@components/layouts/MainLayout'
 import BoosterDetail from '@components/screens/BoosterDetail'
 

@@ -14,7 +14,7 @@ type Props = {
 const BoosterDetail = ({boosterId}: Props) => {
     const [booster, setBooster] = useState<Booster>();
     const [lastBoost, setLastBoost] = useState<string>("Not yet");
-    const [loading, setLoading] = useState(true);
+    const [isLoading, setLoading] = useState<boolean>(true);
 
     const router = useRouter();
 
@@ -44,7 +44,7 @@ const to404 = () => {
         }
     }, [boosterId]);
 
-    if (loading) {
+    if (isLoading) {
         return <Spinner color="primary" size="lg" className="w-[100%] h-[100%]" />;
     }
 
