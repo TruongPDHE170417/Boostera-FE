@@ -1,10 +1,14 @@
 import MainLayout from "@components/layouts/MainLayout"
-import BoosterPage from "@components/screens/BoosterPage/index"
+import dynamic from 'next/dynamic'
+
+const BoosterScreen = dynamic(() => import("../src/components/screens/BoosterPage").then(mod => mod.default), {
+  ssr: false,
+})
 
 const Boosters = () => {
   return (
     <MainLayout className="h-full w-full" title="Boosters">
-      <BoosterPage />
+      <BoosterScreen />
     </MainLayout>
   )
 }

@@ -62,3 +62,8 @@ export const getFileName = (url: string) => {
 
   return filename
 }
+
+export const convertRankToImageName = (rank: string) => {
+  const rankName = rank.toLowerCase();
+  return rankName.replace(/(\s*\b(?:i{1,3}|iv|v)\b\s*)$/i, '');
+}
