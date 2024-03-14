@@ -216,8 +216,6 @@ const PricesScreen = () => {
     handleGetPrice()
   }, [currentRank, currentLevel, currentPoint, desiredRank, desiredLevel, options])
 
-  console.log(customerInformation)
-
   return (
     <div className="min-h-screen bg-theme text-white">
       <div className="px-40">

@@ -8,7 +8,7 @@ const JobDetailPage = () => {
   const { id } = router.query
   return (
     <MainLayout title='Job Detail'>
-      <JobDetailScreen jobId={id as string} />
+      {id && <JobDetailScreen jobId={id as string} />}
     </MainLayout>
   )
 }
