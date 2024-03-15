@@ -7,8 +7,8 @@ import { NOTIFICATION_TYPE, notify } from "@utils/notify"
 export type CareerRequest = {
   nickname: string
   discordUserName: string
-  IGN: string
-  tag: string
+  gameName: string
+  tagLine: string
   about: string
   country: string
   email: string
@@ -18,8 +18,8 @@ const CareerForm = () => {
   const [careerReq, setCareerReq] = useState<CareerRequest>({
     nickname: "",
     discordUserName: "",
-    IGN: "",
-    tag: "",
+    gameName: "",
+    tagLine: "",
     about: "",
     country: "",
     email: "",
@@ -27,8 +27,8 @@ const CareerForm = () => {
   const [errorMessage, setErrorMessage] = useState<CareerRequest>({
     nickname: "",
     discordUserName: "",
-    IGN: "",
-    tag: "",
+    gameName: "",
+    tagLine: "",
     about: "",
     country: "",
     email: "",
@@ -149,9 +149,9 @@ const CareerForm = () => {
           <div className="my-5 flex gap-10">
             <div className="flex-1">
               <Input
-                label="IGN"
+                label="gameName"
                 radius="lg"
-                name="IGN"
+                name="gameName"
                 onChange={handleChangeInput}
                 classNames={{
                   label: "text-gray-500",
@@ -167,15 +167,15 @@ const CareerForm = () => {
                     "!cursor-text",
                   ],
                 }}
-                placeholder="your IGN"
+                placeholder="your gameName"
                 isRequired
               />
             </div>
             <div className="flex-1">
               <Input
-                label="Tag"
+                label="tagLine"
                 radius="lg"
-                name="tag"
+                name="tagLine"
                 onChange={handleChangeInput}
                 classNames={{
                   label: "text-gray-500",
@@ -191,12 +191,14 @@ const CareerForm = () => {
                     "!cursor-text",
                   ],
                 }}
-                placeholder="tag"
+                placeholder="tagLine"
                 isRequired
               />
             </div>
           </div>
-          {errorMessage.IGN && errorMessage.tag && <span className="text-red-600">{errorMessage.IGN}</span>}
+          {errorMessage.gameName && errorMessage.tagLine && (
+            <span className="text-red-600">{errorMessage.gameName}</span>
+          )}
         </div>
         <div className="my-5">
           <Textarea

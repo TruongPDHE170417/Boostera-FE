@@ -1,10 +1,11 @@
 import { Button, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/react"
 import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
+import { BoosterRequest, REQUEST_STATUS } from "@models/booster-request"
 
 const RequestsList = () => {
   const router = useRouter()
-  const [requests, setRequests] = useState([])
+  const [requests, setRequests] = useState<BoosterRequest[]>([])
 
   useEffect(() => {
     const getAllRequests = async () => {
@@ -13,7 +14,7 @@ const RequestsList = () => {
         if (!response.ok) {
           throw new Error("Failed to fetch requests")
         }
-        const jsonData = await response.json()
+        const jsonData = (await response.json()) as { message: string; data: BoosterRequest[] }
         setRequests(jsonData.data)
       } catch (error) {
         console.error("Error fetching requests:", error)
@@ -23,8 +24,8 @@ const RequestsList = () => {
     getAllRequests()
   }, [])
 
-  const reviewRequest = (id) => {
-    router.push(`/request-details/${id}`)
+  const reviewRequest = (requestId: string) => {
+    router.push(`/request-details/?requestId=${requestId}`)
   }
 
   return (
@@ -42,25 +43,25 @@ const RequestsList = () => {
         {requests.map((request, index) => (
           <TableRow key={index}>
             <TableCell>{request.nickname}</TableCell>
-            <TableCell>{request.IGN}</TableCell>
-            <TableCell>{request.tag}</TableCell>
+            <TableCell>{request.gameName}</TableCell>
+            <TableCell>{request.tagLine}</TableCell>
             <TableCell>{request.about}</TableCell>
             <TableCell>{request.country}</TableCell>
             <TableCell>{request.email}</TableCell>
             <TableCell
               style={{
                 color:
-                  request.status === "submitted"
+                  request.status === REQUEST_STATUS.SUBMITTED
                     ? "gray"
-                    : request.status === "accepted"
+                    : request.status === REQUEST_STATUS.APPROVED
                       ? "green"
-                      : request.status === "rejected"
+                      : request.status === REQUEST_STATUS.REJECTED
                         ? "red"
                         : "black",
               }}
             >
-              {request.status === "submitted" ? (
-                <Button onClick={() => reviewRequest(request._id)}>Wait for approval</Button>
+              {request.status === REQUEST_STATUS.SUBMITTED ? (
+                <Button onClick={() => reviewRequest(request._id)}>Review Request</Button>
               ) : (
                 request.status
               )}
