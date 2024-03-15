@@ -30,7 +30,7 @@ const RequestDetails = () => {
   const handleApprove = async () => {
     try {
       const response = await fetch(`http://localhost:9999/become-booster/review-request/${requestId}`, {
-        method: "PUT",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
