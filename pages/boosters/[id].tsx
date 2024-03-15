@@ -1,16 +1,16 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 import MainLayout from '@components/layouts/MainLayout'
-import JobDetailScreen from '@components/screens/JobDetail'
+import BoosterDetail from '@components/screens/BoosterDetail'
 
-const JobDetailPage = () => {
+const BoosterDetailPage = () => {
   const router = useRouter()
   const { id } = router.query
   return (
-    <MainLayout title='Job Detail'>
-      {id && <JobDetailScreen jobId={id as string} />}
+    <MainLayout title='Booster Detail'>
+      <BoosterDetail boosterId={id as string} />
     </MainLayout>
   )
 }
 
-export default JobDetailPage
+export default BoosterDetailPage

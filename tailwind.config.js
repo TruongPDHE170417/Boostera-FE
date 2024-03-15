@@ -29,6 +29,7 @@ module.exports = {
     extend: {
       colors: {
         theme: "#25293C",
+        contentbg: "#20262F",
         whitesmoke: "#f5f5f5",
         dimgray: {
           "100": "#525252",

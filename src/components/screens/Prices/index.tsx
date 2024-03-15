@@ -46,7 +46,7 @@ const PricesScreen = () => {
     accountName: "",
     tagId: "",
   })
-  
+
   const [inputOtp, setInputOtp] = useState<InputOtp>({
     otp: "",
   })
@@ -76,7 +76,7 @@ const PricesScreen = () => {
   const handlePurchase = () => {
     // TODO: update check accountInfo
     if (!!accountInfo.username) {
-      price > 0 && setIsOpenModalInfo(true)
+      setIsOpenModalInfo(true)
     } else {
       // TODO: handle purchase
       setIsPurchasing(true)
@@ -109,7 +109,7 @@ const PricesScreen = () => {
       const data = await response.json()
       console.log(data)
     }
-    createOtp()
+    // createOtp()
   }
 
   const paymentProc = async (email: string) => {
@@ -215,8 +215,6 @@ const PricesScreen = () => {
     }
     handleGetPrice()
   }, [currentRank, currentLevel, currentPoint, desiredRank, desiredLevel, options])
-
-  console.log(customerInformation)
 
   return (
     <div className="min-h-screen bg-theme text-white">
