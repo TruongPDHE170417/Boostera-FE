@@ -12,9 +12,8 @@ const handler = async (req, res) => {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    name: email,
                     email: email,
-                    ING: accountName,
+                    IGN: accountName,
                     tag: tagId,
                 }),
             })
@@ -42,7 +41,7 @@ const handler = async (req, res) => {
         } else if (transactionStatus === TRANSACTION_SUCCESS_CODE) {
             const existingUser = await findExistingUser(vnpParam['email']);
             if (!existingUser) {
-                const createdNewUser = await createUser(vnpParam['email'], vnpParam['ING'], vnpParam['tag']);
+                const createdNewUser = await createUser(vnpParam['email'], vnpParam['IGN'], vnpParam['tag']);
             }
             const response = await fetch(serverApi, {
                 method: "GET",

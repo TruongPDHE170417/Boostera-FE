@@ -109,7 +109,7 @@ const PricesScreen = () => {
       const data = await response.json()
       console.log(data)
     }
-    // createOtp()
+    createOtp()
   }
 
   const paymentProc = async (email: string) => {
@@ -117,7 +117,7 @@ const PricesScreen = () => {
       const additionalParam = {
         email: email,
         name: email,
-        ING: customerInformation.accountName,
+        IGN: customerInformation.accountName,
         tag: customerInformation.tagId,
         fromPosition: RANK_IMAGES[currentRank - 1]?.toUpperCase(),
         fromLevel: currentLevel,
