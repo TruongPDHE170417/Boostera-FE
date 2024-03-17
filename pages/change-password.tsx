@@ -1,17 +1,18 @@
 import React, { ChangeEvent, useState } from "react"
 import Link from "next/link"
-import CheckBox from "@components/common/CheckBox"
 import CustomButton from "@components/common/CustomButton"
 import CustomInput from "@components/common/CustomInput"
-import ChevronIcon from "@components/icons/ChevronIcon"
-import { string } from "zod"
+import { useMutation } from "@tanstack/react-query"
+import { NOTIFICATION_TYPE, notify } from "@utils/notify"
+import { API_ENDPOINT } from "@models/api"
+import { redirect } from "next/navigation"
 
 export type ChangePassRequest = {
   oldPass: string
   newPass: string
   reEnterPass: string
 }
-const ForgotPassword = () => {
+const ChangePassword = () => {
   const [changePass, setChangePass] = useState<ChangePassRequest>({
     oldPass: "",
     newPass: "",
@@ -23,6 +24,20 @@ const ForgotPassword = () => {
     reEnterPass: "",
   })
 
+  const putChangePassword = async (changePass: ChangePassRequest): Promise<Response> => {
+    const token = "Bearer " + "token"
+    const response = await fetch(API_ENDPOINT + "/user/change-pass", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+      body: JSON.stringify(changePass),
+    })
+    const raw = await response.json()
+    return response
+  }
+
   const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name
     const value = e.target.value
@@ -30,17 +45,31 @@ const ForgotPassword = () => {
       ...changePass,
       [name]: value,
     })
+    setErrorMessage({ oldPass: "", newPass: "", reEnterPass: "" })
   }
 
-  const validateForm = () =>{
 
+  const validateForm = () => {
+    let isValid = true
+    Object.entries(changePass).forEach(([key, value]) => {
+      if (!value) {
+        isValid = false
+        setErrorMessage({ ...errorMessage, [key]: !value ? `${key} is require` : "" })
+      }
+    })
+    if (isValid) {
+      if (changePass.newPass !== changePass.reEnterPass) {
+        isValid = false
+        setErrorMessage({ ...errorMessage, reEnterPass: `re-enter password not match` })
+      }
+    }
+    return isValid
   }
 
   const hanldeSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    console.log(changePass)
-    if(validateForm()){
-      
+    if (validateForm()) {
+      const data = putChangePassword(changePass);
     }
   }
 
@@ -71,6 +100,7 @@ const ForgotPassword = () => {
                 placeholder="New password"
                 onChange={handleChangeInput}
               />
+              {errorMessage.newPass && <span className="text-red-600">{errorMessage.newPass}</span>}
               <CustomInput
                 type="password"
                 name="reEnterPass"
@@ -78,6 +108,7 @@ const ForgotPassword = () => {
                 placeholder="Re-enter new password"
                 onChange={handleChangeInput}
               />
+              {errorMessage.reEnterPass && <span className="text-red-600">{errorMessage.reEnterPass}</span>}
               <CustomButton label="Change" />
               <div className="flex justify-center gap-2">
                 <Link href="login" className="text-primary-400 hover:underline">
@@ -92,4 +123,4 @@ const ForgotPassword = () => {
   )
 }
 
-export default ForgotPassword
+export default ChangePassword

@@ -23,7 +23,7 @@ const CustomInput = ({
   isDisable,
   customClassName,
   onChange,
-  name = "",
+  name,
 }: Props) => {
   return (
     <div className="w-full">
