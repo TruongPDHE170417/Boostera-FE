@@ -14,7 +14,7 @@ const RequestDetails = () => {
     authInfo: store.authInfo,
   }))
 
-  console.log(authInfo)
+  console.log(authInfo.accessToken)
 
   useEffect(() => {
     const getRequestById = async () => {
@@ -34,25 +34,44 @@ const RequestDetails = () => {
     }
   }, [requestId])
 
+  const route = useRouter()
+
   const handleApprove = async () => {
     try {
+      const requestBody = {
+        status: "approved",
+      }
       const response = await fetch(API_ENDPOINT + `/become-booster/review-request/${requestId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${authInfo.accessToken}`,
         },
-        body: JSON.stringify({ status: "approved" }),
+        body: JSON.stringify(requestBody),
       })
-      console.log(response)
+      route.push("/list-of-requests")
     } catch (error) {
       console.error("Error approving request:", error)
     }
   }
-  // Function to handle rejection
-  const handleReject = () => {
-    // You can implement the logic to reject the request here
-    console.log("Request rejected")
+  
+  const handleReject = async () => {
+    try {
+      const requestBody = {
+        status: "rejected",
+      }
+      const response = await fetch(API_ENDPOINT + `/become-booster/review-request/${requestId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authInfo.accessToken}`,
+        },
+        body: JSON.stringify(requestBody),
+      })
+      route.push("/list-of-requests")
+    } catch (error) {
+      console.error("Error approving request:", error)
+    }
   }
   return (
     <div>
