@@ -1,9 +1,9 @@
-export interface AccountInfo {
+export interface  AccountInfo {
   userId: string | null
   username: string | null
   gmail: string | null
   picture: string | null
-  role: ROLE_ACCOUNT | null
+  role: string | null
 }
 
 export interface AuthInfo {

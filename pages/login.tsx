@@ -6,6 +6,7 @@ import CheckBox from "@components/common/CheckBox"
 import { API_ENDPOINT, Response } from "@models/api"
 import { NOTIFICATION_TYPE, notify } from "@utils/notify"
 import { useBoundStore } from "@zustand/total"
+import decodeJWT from "@utils/decodeJWT"
 
 type LoginInfo = {
   email: string
@@ -18,8 +19,9 @@ type AuthInfo = {
 }
 
 const Login = () => {
-  const { saveAuthInfo } = useBoundStore((store) => ({
+  const { saveAuthInfo, saveAccountInfo } = useBoundStore((store) => ({
     saveAuthInfo: store.saveAuthInfo,
+    saveAccountInfo: store.saveAccountInfo,
   }))
 
   const route = useRouter()
@@ -74,10 +76,18 @@ const Login = () => {
           accessToken: data?.data?.accessToken ?? "",
           refreshToken: data?.data?.refreshToken ?? "",
         })
+        const decodedJWT = decodeJWT(data?.data?.accessToken ?? "")
+        saveAccountInfo({
+          userId: decodedJWT?.data._id ?? "",
+          username: null,
+          gmail: decodedJWT?.data?.email ?? "",
+          picture: null,
+          role: decodedJWT?.data?.role ?? "",
+        })
         route.push("/prices")
         setTimeout(() => {
           notify(NOTIFICATION_TYPE.SUCCESS, "Login successfully!")
-        }, 500)
+        }, 50)
       } else {
         notify(NOTIFICATION_TYPE.ERROR, !!data.message ? data.message : "Something wrong with server, try again!")
       }
