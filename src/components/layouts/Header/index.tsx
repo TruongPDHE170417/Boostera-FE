@@ -26,7 +26,7 @@ const Header = () => {
       username: "AnPT",
       gmail: "abc@",
       picture: null,
-      role: ROLE_ACCOUNT.BOOSTER,
+      role: ROLE_ACCOUNT.GUEST,
     })
   }, [])
 
