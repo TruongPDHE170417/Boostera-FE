@@ -5,8 +5,8 @@ import { Spinner } from '@nextui-org/react';
 import UserTable from './components/UserTable';
 import UserSearch from './components/UserSearch';
 import Pagination from './components/UserPagination';
-import Demo from './components/Demo';
 import RoleFilter from './components/RoleFilter';
+import AddManagerButton from './components/AddManagerButton';
 
 const ITEMS_PER_PAGE = 9;
 
@@ -16,6 +16,7 @@ const ManageUserScreen = () => {
   const [isLoading, setLoading] = useState<boolean>(true);
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
   const [searchedUsers, setSearchedUsers] = useState<User[]>([]);
+
 
   useEffect(() => {
     const handleGetBoosterList = async () => {
@@ -70,6 +71,7 @@ const ManageUserScreen = () => {
         <div className='flex gap-3'>
           <UserSearch users={users} onSearch={handleSearch} />
           <RoleFilter onRoleChange={handleRoleChange} />
+          <AddManagerButton />
         </div>
         <UserTable users={currentItems} />
         <Pagination total={total} onPageChange={handlePageChange} />

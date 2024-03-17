@@ -36,7 +36,7 @@ const UserTable = ({users}: Props) => {
           <TableCell>{index + 1}</TableCell>
           <TableCell>{user.name}</TableCell>
           <TableCell>{user.email}</TableCell>
-          <TableCell>{user.role}</TableCell>
+          <TableCell className="capitalize">{user.role}</TableCell>
           <TableCell>
           <Chip className="capitalize" color={statusColorMap[user.status]} size="sm" variant="flat">
             {user.status}

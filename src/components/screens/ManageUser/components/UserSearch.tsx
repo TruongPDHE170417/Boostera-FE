@@ -1,5 +1,3 @@
-// UserSearch.tsx
-
 import React, { useState } from "react";
 import { Input } from "@nextui-org/react";
 import { User } from "@models/user";
