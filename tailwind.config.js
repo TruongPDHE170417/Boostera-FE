@@ -28,7 +28,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        theme: "#25293C",
+        theme: "#1C2331",
         contentbg: "#20262F",
         whitesmoke: "#f5f5f5",
         dimgray: {

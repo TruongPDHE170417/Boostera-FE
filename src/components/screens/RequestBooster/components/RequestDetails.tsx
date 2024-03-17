@@ -1,23 +1,30 @@
+import { Button } from "@nextui-org/react"
 import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
+import { API_ENDPOINT, Response } from "@models/api"
 import { BoosterRequest } from "@models/booster-request"
-import { Button } from "@nextui-org/react"
-import { green, white } from "tailwindcss/colors"
+import { useBoundStore } from "@zustand/total"
 
 const RequestDetails = () => {
   const router = useRouter()
   const requestId = router.query.requestId
   const [requestDetails, setRequestDetails] = useState<BoosterRequest>()
 
+  const { authInfo } = useBoundStore((store) => ({
+    authInfo: store.authInfo,
+  }))
+
+  console.log(authInfo)
+
   useEffect(() => {
     const getRequestById = async () => {
       try {
-        const response = await fetch(`http://localhost:9999/become-booster/${requestId}`)
+        const response = await fetch(API_ENDPOINT + `/become-booster/${requestId}`)
         if (!response.ok) {
           console.error("Error to get request by ID")
         }
-        const jsonData = (await response.json()) as { message: string; data: BoosterRequest }
-        setRequestDetails(jsonData.data[0]);
+        const jsonData = (await response.json()) as Response<BoosterRequest>
+        setRequestDetails(jsonData.data[0])
       } catch (error) {
         console.error("Error fetching requests:", error)
       }
@@ -26,17 +33,18 @@ const RequestDetails = () => {
       getRequestById()
     }
   }, [requestId])
-  
+
   const handleApprove = async () => {
     try {
-      const response = await fetch(`http://localhost:9999/become-booster/review-request/${requestId}`, {
+      const response = await fetch(API_ENDPOINT + `/become-booster/review-request/${requestId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${authInfo.accessToken}`,
         },
         body: JSON.stringify({ status: "approved" }),
       })
-      console.log(response);
+      console.log(response)
     } catch (error) {
       console.error("Error approving request:", error)
     }
