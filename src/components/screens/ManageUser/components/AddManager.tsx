@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure} from "@nextui-org/react";
 import { API_ENDPOINT } from "@models/api";
 
-export default function AddManagerButton() {
+export default function AddManager() {
   const {isOpen, onOpen, onOpenChange, onClose} = useDisclosure();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");

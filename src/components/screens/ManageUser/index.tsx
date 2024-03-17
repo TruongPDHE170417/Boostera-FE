@@ -6,7 +6,7 @@ import UserTable from './components/UserTable';
 import UserSearch from './components/UserSearch';
 import Pagination from './components/UserPagination';
 import RoleFilter from './components/RoleFilter';
-import AddManagerButton from './components/AddManagerButton';
+import AddManager from './components/AddManager';
 
 const ITEMS_PER_PAGE = 9;
 
@@ -19,13 +19,6 @@ const ManageUserScreen = () => {
 
 
   useEffect(() => {
-    const handleGetBoosterList = async () => {
-      const response = await fetch(`${API_ENDPOINT}/user/`);
-      const data = await response.json() as User[];
-      setUsers(data);
-      setLoading(false);
-    };
-
     handleGetBoosterList();
   }, []);
 
@@ -43,6 +36,13 @@ const ManageUserScreen = () => {
     : filteredUsersByRole;
 
   const currentItems = filteredUsers.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handleGetBoosterList = async () => {
+    const response = await fetch(`${API_ENDPOINT}/user/`);
+    const data = await response.json() as User[];
+    setUsers(data);
+    setLoading(false);
+  };
 
   // Handle pagination
   const handlePageChange = (pageNumber: number) => {
@@ -71,9 +71,9 @@ const ManageUserScreen = () => {
         <div className='flex gap-3'>
           <UserSearch users={users} onSearch={handleSearch} />
           <RoleFilter onRoleChange={handleRoleChange} />
-          <AddManagerButton />
+          <AddManager />
         </div>
-        <UserTable users={currentItems} />
+        <UserTable users={currentItems} handleGetBoosterList={handleGetBoosterList} />
         <Pagination total={total} onPageChange={handlePageChange} />
       </div>
     </div>

@@ -3,9 +3,13 @@ import { useRouter } from "next/router";
 import React from "react";
 import { User } from "@models/user";
 import { VerticalDotsIcon } from "./VerticalDotsIcon";
+import EditUser from "./EditUser";
+import { API_ENDPOINT } from "@models/api";
+import { Ban, RefreshCcw } from "lucide-react";
 
 type Props = {
     users: User[];
+    handleGetBoosterList: () => void;
 }
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
@@ -13,8 +17,27 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
   banned: "danger"
 };
 
-const UserTable = ({users}: Props) => {
+const UserTable = ({users, handleGetBoosterList}: Props) => {
     const router = useRouter()
+
+    const handleBanUser = async (id: string, currentStatus: string) => {
+      // Determine the new status
+      const newStatus = currentStatus === 'banned' ? 'active' : 'banned';
+  
+      // Call the API to change the status of the user
+      await fetch(`${API_ENDPOINT}/user/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          status: newStatus,
+        }),
+      });
+  
+      // Refresh the user list
+      handleGetBoosterList();
+    };
 
     const toUserDetail = (id: string) => {
         void router.push(`/user/${id}`)
@@ -42,21 +65,11 @@ const UserTable = ({users}: Props) => {
             {user.status}
           </Chip>
           </TableCell>
-          <TableCell>
-            <Dropdown className="dark text-foreground">
-              <DropdownTrigger>
-                <Button>
-                  <VerticalDotsIcon />
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu aria-label="Static Actions">
-                <DropdownItem key="copy">View</DropdownItem>
-                <DropdownItem key="edit">Edit</DropdownItem>
-                <DropdownItem key="delete" className="text-danger" color="danger">
-                  Delete
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
+          <TableCell className="flex gap-3">
+            <EditUser user={user} handleGetBoosterList={handleGetBoosterList} />
+            <Button isIconOnly onClick={() => handleBanUser(user._id, user.status)}>
+              <RefreshCcw />
+            </Button>
           </TableCell>
         </TableRow>
       ))}
