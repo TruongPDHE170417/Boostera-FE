@@ -1,9 +1,7 @@
 import React, { memo, useEffect, useRef, useState } from "react"
 import Link from "next/link"
-import { useBoundStore } from "@zustand/total"
 import Navigation from "./components/Navigation"
 import { useClickOutside } from "@hooks/useClickOutside"
-import { ROLE_ACCOUNT } from "@models/common"
 import Image from "next/image"
 
 const SCROLL_THRESHOLD = 100
@@ -13,22 +11,6 @@ const Header = () => {
   const [isOpenDropDownMenu, setIsOpenDropDownMenu] = useState<boolean>(false)
   const toggleRef = useRef<HTMLDivElement>(null)
   const dropDownRef = useRef<HTMLDivElement>(null)
-
-  const { accountInfo, removeAccountInfo, saveAccountInfo } = useBoundStore((store) => ({
-    accountInfo: store.accountInfo,
-    removeAccountInfo: store.removeAccountInfo,
-    saveAccountInfo: store.saveAccountInfo,
-  }))
-
-  useEffect(() => {
-    saveAccountInfo({
-      userId: null,
-      username: "AnPT",
-      gmail: "abc@",
-      picture: null,
-      role: ROLE_ACCOUNT.GUEST,
-    })
-  }, [])
 
   useClickOutside(dropDownRef, toggleRef, () => setIsOpenDropDownMenu(false))
 
