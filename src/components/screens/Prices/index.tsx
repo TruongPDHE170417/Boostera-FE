@@ -16,10 +16,18 @@ import { CustomerInformationRegister } from "@types/customer"
 import { string } from "zod"
 import { useRouter } from "next/router"
 import { InputOtp } from "@types/otp"
+import { userInfo } from "os"
 
 export enum BOOSTER_TYPE {
   DIVISION_BOOSTING = 1,
   PLACEMENT_GAMES,
+}
+
+interface isPlayerValid {
+  IGN: string
+  tag: string
+  validate: boolean
+  // Add other properties here if they exist in the response
 }
 
 const PricesScreen = () => {
@@ -76,7 +84,10 @@ const PricesScreen = () => {
   const handlePurchase = () => {
     // TODO: update check accountInfo
     if (!!accountInfo.username) {
-      setIsOpenModalInfo(true)
+      //handle if amount is 0
+      if (price > 0) {
+        setIsOpenModalInfo(true)
+      }
     } else {
       // TODO: handle purchase
       setIsPurchasing(true)
@@ -91,25 +102,64 @@ const PricesScreen = () => {
     setIsOpenModalInfo(!isOpenModalInfo)
   }
 
+  const isRealPlayer = async (): Promise<boolean> => {
+    const response = await fetch(
+      API_ENDPOINT + `/riot-helper/?IGN=${customerInformation.accountName}&tag=${customerInformation.tagId}`,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      }
+    )
+    const data = (await response.json()) as isPlayerValid
+    return data.validate
+  }
+
+    const getPlayerRank = async (): Promise<boolean> => {
+      const response = await fetch(
+        API_ENDPOINT +
+          `/riot-helper/rank/solo/bound?IGN=${customerInformation.accountName}&tag=${customerInformation.tagId}&fromRank=${currentRank}&fromLevel=${currentLevel}&toRank=${desiredRank}&toLevel=${desiredLevel}`,
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        }
+      )
+      const data = (await response.json()) as boolean;
+      return data;
+    }
+
   const handleChangeOpenModalVerify = () => {
     setIsOpenModalVerify(!isOpenModalVerify)
   }
 
-  const handleConfirmInformation = () => {
-    setIsOpenModalInfo(false)
-    setIsOpenModalVerify(true)
-    const createOtp = async () => {
-      const response = await fetch(API_ENDPOINT + "/send-email/otp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          to: customerInformation.email,
-        }),
-      })
-      const data = await response.json()
-      console.log(data)
+  const handleConfirmInformation = async () => {
+    const isOrderValid = async (): Promise<boolean> => {
+      const player = await isRealPlayer()
+      console.log(`is real player ${player}`);
+      if (player) {
+        const rank = await getPlayerRank()
+        console.log(`is rank ${rank}`);
+        return rank
+      }
+      return false
     }
-    // createOtp()
+
+    if(await isOrderValid()){
+      setIsOpenModalInfo(false)
+      setIsOpenModalVerify(true)
+      const createOtp = async () => {
+        const response = await fetch(API_ENDPOINT + "/send-email/otp", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            to: customerInformation.email,
+          }),
+        })
+        const data = await response.json()
+      }
+      createOtp()
+    }else{
+      alert("Your Account is invalid or your rank is out of bound!");
+    }
   }
 
   const paymentProc = async (email: string) => {
@@ -117,7 +167,7 @@ const PricesScreen = () => {
       const additionalParam = {
         email: email,
         name: email,
-        ING: customerInformation.accountName,
+        IGN: customerInformation.accountName,
         tag: customerInformation.tagId,
         fromPosition: RANK_IMAGES[currentRank - 1]?.toUpperCase(),
         fromLevel: currentLevel,

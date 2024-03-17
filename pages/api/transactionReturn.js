@@ -12,9 +12,8 @@ const handler = async (req, res) => {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    name: email,
                     email: email,
-                    ING: accountName,
+                    IGN: accountName,
                     tag: tagId,
                 }),
             })
@@ -38,16 +37,17 @@ const handler = async (req, res) => {
         if (transactionStatus !== TRANSACTION_SUCCESS_CODE) {
             const errorMessage = "Fail to create payment!";
             res.status(400).json({ error: errorMessage });
-            res.redirect(`/prices?error=${errorMessage}`);
+            res.redirect(`/prices`);
         } else if (transactionStatus === TRANSACTION_SUCCESS_CODE) {
             const existingUser = await findExistingUser(vnpParam['email']);
             if (!existingUser) {
-                const createdNewUser = await createUser(vnpParam['email'], vnpParam['ING'], vnpParam['tag']);
+                const createdNewUser = await createUser(vnpParam['email'], vnpParam['IGN'], vnpParam['tag']);
             }
             const response = await fetch(serverApi, {
                 method: "GET",
                 mode: "cors",
             });
+            
             const data = await response.json();
             res.redirect(`/${uiRedirect}`);
         } else {
