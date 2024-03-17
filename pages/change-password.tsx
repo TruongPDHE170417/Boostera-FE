@@ -6,6 +6,7 @@ import { useMutation } from "@tanstack/react-query"
 import { NOTIFICATION_TYPE, notify } from "@utils/notify"
 import { API_ENDPOINT } from "@models/api"
 import { redirect } from "next/navigation"
+import { useBoundStore } from "@zustand/total"
 
 export type ChangePassRequest = {
   oldPass: string
@@ -13,6 +14,10 @@ export type ChangePassRequest = {
   reEnterPass: string
 }
 const ChangePassword = () => {
+  const { authInfo } = useBoundStore((state) => ({
+    authInfo: state.authInfo,
+  }))
+
   const [changePass, setChangePass] = useState<ChangePassRequest>({
     oldPass: "",
     newPass: "",
@@ -25,7 +30,7 @@ const ChangePassword = () => {
   })
 
   const putChangePassword = async (changePass: ChangePassRequest): Promise<Response> => {
-    const token = "Bearer " + "token"
+    const token = "Bearer " + authInfo.accessToken
     const response = await fetch(API_ENDPOINT + "/user/change-pass", {
       method: "PUT",
       headers: {
@@ -48,7 +53,6 @@ const ChangePassword = () => {
     setErrorMessage({ oldPass: "", newPass: "", reEnterPass: "" })
   }
 
-
   const validateForm = () => {
     let isValid = true
     Object.entries(changePass).forEach(([key, value]) => {
@@ -69,7 +73,8 @@ const ChangePassword = () => {
   const hanldeSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (validateForm()) {
-      const data = putChangePassword(changePass);
+      const data = putChangePassword(changePass)
+      console.log(authInfo)
     }
   }
 
