@@ -37,7 +37,7 @@ const handler = async (req, res) => {
         if (transactionStatus !== TRANSACTION_SUCCESS_CODE) {
             const errorMessage = "Fail to create payment!";
             res.status(400).json({ error: errorMessage });
-            res.redirect(`/prices?error=${errorMessage}`);
+            res.redirect(`/prices`);
         } else if (transactionStatus === TRANSACTION_SUCCESS_CODE) {
             const existingUser = await findExistingUser(vnpParam['email']);
             if (!existingUser) {
@@ -47,6 +47,7 @@ const handler = async (req, res) => {
                 method: "GET",
                 mode: "cors",
             });
+            
             const data = await response.json();
             res.redirect(`/${uiRedirect}`);
         } else {
