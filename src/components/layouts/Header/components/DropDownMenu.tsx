@@ -48,6 +48,9 @@ const DropDownMenu = ({ onLogout }: Props) => {
             <div className="hover cursor-pointer rounded-md px-4 mt-2 py-2 hover:bg-white hover:text-black">
               <Link href="/payment-account">Payment Information</Link>
             </div>
+            <div className="hover cursor-pointer rounded-md px-4 mt-2 py-2 hover:bg-white hover:text-black">
+              <Link href="/change-password">Change Password</Link>
+            </div>
           </div>
         )}
 
