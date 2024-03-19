@@ -3,6 +3,8 @@ import { useMutation } from "@tanstack/react-query"
 import React, { ChangeEvent, useState } from "react"
 import postCareerRequest from "@api/postCareerRequest"
 import { NOTIFICATION_TYPE, notify } from "@utils/notify"
+import { Response } from "@models/api"
+import { RiotAccount } from "@models/riot-account"
 
 export type CareerRequest = {
   nickname: string
@@ -70,6 +72,29 @@ const CareerForm = () => {
       //handle later
     }
   }
+  const validateRiotAccount = async () => {
+    try {
+      const response = await fetch(`http://localhost:9999/riot-helper/?IGN=${careerReq.gameName}&tag=${careerReq.tagLine}`);
+      if (!response.ok) {
+        throw new Error('Failed to validate Riot account');
+      }
+      const data = await response.json() as Response<RiotAccount>;
+      if (data.data?.validate) {
+        return true;
+      } else {
+        setErrorMessage({
+          ...errorMessage,
+          gameName: "Invalid Riot account",
+          tagLine: "Invalid Riot account",
+        });
+        return false;
+      }
+    } catch (error) {
+      console.error("Error validating Riot account:", error);
+      return false;
+    }
+  };
+  
   const validateEmail = (): boolean => {
     const isValid = Boolean(
       String(careerReq.email)
