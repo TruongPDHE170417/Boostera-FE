@@ -80,7 +80,7 @@ const Login = () => {
         const atIndex = decodedJWT?.data?.email.indexOf('@') ?? 0
         saveAccountInfo({
           userId: decodedJWT?.data._id ?? "",
-          username: decodedJWT?.data?.email?.slice(atIndex + 1) ?? "",
+          username: decodedJWT?.data?.email?.slice(0, atIndex) ?? "",
           gmail: decodedJWT?.data?.email ?? "",
           picture: null,
           role: decodedJWT?.data?.role ?? "",

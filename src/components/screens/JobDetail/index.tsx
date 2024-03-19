@@ -153,19 +153,24 @@ const JobDetailScreen = ({ jobId }: Props) => {
         </div>
         <div className="flex gap-8 my-8 w-[80%] mx-auto">
           <div className="bg-gray-900 p-8 rounded-2xl basis-1/2 flex items-center gap-4">
-            <Avatar className="w-20 h-20 text-large" />
-            <div>
-              <p className="font-semibold text-2xl">Booster: {job?.jobID?.boosterId?.nickname}</p>
-              <div className="flex gap-2 items-center cursor-pointer hover:opacity-90 mt-1" onClick={handleChangeOpenModal}>
-                <Icon name="alert-triangle" color="red" />
-                <p className="text-red-600">{!!report ? 'View Report' : 'Report Booster'}</p>
-              </div>
-            </div>
+            {job?.jobID?.boosterId?.nickname ?
+              <>
+                <Avatar className="w-20 h-20 text-large" />
+                <div>
+                  <p className="font-semibold text-2xl">Booster: {job.jobID.boosterId.nickname}</p>
+                  <div className="flex gap-2 items-center cursor-pointer hover:opacity-90 mt-1" onClick={handleChangeOpenModal}>
+                    <Icon name="alert-triangle" color="red" />
+                    <p className="text-red-600">{!!report ? 'View Report' : 'Report Booster'}</p>
+                  </div>
+                </div>
+              </>
+              : <p className="text-red-500 text-lg font-semibold text-center w-[100%]">There are no boosters assigned to this job</p>
+            }
           </div>
           <div className="bg-gray-900"></div>
           <div className="bg-gray-900 p-8 rounded-2xl basis-1/2 flex items-center gap-4">
             <Avatar className="w-20 h-20 text-large" />
-            <p className="font-semibold text-2xl">Manager: {job?.jobID?.managerId?.name}</p>
+            <p className="font-semibold text-2xl">Manager: {job?.jobID?.managerId?.email.slice(0, job.jobID.managerId.email.indexOf("@"))}</p>
           </div>
         </div>
       </div>

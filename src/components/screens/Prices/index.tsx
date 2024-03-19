@@ -17,6 +17,7 @@ import { CustomerInformationRegister } from "@types/customer"
 import { InputOtp } from "@types/otp"
 import { userInfo } from "os"
 import decodeJWT from "@utils/decodeJWT"
+import { NOTIFICATION_TYPE, notify } from "@utils/notify"
 
 type LoginInfo = {
   email: string
@@ -109,27 +110,19 @@ const PricesScreen = () => {
     // TODO: update check accountInfo
     //handle if amount is 0
     if (price > 0) {
-      if (!authInfo.accessToken || !authInfo.refreshToken) {
+      if (!accountInfo.userId) {
         setIsOpenModalInfo(true)
       } else {
-        const data = authInfo as AuthInfo
-        const decodedJWT = decodeJWT(data?.accessToken ?? "")
-        saveAccountInfo({
-          userId: decodedJWT?.data._id ?? "",
-          username: null,
-          gmail: decodedJWT?.data?.email ?? "",
-          picture: null,
-          role: decodedJWT?.data?.role ?? "",
-        })
         const existingAccount = await getExistingUserGameInfo(accountInfo.gmail as string)
-        customerInformation.accountName = existingAccount.IGN
-        customerInformation.email = accountInfo.gmail as string
-        customerInformation.tagId = existingAccount.tag
-        setIsOpenModalInfo(true)
+        setCustomerInformation({
+          accountName: existingAccount.IGN,
+          email: accountInfo.gmail as string,
+          tagId: existingAccount.tag
+        })
+        handleConfirmInformation()
       }
     } else {
-      alert("your order price is less than 0 so you can not create that order")
-      setIsPurchasing(true)
+      notify(NOTIFICATION_TYPE.ERROR, "your order price is less than 0 so you can not create that order")
     }
   }
 
@@ -198,7 +191,7 @@ const PricesScreen = () => {
       }
       createOtp()
     } else {
-      alert("Your Account is invalid or your rank is out of bound!")
+      notify(NOTIFICATION_TYPE.ERROR, "Your Account is invalid or your rank is out of bound!")
     }
   }
 

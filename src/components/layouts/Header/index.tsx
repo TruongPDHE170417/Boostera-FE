@@ -55,8 +55,8 @@ const Header = () => {
             <p className="text-xl font-bold">
               <span className="text-white">BOOSTERA</span>
             </p>
+            <span className="font-bold text-red-500">LOL ELO BOOST</span>
           </Link>
-          <span className="font-bold text-red-500">LOL ELO BOOST</span>
         </div>
       </div>
       <Navigation />

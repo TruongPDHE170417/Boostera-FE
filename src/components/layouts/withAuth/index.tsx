@@ -20,7 +20,7 @@ const withAuth = <P extends AuthProps>(
       return <WrappedComponent {...props as P} />;
     } else {
       import('next/router').then((Router) => {
-        Router.default.push('/login'); // Redirect to login page
+        Router.default.back();
       });
       setTimeout(() => {
         notify(NOTIFICATION_TYPE.ERROR, 'Unauthorized access', { toastId: 'Auth notify' })
