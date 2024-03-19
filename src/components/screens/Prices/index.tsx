@@ -1,20 +1,19 @@
-import React, { ChangeEvent, useEffect, useState } from "react"
 import { Slider, SliderValue, Tab, Tabs } from "@nextui-org/react"
-import { useBoundStore } from "@zustand/total"
-import Icon from "@components/icons"
-import RankType from "@components/common/RankType"
+import { useRouter } from "next/router"
+import React, { ChangeEvent, useEffect, useState } from "react"
 import RankLevel from "@components/common/RankLevel"
 import RankPoint from "@components/common/RankPoint"
+import RankType from "@components/common/RankType"
+import Icon from "@components/icons"
+import { API_ENDPOINT } from "@models/api"
+import { RANK_IMAGES, RANK_LEVEL, RANK_POINT, RANK_POINT_CALC, RANK_TYPE } from "@models/rank"
+import { useBoundStore } from "@zustand/total"
+import CustomerInformationModal from "./components/CustomerInformationModal"
 import Options, { OPTIONS } from "./components/Options"
 import Purchase from "./components/Purchase"
-import { RANK_IMAGES, RANK_LEVEL, RANK_POINT, RANK_POINT_CALC, RANK_TYPE } from "@models/rank"
-import CustomerInformationModal from "./components/CustomerInformationModal"
 import VerifyOtpModal from "./components/VerifyOtpModal"
-import { API_ENDPOINT } from "@models/api"
 import { PriceType } from "../../../types/price"
 import { CustomerInformationRegister } from "@types/customer"
-import { string } from "zod"
-import { useRouter } from "next/router"
 import { InputOtp } from "@types/otp"
 import { userInfo } from "os"
 import decodeJWT from "@utils/decodeJWT"
@@ -128,7 +127,7 @@ const PricesScreen = () => {
         customerInformation.tagId = existingAccount.tag
         setIsOpenModalInfo(true)
       }
-    }else{
+    } else {
       alert("your order price is less than 0 so you can not create that order")
       setIsPurchasing(true)
     }
@@ -157,7 +156,7 @@ const PricesScreen = () => {
   const getPlayerRank = async (): Promise<boolean> => {
     const response = await fetch(
       API_ENDPOINT +
-        `/riot-helper/rank/solo/bound?IGN=${customerInformation.accountName}&tag=${customerInformation.tagId}&fromRank=${currentRank}&fromLevel=${currentLevel}&toRank=${desiredRank}&toLevel=${desiredLevel}`,
+      `/riot-helper/rank/solo/bound?IGN=${customerInformation.accountName}&tag=${customerInformation.tagId}&fromRank=${currentRank}&fromLevel=${currentLevel}&toRank=${desiredRank}&toLevel=${desiredLevel}`,
       {
         method: "GET",
         headers: { "Content-Type": "application/json" },
@@ -195,6 +194,7 @@ const PricesScreen = () => {
           }),
         })
         const data = await response.json()
+        console.log(data)
       }
       createOtp()
     } else {
@@ -214,7 +214,7 @@ const PricesScreen = () => {
         fromLp: RANK_POINT_CALC[currentPoint - 1],
         toPosition: RANK_IMAGES[desiredRank - 1]?.toUpperCase(),
         toLevel: desiredLevel,
-        extraService: options.length != 0 ? options : null,
+        extraService: options.length !== 0 ? options : null,
       }
       const response = await fetch(API_ENDPOINT + "/payment/create_payment", {
         method: "POST",
@@ -304,7 +304,7 @@ const PricesScreen = () => {
       setPrice(priceData.price)
     }
     handleGetPrice()
-  }, [currentRank, currentLevel, currentPoint, desiredRank, desiredLevel, options])
+  }, [currentRank, currentLevel, currentPoint, desiredRank, desiredLevel, options, promotion])
 
   return (
     <div className="min-h-screen bg-theme text-white">

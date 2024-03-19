@@ -1,6 +1,6 @@
 import { Feature } from '@models/feature'
+import { defaultPagination, PaginationOnPage } from '@models/pagination'
 import { SESSION_STORAGE_KEY } from '@models/keys'
-import { PaginationOnPage, defaultPagination } from '@models/pagination'
 
 export const setPagination = (page: string, input: Partial<PaginationOnPage>) => {
   try {

@@ -1,7 +1,7 @@
-import { useRouter } from "next/router"
-import MainLayout from "@components/layouts/MainLayout"
-import CustomButton from "@components/common/CustomButton"
 import { Button } from "@nextui-org/react"
+import { useRouter } from "next/router"
+import CustomButton from "@components/common/CustomButton"
+import MainLayout from "@components/layouts/MainLayout"
 
 const Page404 = () => {
   const router = useRouter()

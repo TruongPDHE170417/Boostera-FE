@@ -1,6 +1,6 @@
-import React, { useEffect, ComponentType } from 'react';
-import { useBoundStore } from '@zustand/total';
+import React, { ComponentType, useEffect } from 'react';
 import { NOTIFICATION_TYPE, notify } from '@utils/notify';
+import { useBoundStore } from '@zustand/total';
 
 interface AuthProps {
   isAuthenticated: boolean;

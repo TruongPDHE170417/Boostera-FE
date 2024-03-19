@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
 import {Avatar, Image, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/react";
 import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 import { API_ENDPOINT } from "@models/api";
 import {Booster} from "@models/booster";
 import {calculateDaysDifferent} from "@utils/dateCalculate";

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
 import { Input } from "@nextui-org/react";
+import React, { useState } from "react";
 import { User } from "@models/user";
 
 interface UserSearchProps {

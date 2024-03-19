@@ -1,5 +1,5 @@
-import React from 'react'
 import { Button } from '@nextui-org/react'
+import React from 'react'
 import Icon from '@components/icons'
 import { OPTIONS } from './Options'
 

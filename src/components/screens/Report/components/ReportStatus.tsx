@@ -1,5 +1,4 @@
 import React from 'react'
-import { Chip } from '@nextui-org/react'
 import { REPORT_STATUS, REPORT_STATUS_LABEL } from '@models/report'
 
 type Props = {

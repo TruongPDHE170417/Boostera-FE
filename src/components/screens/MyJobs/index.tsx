@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
-import Image from 'next/image'
 import { Progress } from '@nextui-org/react'
-import { useBoundStore } from '@zustand/total'
+import Image from 'next/image'
+import React, { useEffect, useState } from 'react'
 import Icon from '@components/icons'
 import { RANK_IMAGES, RANK_LEVEL, RANK_LEVEL_LABEL, RANK_TYPE, RANK_TYPE_LABEL } from '@models/rank'
+import { useBoundStore } from '@zustand/total'
+import { API_ENDPOINT } from '@models/api'
 
 const MyJobsScreen = () => {
   const { accountInfo } = useBoundStore((store) => ({
@@ -20,6 +21,15 @@ const MyJobsScreen = () => {
   const [toLevel, setToLevel] = useState<RANK_LEVEL>(RANK_LEVEL.THREE)
 
   const [progress, setProgress] = useState<number>(75)
+
+  useEffect(() => {
+    const handleFetchCurrentJob = async () => {
+      const response = await fetch(API_ENDPOINT + "/job/current-job/" + accountInfo.userId)
+      const data = await response.json()
+      console.log(data)
+    }
+    handleFetchCurrentJob()
+  }, [])
 
   return (
     <div className="bg-theme min-h-screen text-white py-12 flex flex-col items-center">

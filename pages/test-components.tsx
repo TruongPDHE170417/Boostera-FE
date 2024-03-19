@@ -1,19 +1,19 @@
 import React, { useState } from 'react'
 import CheckBox from '@components/common/CheckBox'
+import Collapse from '@components/common/Collapse'
 import CustomButton from '@components/common/CustomButton'
 import CustomInput from '@components/common/CustomInput'
 import DropdownContainer from '@components/common/DropdownContainer'
-import SpinnerLoading from '@components/common/SpinnerLoading'
-import Collapse from '@components/common/Collapse'
+import FileInput from '@components/common/FileInput'
 import Progress from '@components/common/Progress'
 import { RadialProgress } from '@components/common/RadialProgress'
-import FileInput from '@components/common/FileInput'
 import Radio from '@components/common/Radio'
 import Rating from '@components/common/Rating'
+import SpinnerLoading from '@components/common/SpinnerLoading'
 import Toggle from '@components/common/Toggle'
 import Footer from '@components/layouts/Footer'
-import { NOTIFICATION_TYPE, notify } from '@utils/notify'
 import Header from '@components/layouts/Header'
+import { NOTIFICATION_TYPE, notify } from '@utils/notify'
 
 const TestComponents = () => {
   const [isChecked, setIsChecked] = useState<boolean>(false)

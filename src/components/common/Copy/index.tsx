@@ -1,5 +1,5 @@
-import React, { useState, memo } from 'react'
 import copy from 'copy-to-clipboard';
+import React, { memo, useState } from 'react'
 import Icon from '@components/icons';
 
 type Props = {

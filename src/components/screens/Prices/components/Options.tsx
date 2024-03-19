@@ -1,10 +1,10 @@
-import React from 'react'
 import { motion } from 'framer-motion'
+import React from 'react'
+import ChooseChampions from './ChooseChampions'
 import DuoBoost from './DuoBoost'
 import SelectBooster from './SelectBooster'
-import TurboBoost from './TurboBoost'
-import ChooseChampions from './ChooseChampions'
 import Streaming from './Streaming'
+import TurboBoost from './TurboBoost'
 
 const variants = {
   open: { opacity: 1, y: 0, height: 'auto', overflow: 'visible' },
@@ -26,11 +26,6 @@ type Props = {
   option: OPTIONS
   options: OPTIONS[]
   handleApplyOption: (option: OPTIONS) => void
-}
-
-type AccountInfo = {
-  username: string
-  password: string
 }
 
 const Options = ({ option, options, handleApplyOption }: Props) => {

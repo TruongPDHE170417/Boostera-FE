@@ -1,9 +1,9 @@
-import { GetServerSideProps, NextPage } from "next";
-import { useState } from "react";
 import axios from "axios";
+import { GetServerSideProps, NextPage } from "next";
+import Link from "next/link";
+import { useState } from "react";
 import fs from "fs/promises";
 import path from "path";
-import Link from "next/link";
 
 interface Props {
   dirs: string[];

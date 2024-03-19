@@ -1,16 +1,16 @@
 import React, { useId } from "react";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-import CollectionCard from '../CollectionCard'
-import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
+import { Museum } from "../../../api/museums";
 import ChevronIcon from "../../icons/ChevronIcon";
+import CollectionCard from '../CollectionCard'
+import { A11y, Navigation, Pagination, Scrollbar } from 'swiper';
 // import 'swiper/swiper-bundle.min.css';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import NFTCard from "../NFTCard";
-import { Museum } from "../../../api/museums";
 export interface Collections {
     data: Museum[]
     isTicketCard?: boolean

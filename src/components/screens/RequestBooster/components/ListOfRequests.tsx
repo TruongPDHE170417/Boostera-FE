@@ -1,10 +1,7 @@
 import { Button, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/react"
 import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
-import colors from "tailwindcss/colors"
 import { BoosterRequest, REQUEST_STATUS } from "@models/booster-request"
-import Link from "next/link"
-import { Key } from "lucide-react"
 const RequestsList = () => {
   const router = useRouter()
   const [requests, setRequests] = useState<BoosterRequest[]>([])

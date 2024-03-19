@@ -14,7 +14,7 @@ type Props = {
 
 const COMPLETED_JOB_STATUS = ["Request Withdrawal", "Withdrawn"];
 
-export default function BoosterCard({boosters}: Props) {
+export default function BoosterCard({ boosters }: Props) {
     const [completedBoosts, setCompletedBoosts] = useState<number[]>([]);
 
     useEffect(() => {

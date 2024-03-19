@@ -1,3 +1,4 @@
+import { Spinner } from '@nextui-org/react';
 import React, { useEffect, useState } from 'react'
 import { API_ENDPOINT } from '@models/api';
 import { Booster } from '@models/booster';
@@ -5,7 +6,6 @@ import BoosterCard from './components/BoosterCard'
 import Pagination from './components/BoosterPagination'
 import Intro from './components/Intro';
 import Overview from './components/Overview';
-import { Spinner } from '@nextui-org/react';
 
 const ITEMS_PER_PAGE = 9;
 

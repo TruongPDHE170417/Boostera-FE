@@ -3,7 +3,7 @@ import React from "react"
 
 const Footer = () => {
   return (
-    <footer className="bg-theme text-white p-10 border-t-2 border-white mt-20">
+    <footer className="bg-theme text-white p-10 border-t-2 border-white">
       <footer className="footer">
         <aside>
           <svg

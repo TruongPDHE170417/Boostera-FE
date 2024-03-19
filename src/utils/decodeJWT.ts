@@ -1,6 +1,4 @@
-import { useState, useEffect } from 'react';
-import { JwtPayload, jwtDecode } from 'jwt-decode';
-
+import { jwtDecode } from 'jwt-decode';
 export interface DecodedJWT {
   data: {
     _id: string
