@@ -1,22 +1,35 @@
-import React, { ChangeEvent, useState } from "react"
+import React, { ChangeEvent, useEffect, useState } from "react"
 import Link from "next/link"
 import CustomButton from "@components/common/CustomButton"
 import CustomInput from "@components/common/CustomInput"
-import { useMutation } from "@tanstack/react-query"
 import { NOTIFICATION_TYPE, notify } from "@utils/notify"
 import { API_ENDPOINT } from "@models/api"
-import { redirect } from "next/navigation"
 import { useBoundStore } from "@zustand/total"
+import { useRouter } from "next/router"
 
 export type ChangePassRequest = {
   oldPass: string
   newPass: string
   reEnterPass: string
 }
+type ResponseChpwd = {
+  success: string
+  message: string
+}
+
 const ChangePassword = () => {
-  const { authInfo } = useBoundStore((state) => ({
+  const route = useRouter()
+  const { authInfo, removeAuthInfo } = useBoundStore((state) => ({
     authInfo: state.authInfo,
+    removeAuthInfo: state.removeAuthInfo,
   }))
+
+  useEffect(() => {
+    if (authInfo.accessToken == null) {
+      notify(NOTIFICATION_TYPE.ERROR, `Unauthorize`)
+      route.push("/login")
+    }
+  }, [])
 
   const [changePass, setChangePass] = useState<ChangePassRequest>({
     oldPass: "",
@@ -39,7 +52,14 @@ const ChangePassword = () => {
       },
       body: JSON.stringify(changePass),
     })
-    const raw = await response.json()
+    const raw = (await response.json()) as ResponseChpwd
+    if (response.status !== 200) {
+      setErrorMessage({ ...errorMessage, oldPass: raw.message })
+    } else {
+      notify(NOTIFICATION_TYPE.SUCCESS, `change password successfully!`)
+      removeAuthInfo()
+      route.push("/login")
+    }
     return response
   }
 
@@ -98,6 +118,7 @@ const ChangePassword = () => {
                 placeholder="Old password"
                 onChange={handleChangeInput}
               />
+              {errorMessage.oldPass && <span className="text-red-600">{errorMessage.oldPass}</span>}
               <CustomInput
                 type="password"
                 name="newPass"

@@ -17,6 +17,17 @@ import { string } from "zod"
 import { useRouter } from "next/router"
 import { InputOtp } from "@types/otp"
 import { userInfo } from "os"
+import decodeJWT from "@utils/decodeJWT"
+
+type LoginInfo = {
+  email: string
+  password: string
+}
+
+type AuthInfo = {
+  accessToken: string
+  refreshToken: string
+}
 
 export enum BOOSTER_TYPE {
   DIVISION_BOOSTING = 1,
@@ -31,6 +42,10 @@ interface isPlayerValid {
 }
 
 const PricesScreen = () => {
+  const { authInfo, saveAccountInfo } = useBoundStore((state) => ({
+    authInfo: state.authInfo,
+    saveAccountInfo: state.saveAccountInfo,
+  }))
   const router = useRouter()
   const [gamesCount, setGamesCount] = useState<SliderValue>(5)
   const [currentRank, setCurrentRank] = useState<RANK_TYPE>(RANK_TYPE.NONE)
@@ -81,12 +96,36 @@ const PricesScreen = () => {
     setOptions(newOptions)
   }
 
+  const getExistingUserGameInfo = async (email: string) => {
+    const response = await fetch(
+      API_ENDPOINT + `/riot-helper/?IGN=${customerInformation.accountName}&tag=${customerInformation.tagId}`,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      }
+    )
+    const data = (await response.json()) as isPlayerValid
+    return data.validate  
+  }
+
   const handlePurchase = () => {
     // TODO: update check accountInfo
     if (!!accountInfo.username) {
       //handle if amount is 0
       if (price > 0) {
-        setIsOpenModalInfo(true)
+        if (!authInfo.accessToken || !authInfo.refreshToken) {
+          setIsOpenModalInfo(true)
+        } else {
+          const data = authInfo as AuthInfo
+          const decodedJWT = decodeJWT(data?.accessToken ?? "")
+          saveAccountInfo({
+            userId: decodedJWT?.data._id ?? "",
+            username: null,
+            gmail: decodedJWT?.data?.email ?? "",
+            picture: null,
+            role: decodedJWT?.data?.role ?? "",
+          })
+        }
       }
     } else {
       // TODO: handle purchase
@@ -114,18 +153,18 @@ const PricesScreen = () => {
     return data.validate
   }
 
-    const getPlayerRank = async (): Promise<boolean> => {
-      const response = await fetch(
-        API_ENDPOINT +
-          `/riot-helper/rank/solo/bound?IGN=${customerInformation.accountName}&tag=${customerInformation.tagId}&fromRank=${currentRank}&fromLevel=${currentLevel}&toRank=${desiredRank}&toLevel=${desiredLevel}`,
-        {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        }
-      )
-      const data = (await response.json()) as boolean;
-      return data;
-    }
+  const getPlayerRank = async (): Promise<boolean> => {
+    const response = await fetch(
+      API_ENDPOINT +
+        `/riot-helper/rank/solo/bound?IGN=${customerInformation.accountName}&tag=${customerInformation.tagId}&fromRank=${currentRank}&fromLevel=${currentLevel}&toRank=${desiredRank}&toLevel=${desiredLevel}`,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      }
+    )
+    const data = (await response.json()) as boolean
+    return data
+  }
 
   const handleChangeOpenModalVerify = () => {
     setIsOpenModalVerify(!isOpenModalVerify)
@@ -134,16 +173,16 @@ const PricesScreen = () => {
   const handleConfirmInformation = async () => {
     const isOrderValid = async (): Promise<boolean> => {
       const player = await isRealPlayer()
-      console.log(`is real player ${player}`);
+      console.log(`is real player ${player}`)
       if (player) {
         const rank = await getPlayerRank()
-        console.log(`is rank ${rank}`);
+        console.log(`is rank ${rank}`)
         return rank
       }
       return false
     }
 
-    if(await isOrderValid()){
+    if (await isOrderValid()) {
       setIsOpenModalInfo(false)
       setIsOpenModalVerify(true)
       const createOtp = async () => {
@@ -157,8 +196,8 @@ const PricesScreen = () => {
         const data = await response.json()
       }
       createOtp()
-    }else{
-      alert("Your Account is invalid or your rank is out of bound!");
+    } else {
+      alert("Your Account is invalid or your rank is out of bound!")
     }
   }
 
