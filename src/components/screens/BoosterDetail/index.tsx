@@ -4,8 +4,9 @@ import { useRouter } from "next/router";
 import { API_ENDPOINT } from "@models/api";
 import {Booster} from "@models/booster";
 import {calculateDaysDifferent} from "@utils/dateCalculate";
-import {capitalizeFirstLetter} from "@utils/format";
+import {capitalizeFirstLetter, formatBsonDate} from "@utils/format";
 import { convertRankToImageName } from "@utils/image";
+import { Job } from "@models/job";
 
 type Props = {
     boosterId: string
@@ -13,7 +14,9 @@ type Props = {
 
 const BoosterDetail = ({boosterId}: Props) => {
     const [booster, setBooster] = useState<Booster>();
+    const [boostHistory, setBoostHistory] = useState<Job[]>([])
     const [lastBoost, setLastBoost] = useState<string>("Not yet");
+    const [numberOfBoost, setNumberOfBoost] = useState<number>(0);
     const [isLoading, setLoading] = useState<boolean>(true);
 
     const router = useRouter();
@@ -23,7 +26,7 @@ const to404 = () => {
     void router.push(`${currentPath}/404`);
 }
 
-    useEffect(() => {
+    useEffect(() => {     
         const handleGetBoosterDetail = async () => {
             if (boosterId) {
                 const response = await fetch(`${API_ENDPOINT}/boosters/${boosterId}`);
@@ -36,12 +39,28 @@ const to404 = () => {
                 }
             }
         };
-      
         handleGetBoosterDetail();
 
-        const handleGetLastBoost = async () => {
-            //TODO: Get last boost
+        const getMostRecentJob = (boostHistory: Job[]) => {
+            const sortedJobs = boostHistory.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+            return sortedJobs[0];
         }
+
+        const handleGetLastBoost = async () => {
+            if (boosterId) {
+                const response = await fetch(`${API_ENDPOINT}/job/by-booster/${boosterId}`);
+                const data = await response.json() as Job[];
+                if (response.ok && Array.isArray(data) && data.length > 0) {
+                    setBoostHistory(data);
+                    setLastBoost(calculateDaysDifferent(getMostRecentJob(data)?.createdAt ?? ""));
+                    setNumberOfBoost(data.length);
+                } else {
+                    setLastBoost("Not yet");
+                }
+            }
+        };
+        handleGetLastBoost();
+        
     }, [boosterId]);
 
     if (isLoading) {
@@ -57,21 +76,21 @@ const to404 = () => {
                     isBordered color="danger"
                     src={booster?.avatarUrl} />
 
-                <h1 className="font-bold text-4xl">{booster?.userId.name}</h1>
+                <h1 className="font-bold text-4xl">{booster?.nickname}</h1>
                 {/* Booster Rank */}
                 <div className="flex justify-center items-center gap-3">
                     <Image
                         width={65}
                         alt="Rank"
-                        src={`/images/${convertRankToImageName(booster?.currentRank ?? "")}.png`}
+                        src={`/images/${convertRankToImageName(booster?.currentRankSolo.currentLeague ?? "")}.png`}
                     />
-                    <p className="font-bold text-2xl">{booster && capitalizeFirstLetter(booster?.currentRank)}</p>
+                    <p className="font-bold text-2xl">{booster && capitalizeFirstLetter(booster?.currentRankSolo.currentLeague)}</p>
                 </div>
                 {/* Booster metrics */}
                 <div className="w-[100%] flex justify-between">
                     <div>
                         <p className="text-gray-400">Completed Boosts:</p>
-                        <p className="font-bold text-2xl">{booster?.completedBoosts}</p>
+                        <p className="font-bold text-2xl">{numberOfBoost}</p>
                     </div>
                     <div>
                         <p className="text-gray-400">Last Boost:</p>
@@ -83,63 +102,43 @@ const to404 = () => {
                     </div>
                 </div>
               </div>
-              {/* TODO: Add a table for the booster's rank history after get job endpoint finised */}
-              {booster ? 
+              {numberOfBoost > 0 ?
               <div className="flex justify-center">
                 <Table className="w-[75%] dark text-foreground" isStriped aria-label="Example static collection table">
                         <TableHeader>
-                            <TableColumn>From Rank</TableColumn>
-                            <TableColumn>To Rank</TableColumn>
-                            <TableColumn>Date</TableColumn>
+                            <TableColumn className="text-xl">From Rank</TableColumn>
+                            <TableColumn className="text-xl">To Rank</TableColumn>
+                            <TableColumn className="text-xl">Date</TableColumn>
                         </TableHeader>
                         <TableBody>
-                            <TableRow key="1">
+                        {boostHistory?.map((job, index) => (
+                            <TableRow key={index}>
                                 <TableCell>
-                                    <div className="flex gap-3">
+                                    <div className="flex gap-3 items-center">
                                         <Image
                                             width={50}
                                             alt="Rank"
-                                            src="/images/master.png"
+                                            src={`/images/${convertRankToImageName(job.fromLeague)}.png`}
                                         />
-                                        <p className="font-bold text-2xl">Master</p>
+                                        <p className="font-bold text-2xl">{capitalizeFirstLetter(job.fromLeague)} {job.fromDivision}</p>
                                     </div>
                                 </TableCell>
                                 <TableCell>
-                                    <div className="flex gap-3">
+                                    <div className="flex gap-3 items-center">
                                         <Image
                                             width={50}
                                             alt="Rank"
-                                            src="/images/grandmaster.png"
+                                            src={`/images/${convertRankToImageName(job.toLeague)}.png`}
                                         />
-                                        <p className="font-bold text-2xl">Master</p>
+                                        <p className="font-bold text-2xl">{capitalizeFirstLetter(job.toLeague)} {job.toDivision}</p>
                                     </div>
                                 </TableCell>
-                                <TableCell>05/05/2024</TableCell>
+                                <TableCell>
+                                    <p className="font-bold text-2xl">{formatBsonDate(job.createdAt)}</p>
+                                </TableCell>
                             </TableRow>
-                            <TableRow key="2">
-                                <TableCell>
-                                    <div className="flex gap-3">
-                                        <Image
-                                            width={50}
-                                            alt="Rank"
-                                            src="/images/master.png"
-                                        />
-                                        <p className="font-bold text-2xl">Master</p>
-                                    </div>
-                                </TableCell>
-                                <TableCell>
-                                    <div className="flex gap-3">
-                                        <Image
-                                            width={50}
-                                            alt="Rank"
-                                            src="/images/grandmaster.png"
-                                        />
-                                        <p className="font-bold text-2xl">Master</p>
-                                    </div>
-                                </TableCell>
-                                <TableCell>05/05/2024</TableCell>
-                            </TableRow>
-                        </TableBody>
+                        ))}
+                    </TableBody>
                     </Table>
               </div> : <></>}
               

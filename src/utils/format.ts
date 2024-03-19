@@ -102,3 +102,7 @@ export const formatCVC = (value: string, cardNumber: string, Payment: PaymentTyp
 export const capitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+export const formatBsonDate = (date: string) => {
+  return new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+}

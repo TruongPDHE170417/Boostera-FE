@@ -20,7 +20,9 @@ export type Job = {
   status: STATUS_JOB
   priority: number,
   boosterId: Booster
-  managerId: User
+  managerId: User,
+  createdAt: string,
+  updatedAt: string
 }
 
 export type Service = {
