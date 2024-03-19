@@ -8,7 +8,10 @@ export interface Booster {
   gameName: string;
   tagLine: string;
   languages: string;
-  currentRank: string;
+  currentRankSolo: {
+    currentLeague: string;
+    currentDivision: string;
+  };
   completedBoosts: number;
   jobAssigned: string | null;
   status: string;
