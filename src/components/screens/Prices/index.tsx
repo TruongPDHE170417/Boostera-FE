@@ -97,38 +97,39 @@ const PricesScreen = () => {
   }
 
   const getExistingUserGameInfo = async (email: string) => {
-    const response = await fetch(
-      API_ENDPOINT + `/riot-helper/?IGN=${customerInformation.accountName}&tag=${customerInformation.tagId}`,
-      {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      }
-    )
+    const response = await fetch(API_ENDPOINT + `/user/get-game-account/${email}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    })
     const data = (await response.json()) as isPlayerValid
-    return data.validate  
+    return data
   }
 
-  const handlePurchase = () => {
+  const handlePurchase = async () => {
+    console.log("purchasing...")
     // TODO: update check accountInfo
-    if (!!accountInfo.username) {
-      //handle if amount is 0
-      if (price > 0) {
-        if (!authInfo.accessToken || !authInfo.refreshToken) {
-          setIsOpenModalInfo(true)
-        } else {
-          const data = authInfo as AuthInfo
-          const decodedJWT = decodeJWT(data?.accessToken ?? "")
-          saveAccountInfo({
-            userId: decodedJWT?.data._id ?? "",
-            username: null,
-            gmail: decodedJWT?.data?.email ?? "",
-            picture: null,
-            role: decodedJWT?.data?.role ?? "",
-          })
-        }
+    //handle if amount is 0
+    if (price > 0) {
+      if (!authInfo.accessToken || !authInfo.refreshToken) {
+        setIsOpenModalInfo(true)
+      } else {
+        const data = authInfo as AuthInfo
+        const decodedJWT = decodeJWT(data?.accessToken ?? "")
+        saveAccountInfo({
+          userId: decodedJWT?.data._id ?? "",
+          username: null,
+          gmail: decodedJWT?.data?.email ?? "",
+          picture: null,
+          role: decodedJWT?.data?.role ?? "",
+        })
+        const existingAccount = await getExistingUserGameInfo(accountInfo.gmail as string)
+        customerInformation.accountName = existingAccount.IGN
+        customerInformation.email = accountInfo.gmail as string
+        customerInformation.tagId = existingAccount.tag
+        setIsOpenModalInfo(true)
       }
-    } else {
-      // TODO: handle purchase
+    }else{
+      alert("your order price is less than 0 so you can not create that order")
       setIsPurchasing(true)
     }
   }
