@@ -1,5 +1,5 @@
-import MainLayout from "@components/layouts/MainLayout"
 import dynamic from 'next/dynamic'
+import MainLayout from "@components/layouts/MainLayout"
 
 const BoosterScreen = dynamic(() => import("../src/components/screens/BoosterPage").then(mod => mod.default), {
   ssr: false,

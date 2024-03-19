@@ -1,8 +1,8 @@
-import React, { memo, useEffect, useRef, useState } from "react"
-import Link from "next/link"
-import Navigation from "./components/Navigation"
-import { useClickOutside } from "@hooks/useClickOutside"
 import Image from "next/image"
+import Link from "next/link"
+import React, { memo, useEffect, useRef, useState } from "react"
+import { useClickOutside } from "@hooks/useClickOutside"
+import Navigation from "./components/Navigation"
 
 const SCROLL_THRESHOLD = 100
 
@@ -55,8 +55,8 @@ const Header = () => {
             <p className="text-xl font-bold">
               <span className="text-white">BOOSTERA</span>
             </p>
+            <span className="font-bold text-red-500">LOL ELO BOOST</span>
           </Link>
-          <span className="font-bold text-red-500">LOL ELO BOOST</span>
         </div>
       </div>
       <Navigation />

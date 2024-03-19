@@ -1,9 +1,9 @@
+import { Avatar } from "@nextui-org/react"
 import Link from "next/link"
 import React, { useRef, useState } from "react"
 import { useClickOutside } from "@hooks/useClickOutside"
 import { useBoundStore } from "@zustand/total"
 import DropDownMenu from "./DropDownMenu"
-import { Avatar } from "@nextui-org/react"
 const BoosterNav = () => {
   const [isOpenDropDownMenu, setIsOpenDropDownMenu] = useState<boolean>(false)
   const toggleRef = useRef<HTMLDivElement>(null)

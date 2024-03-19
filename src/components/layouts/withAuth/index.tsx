@@ -1,6 +1,6 @@
-import React, { useEffect, ComponentType } from 'react';
-import { useBoundStore } from '@zustand/total';
+import React, { ComponentType, useEffect } from 'react';
 import { NOTIFICATION_TYPE, notify } from '@utils/notify';
+import { useBoundStore } from '@zustand/total';
 
 interface AuthProps {
   isAuthenticated: boolean;
@@ -20,7 +20,7 @@ const withAuth = <P extends AuthProps>(
       return <WrappedComponent {...props as P} />;
     } else {
       import('next/router').then((Router) => {
-        Router.default.push('/login'); // Redirect to login page
+        Router.default.back();
       });
       setTimeout(() => {
         notify(NOTIFICATION_TYPE.ERROR, 'Unauthorized access', { toastId: 'Auth notify' })

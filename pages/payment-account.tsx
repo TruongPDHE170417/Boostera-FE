@@ -1,8 +1,8 @@
-import React, { ChangeEvent, useState } from 'react'
 import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@nextui-org/react'
-import { useBoundStore } from '@zustand/total'
+import React, { ChangeEvent, useState } from 'react'
 import { API_ENDPOINT } from '@models/api'
 import { NOTIFICATION_TYPE, notify } from '@utils/notify'
+import { useBoundStore } from '@zustand/total'
 
 type PaymentAccount = {
   account: string

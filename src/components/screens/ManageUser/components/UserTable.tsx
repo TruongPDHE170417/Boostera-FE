@@ -1,11 +1,11 @@
 import {Button, Chip, ChipProps, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow} from "@nextui-org/react";
+import { Ban, RefreshCcw } from "lucide-react";
 import { useRouter } from "next/router";
 import React from "react";
-import { User } from "@models/user";
-import { VerticalDotsIcon } from "./VerticalDotsIcon";
-import EditUser from "./EditUser";
 import { API_ENDPOINT } from "@models/api";
-import { Ban, RefreshCcw } from "lucide-react";
+import { User } from "@models/user";
+import EditUser from "./EditUser";
+import { VerticalDotsIcon } from "./VerticalDotsIcon";
 
 type Props = {
     users: User[];

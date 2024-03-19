@@ -1,15 +1,15 @@
-import { deleteCookie, getCookie } from 'cookies-next'
 import {
   ApolloClient,
-  InMemoryCache,
-  DefaultOptions,
-  createHttpLink,
-  NormalizedCacheObject,
   ApolloLink,
+  createHttpLink,
+  DefaultOptions,
+  InMemoryCache,
+  NormalizedCacheObject,
 } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
-import { gql } from 'graphql-tag'
 import { onError } from '@apollo/client/link/error'
+import { deleteCookie, getCookie } from 'cookies-next'
+import { gql } from 'graphql-tag'
 import { COOKIES_KEY } from '@models/keys'
 import { NOTIFICATION_TYPE, notify } from './notify'
 import { setCurrentPage } from './sessionStorage'

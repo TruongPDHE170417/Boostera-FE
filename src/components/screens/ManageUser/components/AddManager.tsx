@@ -1,5 +1,5 @@
-import React, { useState } from "react";
 import {Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure} from "@nextui-org/react";
+import React, { useState } from "react";
 import { API_ENDPOINT } from "@models/api";
 
 export default function AddManager() {

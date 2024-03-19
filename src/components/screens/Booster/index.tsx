@@ -1,6 +1,6 @@
 import React from 'react';
-import Overview from './components/Overview';
 import Intro from './components/Intro';
+import Overview from './components/Overview';
 
 const BoosterScreen = () => {
   return (

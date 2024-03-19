@@ -1,23 +1,23 @@
-import React, { ChangeEvent, useEffect, useState } from "react"
 import { Slider, SliderValue, Tab, Tabs } from "@nextui-org/react"
-import { useBoundStore } from "@zustand/total"
-import Icon from "@components/icons"
-import RankType from "@components/common/RankType"
+import { useRouter } from "next/router"
+import React, { ChangeEvent, useEffect, useState } from "react"
 import RankLevel from "@components/common/RankLevel"
 import RankPoint from "@components/common/RankPoint"
+import RankType from "@components/common/RankType"
+import Icon from "@components/icons"
+import { API_ENDPOINT } from "@models/api"
+import { RANK_IMAGES, RANK_LEVEL, RANK_POINT, RANK_POINT_CALC, RANK_TYPE } from "@models/rank"
+import { useBoundStore } from "@zustand/total"
+import CustomerInformationModal from "./components/CustomerInformationModal"
 import Options, { OPTIONS } from "./components/Options"
 import Purchase from "./components/Purchase"
-import { RANK_IMAGES, RANK_LEVEL, RANK_POINT, RANK_POINT_CALC, RANK_TYPE } from "@models/rank"
-import CustomerInformationModal from "./components/CustomerInformationModal"
 import VerifyOtpModal from "./components/VerifyOtpModal"
-import { API_ENDPOINT } from "@models/api"
 import { PriceType } from "../../../types/price"
 import { CustomerInformationRegister } from "@types/customer"
-import { string } from "zod"
-import { useRouter } from "next/router"
 import { InputOtp } from "@types/otp"
 import { userInfo } from "os"
 import decodeJWT from "@utils/decodeJWT"
+import { NOTIFICATION_TYPE, notify } from "@utils/notify"
 
 type LoginInfo = {
   email: string
@@ -110,27 +110,19 @@ const PricesScreen = () => {
     // TODO: update check accountInfo
     //handle if amount is 0
     if (price > 0) {
-      if (!authInfo.accessToken || !authInfo.refreshToken) {
+      if (!accountInfo.userId) {
         setIsOpenModalInfo(true)
       } else {
-        const data = authInfo as AuthInfo
-        const decodedJWT = decodeJWT(data?.accessToken ?? "")
-        saveAccountInfo({
-          userId: decodedJWT?.data._id ?? "",
-          username: null,
-          gmail: decodedJWT?.data?.email ?? "",
-          picture: null,
-          role: decodedJWT?.data?.role ?? "",
-        })
         const existingAccount = await getExistingUserGameInfo(accountInfo.gmail as string)
-        customerInformation.accountName = existingAccount.IGN
-        customerInformation.email = accountInfo.gmail as string
-        customerInformation.tagId = existingAccount.tag
-        setIsOpenModalInfo(true)
+        setCustomerInformation({
+          accountName: existingAccount.IGN,
+          email: accountInfo.gmail as string,
+          tagId: existingAccount.tag
+        })
+        handleConfirmInformation()
       }
-    }else{
-      alert("your order price is less than 0 so you can not create that order")
-      setIsPurchasing(true)
+    } else {
+      notify(NOTIFICATION_TYPE.ERROR, "your order price is less than 0 so you can not create that order")
     }
   }
 
@@ -157,7 +149,7 @@ const PricesScreen = () => {
   const getPlayerRank = async (): Promise<boolean> => {
     const response = await fetch(
       API_ENDPOINT +
-        `/riot-helper/rank/solo/bound?IGN=${customerInformation.accountName}&tag=${customerInformation.tagId}&fromRank=${currentRank}&fromLevel=${currentLevel}&toRank=${desiredRank}&toLevel=${desiredLevel}`,
+      `/riot-helper/rank/solo/bound?IGN=${customerInformation.accountName}&tag=${customerInformation.tagId}&fromRank=${currentRank}&fromLevel=${currentLevel}&toRank=${desiredRank}&toLevel=${desiredLevel}`,
       {
         method: "GET",
         headers: { "Content-Type": "application/json" },
@@ -195,10 +187,11 @@ const PricesScreen = () => {
           }),
         })
         const data = await response.json()
+        console.log(data)
       }
       createOtp()
     } else {
-      alert("Your Account is invalid or your rank is out of bound!")
+      notify(NOTIFICATION_TYPE.ERROR, "Your Account is invalid or your rank is out of bound!")
     }
   }
 
@@ -214,7 +207,7 @@ const PricesScreen = () => {
         fromLp: RANK_POINT_CALC[currentPoint - 1],
         toPosition: RANK_IMAGES[desiredRank - 1]?.toUpperCase(),
         toLevel: desiredLevel,
-        extraService: options.length != 0 ? options : null,
+        extraService: options.length !== 0 ? options : null,
       }
       const response = await fetch(API_ENDPOINT + "/payment/create_payment", {
         method: "POST",
@@ -304,7 +297,7 @@ const PricesScreen = () => {
       setPrice(priceData.price)
     }
     handleGetPrice()
-  }, [currentRank, currentLevel, currentPoint, desiredRank, desiredLevel, options])
+  }, [currentRank, currentLevel, currentPoint, desiredRank, desiredLevel, options, promotion])
 
   return (
     <div className="min-h-screen bg-theme text-white">

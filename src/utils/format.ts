@@ -100,7 +100,7 @@ export const formatCVC = (value: string, cardNumber: string, Payment: PaymentTyp
 
 // Format the input value to capitalize the first letter
 export const capitalizeFirstLetter = (string: string) => {
-  return string.charAt(0).toUpperCase() + string.slice(1);
+  return string?.charAt(0)?.toUpperCase() + string?.slice(1);
 }
 
 // Format the date from Mongo to local date format

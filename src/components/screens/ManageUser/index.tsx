@@ -1,12 +1,12 @@
+import { Spinner } from '@nextui-org/react';
 import React, { useEffect, useState } from 'react';
 import { API_ENDPOINT } from '@models/api';
 import { User } from '@models/user';
-import { Spinner } from '@nextui-org/react';
-import UserTable from './components/UserTable';
-import UserSearch from './components/UserSearch';
-import Pagination from './components/UserPagination';
-import RoleFilter from './components/RoleFilter';
 import AddManager from './components/AddManager';
+import RoleFilter from './components/RoleFilter';
+import Pagination from './components/UserPagination';
+import UserSearch from './components/UserSearch';
+import UserTable from './components/UserTable';
 
 const ITEMS_PER_PAGE = 9;
 

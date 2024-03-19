@@ -4,8 +4,8 @@ import { TRANSACTION_SUCCESS_CODE } from "@constants/payment"
 import { API_ENDPOINT } from "@models/api"
 
 const handler = async (req, res) => {
-    try {
-        const uiRedirect = "login" //after handle, what we will handle
+    try {   
+        let uiRedirect = "my-jobs" //after handle, what we will handle
 
         const createUser = async (email, accountName, tagId) => {
             const response = await fetch(API_ENDPOINT + "/user/register", {
@@ -42,6 +42,7 @@ const handler = async (req, res) => {
             const existingUser = await findExistingUser(vnpParam['email']);
             if (!existingUser) {
                 const createdNewUser = await createUser(vnpParam['email'], vnpParam['IGN'], vnpParam['tag']);
+                uiRedirect = "login"
             }
             const response = await fetch(serverApi, {
                 method: "GET",

@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import clsx from 'clsx'
 import ChevronIcon from '@components/icons/ChevronIcon'
+import clsx from 'clsx'
+import React, { useState } from 'react'
 import CustomButton from '../CustomButton'
 
 type Props = {

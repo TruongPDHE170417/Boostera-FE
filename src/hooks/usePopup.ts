@@ -1,4 +1,4 @@
-import { useState, useEffect, MutableRefObject } from 'react'
+import { MutableRefObject, useEffect, useState } from 'react'
 
 //This hook returns if the click was inside the popUp ref or outside it .
 function usePopup(popupRef: MutableRefObject<HTMLDivElement | null>) {

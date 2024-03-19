@@ -4,9 +4,9 @@ import { useRouter } from "next/router"
 import React, { ChangeEvent, useState } from "react"
 import CheckBox from "@components/common/CheckBox"
 import { API_ENDPOINT, Response } from "@models/api"
+import decodeJWT from "@utils/decodeJWT"
 import { NOTIFICATION_TYPE, notify } from "@utils/notify"
 import { useBoundStore } from "@zustand/total"
-import decodeJWT from "@utils/decodeJWT"
 
 type LoginInfo = {
   email: string
@@ -77,9 +77,10 @@ const Login = () => {
           refreshToken: data?.data?.refreshToken ?? "",
         })
         const decodedJWT = decodeJWT(data?.data?.accessToken ?? "")
+        const atIndex = decodedJWT?.data?.email.indexOf('@') ?? 0
         saveAccountInfo({
           userId: decodedJWT?.data._id ?? "",
-          username: null,
+          username: decodedJWT?.data?.email?.slice(0, atIndex) ?? "",
           gmail: decodedJWT?.data?.email ?? "",
           picture: null,
           role: decodedJWT?.data?.role ?? "",

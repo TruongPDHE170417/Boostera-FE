@@ -1,11 +1,11 @@
-import React, { ChangeEvent, useState } from "react"
-import CustomButton from "../../../common/CustomButton"
-import { useBoundStore } from "@zustand/total"
-import { ROLE_ACCOUNT } from "@models/common"
-// const colors = require("tailwindcss/colors")
-import colors from "tailwindcss/colors"
-import Link from "next/link"
 import { Avatar } from "@nextui-org/react"
+import Link from "next/link"
+import React, { ChangeEvent, useState } from "react"
+import colors from "tailwindcss/colors"
+import { ROLE_ACCOUNT } from "@models/common"
+import { useBoundStore } from "@zustand/total"
+import CustomButton from "../../../common/CustomButton"
+// const colors = require("tailwindcss/colors")
 
 type Props = {
   onLogout?: () => void

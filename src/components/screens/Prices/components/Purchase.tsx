@@ -1,10 +1,9 @@
-import React from 'react'
 import { Button, Spinner } from '@nextui-org/react'
+import React from 'react'
 import Icon from '@components/icons'
 import { RANK_LEVEL, RANK_LEVEL_LABEL, RANK_POINT, RANK_POINT_LABEL, RANK_TYPE, RANK_TYPE_LABEL } from '@models/rank'
 import { OPTIONS, OPTIONS_LABEL } from './Options'
 import { BOOSTER_TYPE } from '..'
-import { NOTIFICATION_TYPE, notify } from '@utils/notify'
 
 type Props = {
   rankType: RANK_TYPE
@@ -54,7 +53,7 @@ const Purchase = ({ rankType, rankLevel, rankPoint, desiredRank, desiredLevel, e
                 <div className="text-sm font-light whitespace-nowrap">Extra options:</div>
                 <div className="text-sm font-semibold">
                   {extraOptions.map((option, index) => (
-                    <span>{OPTIONS_LABEL[option - 1]} {index < extraOptions.length - 1 && ','}</span>
+                    <span key={index}>{OPTIONS_LABEL[option - 1]} {index < extraOptions.length - 1 && ','}</span>
                   ))}
                 </div>
               </>

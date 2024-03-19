@@ -1,13 +1,13 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
-import { API_ENDPOINT, Response } from '@models/api'
-import { REPORT_STATUS, REPORT_STATUS_LABEL, Report } from '@models/report'
-import ReportStatus from './components/ReportStatus'
 import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tooltip } from '@nextui-org/react'
-import { formatId } from '@utils/formatId'
-import Icon from '@components/icons'
-import EditReportModal from './components/EditReportModal'
-import { NOTIFICATION_TYPE, notify } from '@utils/notify'
 import { useRouter } from 'next/router'
+import React, { ChangeEvent, useEffect, useState } from 'react'
+import Icon from '@components/icons'
+import { API_ENDPOINT } from '@models/api'
+import { Report, REPORT_STATUS } from '@models/report'
+import { formatId } from '@utils/formatId'
+import { NOTIFICATION_TYPE, notify } from '@utils/notify'
+import EditReportModal from './components/EditReportModal'
+import ReportStatus from './components/ReportStatus'
 
 const ReportScreen = () => {
   const route = useRouter()
@@ -97,7 +97,7 @@ const ReportScreen = () => {
         onClose={handleCloseModal}
         onConfirm={handleUpdateReport}
       />
-      <div className="min-h-screen bg-theme text-white px-20 py-20">
+      <div className="min-h-screen bg-theme text-white p-20">
         <p className="text-4xl font-semibold text-white text-center">Management Report</p>
         <div className="my-8">
           <Table aria-label="Example static collection table" classNames={{ wrapper: "bg-primary" }}>

@@ -1,9 +1,11 @@
+import { Avatar } from "@nextui-org/react"
 import Link from "next/link"
 import React, { useRef, useState } from "react"
 import { useClickOutside } from "@hooks/useClickOutside"
 import { useBoundStore } from "@zustand/total"
 import DropDownMenu from "./DropDownMenu"
-const ManagerNav = () => {
+
+const CustomerNav = () => {
   const [isOpenDropDownMenu, setIsOpenDropDownMenu] = useState<boolean>(false)
   const toggleRef = useRef<HTMLDivElement>(null)
   const dropDownRef = useRef<HTMLDivElement>(null)
@@ -18,20 +20,22 @@ const ManagerNav = () => {
     accountInfo: store.accountInfo,
     removeAccountInfo: store.removeAccountInfo,
   }))
+
   return (
     <div className="flex items-center font-semibold">
-      <Link href="/management/report">
-        <p className="cursor-pointer rounded-lg px-4 py-2 text-white transition-all delay-[20ms] hover:text-primary-500">
-          Report
+      <Link href="/my-jobs">
+        <p className="cursor-pointer rounded-lg px-4 py-2 text-white transition-all delay-[20ms] hover:text-red-500">
+          My Jobs
         </p>
       </Link>
-      <Link href="/list-of-requests">
-        <p className="cursor-pointer rounded-lg px-4 py-2 text-white transition-all delay-[20ms] hover:text-primary-500">
-          Register Booster Request
+      <Link href="/prices">
+        <p className="cursor-pointer rounded-lg px-4 py-2 text-white transition-all delay-[20ms] hover:text-red-500">
+          Prices
         </p>
       </Link>
       <div className="relative" ref={toggleRef} onMouseDown={handleMouseDown}>
-        <div className="cursor-pointer rounded-xl border bg-black px-4 py-2 text-sm font-semibold text-white transition-all delay-75 hover:border-black hover:bg-white hover:text-black">
+        <div className="cursor-pointer rounded-xl border bg-white px-4 py-1 text-sm font-semibold text-black transition-all delay-75 hover:border-white hover:bg-black hover:text-white flex items-center gap-2">
+          <Avatar size="sm" />
           {accountInfo?.username?.slice(0, 7)}...
         </div>
       </div>
@@ -42,4 +46,4 @@ const ManagerNav = () => {
   )
 }
 
-export default ManagerNav
+export default CustomerNav
