@@ -47,16 +47,29 @@ const CareerForm = () => {
       notify(NOTIFICATION_TYPE.SUCCESS, `Your request has been successfully send`)
     },
   })
-  const validateForm = () => {
+  const validateForm = async () => {
     let isValid = true
+    let newErrorMessage: CareerRequest = {
+      nickname: "",
+      discordUserName: "",
+      gameName: "",
+      tagLine: "",
+      about: "",
+      country: "",
+      email: "",
+    }
 
     // Validate each field
-    Object.entries(careerReq).forEach(([key, value]) => {
+    Object.entries(careerReq).forEach(([key, value], index) => {
       if (!value) {
         isValid = false
       }
-      setErrorMessage({ ...errorMessage, [key]: !value ? `${key} is require` : "" })
+      const newKey = key as keyof CareerRequest
+      const oldError = errorMessage[newKey]
+      newErrorMessage = { ...newErrorMessage, [key]: !value ? `${key} is require` : oldError }
     })
+    setErrorMessage(newErrorMessage)
+    await validateRiotAccount()
 
     if (isValid) {
       isValid = validateEmail()
@@ -64,9 +77,9 @@ const CareerForm = () => {
     return isValid
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (validateForm()) {
+  const handleSubmit = async () => {
+    const isFormValid = await validateForm()
+    if (isFormValid) {
       mutation.mutate(careerReq)
     } else {
       //handle later
@@ -76,17 +89,18 @@ const CareerForm = () => {
     try {
       const response = await fetch(`http://localhost:9999/riot-helper/?IGN=${careerReq.gameName}&tag=${careerReq.tagLine}`);
       if (!response.ok) {
-        throw new Error('Failed to validate Riot account');
+        return false
       }
-      const data = await response.json() as Response<RiotAccount>;
-      if (data.data?.validate) {
+      const data = await response.json() as RiotAccount
+      if (data.validate) {
         return true;
       } else {
-        setErrorMessage({
+        const newErrorMessage = {
           ...errorMessage,
           gameName: "Invalid Riot account",
           tagLine: "Invalid Riot account",
-        });
+        }
+        setErrorMessage(newErrorMessage)
         return false;
       }
     } catch (error) {
@@ -94,7 +108,7 @@ const CareerForm = () => {
       return false;
     }
   };
-  
+
   const validateEmail = (): boolean => {
     const isValid = Boolean(
       String(careerReq.email)
@@ -103,7 +117,8 @@ const CareerForm = () => {
           /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         )
     )
-    setErrorMessage({ ...errorMessage, email: isValid ? "" : "Email is not in a valid format!" })
+    const newErrorMessage = { ...errorMessage, email: isValid ? "" : "Email is not in a valid format!" }
+    setErrorMessage(newErrorMessage)
     return isValid
   }
 
@@ -121,7 +136,7 @@ const CareerForm = () => {
       <h3 className="text-2xl font-semibold">
         If you think you meet the requirements, please fill out the following form:
       </h3>
-      <form onSubmit={handleSubmit}>
+      <form>
         <div className="my-5">
           <Input
             label="Nickname on the service:"
@@ -145,6 +160,7 @@ const CareerForm = () => {
             placeholder="Max 14 characters"
             isRequired
           />
+          {errorMessage.nickname && <span className="text-red-500 text-sm">{errorMessage.nickname}</span>}
         </div>
         <div className="my-5">
           <Input
@@ -169,6 +185,7 @@ const CareerForm = () => {
             placeholder="Example: UserName#7851"
             isRequired
           />
+          {errorMessage.discordUserName && <span className="text-red-500 text-sm">{errorMessage.discordUserName}</span>}
         </div>
         <div className="my-5">
           <div className="my-5 flex gap-10">
@@ -248,6 +265,7 @@ const CareerForm = () => {
             placeholder=" "
             isRequired
           />
+          {errorMessage.about && <span className="text-red-500 text-sm">{errorMessage.about}</span>}
         </div>
         <div className="my-5 flex gap-10">
           <div className="flex-1">
@@ -273,6 +291,7 @@ const CareerForm = () => {
               placeholder=" "
               isRequired
             />
+            {errorMessage.country && <span className="text-red-500 text-sm">{errorMessage.country}</span>}
           </div>
           <div className="flex-1">
             <Input
@@ -298,11 +317,11 @@ const CareerForm = () => {
               placeholder=" "
               isRequired
             />
-            {errorMessage.email && <span className="text-red-600">{errorMessage.email}</span>}
+            {errorMessage.email && <span className="text-red-500 text-sm">{errorMessage.email}</span>}
           </div>
         </div>
         <Button
-          type="submit"
+          type="button"
           radius="md"
           size="lg"
           color="danger"
@@ -310,6 +329,7 @@ const CareerForm = () => {
           isLoading={mutation.isPending}
           isDisabled={mutation.isError}
           spinner={<Spinner />}
+          onClick={handleSubmit}
         >
           Submit
         </Button>
