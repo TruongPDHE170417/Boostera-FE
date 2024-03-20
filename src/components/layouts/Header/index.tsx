@@ -3,6 +3,7 @@ import Link from "next/link"
 import React, { memo, useEffect, useRef, useState } from "react"
 import { useClickOutside } from "@hooks/useClickOutside"
 import Navigation from "./components/Navigation"
+import { useBoundStore } from "@zustand/total"
 
 const SCROLL_THRESHOLD = 100
 
@@ -34,20 +35,20 @@ const Header = () => {
     }
   }, [])
 
+  const { removeAuthInfo } = useBoundStore((store) => ({
+    removeAuthInfo: store.removeAuthInfo,
+  }))
+
   return (
     <div
-      className={`sticky top-0 z-[999] h-10 ${isTransParent ? "bg-black/30 backdrop-blur-lg" : "bg-theme shadow-lg"
-        } z-99 flex w-screen items-center justify-between p-8 text-slate-900`}
+      className={`sticky top-0 z-[999] h-10 ${
+        isTransParent ? "bg-black/30 backdrop-blur-lg" : "bg-theme shadow-lg"
+      } z-99 flex w-screen items-center justify-between p-8 text-slate-900`}
     >
       <div className="logo-block flex items-center gap-8">
         <div className="logo">
           <Link href="/">
-            <Image
-              width={50}
-              height={50}
-              alt="logo"
-              src="/images/logo.png"
-            ></Image>
+            <Image width={50} height={50} alt="logo" src="/images/logo.png"></Image>
           </Link>
         </div>
         <div className="main-container">

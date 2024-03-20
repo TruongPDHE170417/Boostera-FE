@@ -40,7 +40,7 @@ const CustomerNav = () => {
         </div>
       </div>
       <div className={`absolute right-8 top-16 ${isOpenDropDownMenu ? "menu-show" : "menu-hidden"}`} ref={dropDownRef}>
-        <DropDownMenu onLogout={removeAccountInfo} />
+        <DropDownMenu />
       </div>
     </div>
   )

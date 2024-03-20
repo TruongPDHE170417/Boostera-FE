@@ -39,10 +39,10 @@ const MyJobsScreen = () => {
       setIsFetchingJob(false)
     }
     handleFetchCurrentJob()
-  }, [])
+  }, [accountInfo.userId])
 
   useEffect(() => {
-    if (job?._id) {
+    if (job?.jobID?._id) {
       const newProgress = calcProgress(
         job.jobID.fromLeague,
         job.jobID.fromDivision,
@@ -63,6 +63,7 @@ const MyJobsScreen = () => {
     <div className="bg-theme min-h-screen text-white py-12 flex flex-col items-center">
       <p className="font-semibold text-4xl text-center my-8">Current Job</p>
       {!isFetchingJob ?
+      job?.jobID?._id ?
         <div className="bg-gray-900 w-[80%] h-[500px] rounded-2xl p-8">
           <div className="flex justify-between items-center">
             <div>
@@ -107,6 +108,8 @@ const MyJobsScreen = () => {
             <Button color="danger" isDisabled={isFetchingJob} className="px-8 py-6 font-semibold text-lg" onClick={onViewDetail}>View Detail</Button>
           </div>
         </div>
+        :
+        <div className="bg-gray-900 w-[80%] h-[500px] rounded-2xl p-8 flex justify-center items-center text-2xl text-red-500 font-semibold">You do not have any job currently</div>
         :
         <Skeleton className="bg-gray-900 w-[80%] h-[500px] rounded-2xl p-8" />
       }
