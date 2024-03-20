@@ -19,7 +19,13 @@ const RequestDetails = () => {
   useEffect(() => {
     const getRequestById = async () => {
       try {
-        const response = await fetch(API_ENDPOINT + `/become-booster/${requestId}`)
+        const response = await fetch(API_ENDPOINT + `/become-booster/${requestId}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${authInfo.accessToken}`,
+          },
+        })
         if (!response.ok) {
           console.error("Error to get request by ID")
         }
@@ -47,7 +53,7 @@ const RequestDetails = () => {
         body: JSON.stringify(requestBody),
       })
       if (response.ok) {
-        route.push("/list-of-requests")
+        route.push("/management/list-of-requests")
       } else {
         console.error(`Error ${status === "approved" ? "approving" : "rejecting"} request`)
       }
@@ -56,7 +62,6 @@ const RequestDetails = () => {
     }
   }
 
-  
   return (
     <div
       style={{
@@ -64,7 +69,7 @@ const RequestDetails = () => {
         marginLeft: "50px",
         marginRight: "50px",
         color: "white",
-        borderRadius: "10px"
+        borderRadius: "10px",
       }}
     >
       <h1 className="m-5 text-center text-3xl font-bold">Request Details</h1>

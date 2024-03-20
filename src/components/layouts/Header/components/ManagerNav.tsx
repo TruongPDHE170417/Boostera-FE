@@ -20,14 +20,14 @@ const ManagerNav = () => {
   }))
   return (
     <div className="flex items-center font-semibold">
-      <Link href="/management/report">
+      {/* <Link href="/management/report">
         <p className="cursor-pointer rounded-lg px-4 py-2 text-white transition-all delay-[20ms] hover:text-primary-500">
           Report
         </p>
-      </Link>
-      <Link href="/list-of-requests">
+      </Link> */}
+      <Link href="/management/list-of-requests">
         <p className="cursor-pointer rounded-lg px-4 py-2 text-white transition-all delay-[20ms] hover:text-primary-500">
-          Register Booster Request
+          Review Booster Request
         </p>
       </Link>
       <div className="relative" ref={toggleRef} onMouseDown={handleMouseDown}>

@@ -2,14 +2,22 @@ import { Button, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow
 import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
 import { BoosterRequest, REQUEST_STATUS } from "@models/booster-request"
+import { useBoundStore } from "@zustand/total"
 const RequestsList = () => {
   const router = useRouter()
   const [requests, setRequests] = useState<BoosterRequest[]>([])
-
+  const { authInfo } = useBoundStore((store) => ({
+    authInfo: store.authInfo,
+  }))
   useEffect(() => {
     const getAllRequests = async () => {
       try {
-        const response = await fetch("http://localhost:9999/become-booster/get-all")
+        const response = await fetch("http://localhost:9999/become-booster/get-all", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${authInfo.accessToken}`,
+          },
+        })
         if (!response.ok) {
           throw new Error("Failed to fetch requests")
         }
@@ -24,7 +32,7 @@ const RequestsList = () => {
   }, [])
 
   const reviewRequest = (requestId: string) => {
-    router.push(`/request-details/?requestId=${requestId}`)
+    router.push(`/management/request-details/?requestId=${requestId}`)
   }
 
   return (
