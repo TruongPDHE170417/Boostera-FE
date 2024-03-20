@@ -24,14 +24,12 @@ type EditUserProps = {
 export default function EditUser({ user, handleGetBoosterList }: EditUserProps) {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
   const [status, setStatus] = useState("");
   const [role, setRole] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     setEmail(user.email);
-    setName(user.name);
     setStatus(user.status);
     setRole(user.role);
   }, [user]);
@@ -42,7 +40,7 @@ export default function EditUser({ user, handleGetBoosterList }: EditUserProps) 
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ email, name, status, role })
+      body: JSON.stringify({ email, status, role })
     });
 
     if (response.ok) {
@@ -73,14 +71,6 @@ export default function EditUser({ user, handleGetBoosterList }: EditUserProps) 
                   className="max-w-lg"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                />
-                <Input
-                  isRequired
-                  type="text"
-                  label="Name"
-                  className="max-w-lg"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
                 />
                 <Select
                   isRequired

@@ -15,23 +15,21 @@ const UserSearch: React.FC<UserSearchProps> = ({ users, onSearch }) => {
     setSearchQuery(query);
 
     const filteredUsers = users.filter(user =>
-      user.name.toLowerCase().includes(query.toLowerCase())
+      user.email.toLowerCase().includes(query.toLowerCase())
     );
 
     onSearch(filteredUsers);
   };
 
   return (
-    <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
       <Input
-        className="dark text-foreground"
+        className="dark text-foreground max-w-lg"
         type="text"
         label="Search"
         placeholder="Enter user name"
         value={searchQuery}
         onChange={handleSearch}
       />
-    </div>
   );
 };
 
