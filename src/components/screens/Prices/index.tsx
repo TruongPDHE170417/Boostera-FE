@@ -1,22 +1,33 @@
-import React, { ChangeEvent, useEffect, useState } from "react"
 import { Slider, SliderValue, Tab, Tabs } from "@nextui-org/react"
-import { useBoundStore } from "@zustand/total"
-import Icon from "@components/icons"
-import RankType from "@components/common/RankType"
+import { useRouter } from "next/router"
+import React, { ChangeEvent, useEffect, useState } from "react"
 import RankLevel from "@components/common/RankLevel"
 import RankPoint from "@components/common/RankPoint"
+import RankType from "@components/common/RankType"
+import Icon from "@components/icons"
+import { API_ENDPOINT } from "@models/api"
+import { RANK_IMAGES, RANK_LEVEL, RANK_POINT, RANK_POINT_CALC, RANK_TYPE } from "@models/rank"
+import { useBoundStore } from "@zustand/total"
+import CustomerInformationModal from "./components/CustomerInformationModal"
 import Options, { OPTIONS } from "./components/Options"
 import Purchase from "./components/Purchase"
-import { RANK_IMAGES, RANK_LEVEL, RANK_POINT, RANK_POINT_CALC, RANK_TYPE } from "@models/rank"
-import CustomerInformationModal from "./components/CustomerInformationModal"
 import VerifyOtpModal from "./components/VerifyOtpModal"
-import { API_ENDPOINT } from "@models/api"
 import { PriceType } from "../../../types/price"
 import { CustomerInformationRegister } from "@types/customer"
-import { string } from "zod"
-import { useRouter } from "next/router"
 import { InputOtp } from "@types/otp"
 import { userInfo } from "os"
+import decodeJWT from "@utils/decodeJWT"
+import { NOTIFICATION_TYPE, notify } from "@utils/notify"
+
+type LoginInfo = {
+  email: string
+  password: string
+}
+
+type AuthInfo = {
+  accessToken: string
+  refreshToken: string
+}
 
 export enum BOOSTER_TYPE {
   DIVISION_BOOSTING = 1,
@@ -31,6 +42,10 @@ interface isPlayerValid {
 }
 
 const PricesScreen = () => {
+  const { authInfo, saveAccountInfo } = useBoundStore((state) => ({
+    authInfo: state.authInfo,
+    saveAccountInfo: state.saveAccountInfo,
+  }))
   const router = useRouter()
   const [gamesCount, setGamesCount] = useState<SliderValue>(5)
   const [currentRank, setCurrentRank] = useState<RANK_TYPE>(RANK_TYPE.NONE)
@@ -81,16 +96,33 @@ const PricesScreen = () => {
     setOptions(newOptions)
   }
 
-  const handlePurchase = () => {
+  const getExistingUserGameInfo = async (email: string) => {
+    const response = await fetch(API_ENDPOINT + `/user/get-game-account/${email}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    })
+    const data = (await response.json()) as isPlayerValid
+    return data
+  }
+
+  const handlePurchase = async () => {
+    console.log("purchasing...")
     // TODO: update check accountInfo
-    if (!!accountInfo.username) {
-      //handle if amount is 0
-      if (price > 0) {
+    //handle if amount is 0
+    if (price > 0) {
+      if (!accountInfo.userId) {
         setIsOpenModalInfo(true)
+      } else {
+        const existingAccount = await getExistingUserGameInfo(accountInfo.gmail as string)
+        setCustomerInformation({
+          accountName: existingAccount.IGN,
+          email: accountInfo.gmail as string,
+          tagId: existingAccount.tag
+        })
+        handleConfirmInformation()
       }
     } else {
-      // TODO: handle purchase
-      setIsPurchasing(true)
+      notify(NOTIFICATION_TYPE.ERROR, "your order price is less than 0 so you can not create that order")
     }
   }
 
@@ -114,18 +146,18 @@ const PricesScreen = () => {
     return data.validate
   }
 
-    const getPlayerRank = async (): Promise<boolean> => {
-      const response = await fetch(
-        API_ENDPOINT +
-          `/riot-helper/rank/solo/bound?IGN=${customerInformation.accountName}&tag=${customerInformation.tagId}&fromRank=${currentRank}&fromLevel=${currentLevel}&toRank=${desiredRank}&toLevel=${desiredLevel}`,
-        {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        }
-      )
-      const data = (await response.json()) as boolean;
-      return data;
-    }
+  const getPlayerRank = async (): Promise<boolean> => {
+    const response = await fetch(
+      API_ENDPOINT +
+      `/riot-helper/rank/solo/bound?IGN=${customerInformation.accountName}&tag=${customerInformation.tagId}&fromRank=${currentRank}&fromLevel=${currentLevel}&toRank=${desiredRank}&toLevel=${desiredLevel}`,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      }
+    )
+    const data = (await response.json()) as boolean
+    return data
+  }
 
   const handleChangeOpenModalVerify = () => {
     setIsOpenModalVerify(!isOpenModalVerify)
@@ -134,16 +166,16 @@ const PricesScreen = () => {
   const handleConfirmInformation = async () => {
     const isOrderValid = async (): Promise<boolean> => {
       const player = await isRealPlayer()
-      console.log(`is real player ${player}`);
+      console.log(`is real player ${player}`)
       if (player) {
         const rank = await getPlayerRank()
-        console.log(`is rank ${rank}`);
+        console.log(`is rank ${rank}`)
         return rank
       }
       return false
     }
 
-    if(await isOrderValid()){
+    if (await isOrderValid()) {
       setIsOpenModalInfo(false)
       setIsOpenModalVerify(true)
       const createOtp = async () => {
@@ -155,10 +187,11 @@ const PricesScreen = () => {
           }),
         })
         const data = await response.json()
+        console.log(data)
       }
       createOtp()
-    }else{
-      alert("Your Account is invalid or your rank is out of bound!");
+    } else {
+      notify(NOTIFICATION_TYPE.ERROR, "Your Account is invalid or your rank is out of bound!")
     }
   }
 
@@ -174,7 +207,7 @@ const PricesScreen = () => {
         fromLp: RANK_POINT_CALC[currentPoint - 1],
         toPosition: RANK_IMAGES[desiredRank - 1]?.toUpperCase(),
         toLevel: desiredLevel,
-        extraService: options.length != 0 ? options : null,
+        extraService: options.length !== 0 ? options : null,
       }
       const response = await fetch(API_ENDPOINT + "/payment/create_payment", {
         method: "POST",
@@ -264,7 +297,7 @@ const PricesScreen = () => {
       setPrice(priceData.price)
     }
     handleGetPrice()
-  }, [currentRank, currentLevel, currentPoint, desiredRank, desiredLevel, options])
+  }, [currentRank, currentLevel, currentPoint, desiredRank, desiredLevel, options, promotion])
 
   return (
     <div className="min-h-screen bg-theme text-white">

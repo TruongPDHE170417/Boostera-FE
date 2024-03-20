@@ -1,18 +1,38 @@
-import React, { ChangeEvent, useState } from "react"
+import { useMutation } from "@tanstack/react-query"
 import Link from "next/link"
+import { redirect } from "next/navigation"
+import React, { ChangeEvent, useState, useEffect } from "react"
 import CustomButton from "@components/common/CustomButton"
 import CustomInput from "@components/common/CustomInput"
-import { useMutation } from "@tanstack/react-query"
 import { NOTIFICATION_TYPE, notify } from "@utils/notify"
 import { API_ENDPOINT } from "@models/api"
-import { redirect } from "next/navigation"
+import { useBoundStore } from "@zustand/total"
+import { useRouter } from "next/router"
 
 export type ChangePassRequest = {
   oldPass: string
   newPass: string
   reEnterPass: string
 }
+type ResponseChpwd = {
+  success: string
+  message: string
+}
+
 const ChangePassword = () => {
+  const route = useRouter()
+  const { authInfo, removeAuthInfo } = useBoundStore((state) => ({
+    authInfo: state.authInfo,
+    removeAuthInfo: state.removeAuthInfo,
+  }))
+
+  useEffect(() => {
+    if (authInfo.accessToken == null) {
+      notify(NOTIFICATION_TYPE.ERROR, `Unauthorize`)
+      route.push("/login")
+    }
+  }, [])
+
   const [changePass, setChangePass] = useState<ChangePassRequest>({
     oldPass: "",
     newPass: "",
@@ -25,7 +45,7 @@ const ChangePassword = () => {
   })
 
   const putChangePassword = async (changePass: ChangePassRequest): Promise<Response> => {
-    const token = "Bearer " + "token"
+    const token = "Bearer " + authInfo.accessToken
     const response = await fetch(API_ENDPOINT + "/user/change-pass", {
       method: "PUT",
       headers: {
@@ -34,7 +54,14 @@ const ChangePassword = () => {
       },
       body: JSON.stringify(changePass),
     })
-    const raw = await response.json()
+    const raw = (await response.json()) as ResponseChpwd
+    if (response.status !== 200) {
+      setErrorMessage({ ...errorMessage, oldPass: raw.message })
+    } else {
+      notify(NOTIFICATION_TYPE.SUCCESS, `change password successfully!`)
+      removeAuthInfo()
+      route.push("/login")
+    }
     return response
   }
 
@@ -47,7 +74,6 @@ const ChangePassword = () => {
     })
     setErrorMessage({ oldPass: "", newPass: "", reEnterPass: "" })
   }
-
 
   const validateForm = () => {
     let isValid = true
@@ -69,7 +95,8 @@ const ChangePassword = () => {
   const hanldeSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (validateForm()) {
-      const data = putChangePassword(changePass);
+      const data = putChangePassword(changePass)
+      console.log(authInfo)
     }
   }
 
@@ -93,6 +120,7 @@ const ChangePassword = () => {
                 placeholder="Old password"
                 onChange={handleChangeInput}
               />
+              {errorMessage.oldPass && <span className="text-red-600">{errorMessage.oldPass}</span>}
               <CustomInput
                 type="password"
                 name="newPass"

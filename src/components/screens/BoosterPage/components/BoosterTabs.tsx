@@ -1,5 +1,5 @@
-import React from "react";
 import { Tab, Tabs} from "@nextui-org/react";
+import React from "react";
 
 const TAB_LIST = ['Activity', 'Customer Feedback', 'Finished Boosts', 'Max Rank Achived', 'Alphabetical'];
 

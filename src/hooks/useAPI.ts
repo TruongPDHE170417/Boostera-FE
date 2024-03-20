@@ -1,4 +1,4 @@
-import { UseQueryOptions, useQuery } from '@tanstack/react-query'
+import { useQuery, UseQueryOptions } from '@tanstack/react-query'
 
 function useAPI<
   TQueryKey extends [string, Record<string, unknown>?], TQueryFnData, 

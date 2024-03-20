@@ -1,11 +1,11 @@
-import React from "react"
-import CustomButton from "../../../common/CustomButton"
-import { useBoundStore } from "@zustand/total"
-import { ROLE_ACCOUNT } from "@models/common"
-// const colors = require("tailwindcss/colors")
-import colors from "tailwindcss/colors"
-import Link from "next/link"
 import { Avatar } from "@nextui-org/react"
+import Link from "next/link"
+import React, { ChangeEvent, useState } from "react"
+import colors from "tailwindcss/colors"
+import { ROLE_ACCOUNT } from "@models/common"
+import { useBoundStore } from "@zustand/total"
+import CustomButton from "../../../common/CustomButton"
+// const colors = require("tailwindcss/colors")
 
 type Props = {
   onLogout?: () => void
@@ -16,6 +16,7 @@ const DropDownMenu = ({ onLogout }: Props) => {
     accountInfo: store.accountInfo,
     removeAccountInfo: store.removeAccountInfo,
   }))
+
   return (
     <div className="z-[999] h-fit w-52 rounded-lg bg-gray-900 text-white">
       <div className="p-8 text-center">
@@ -27,7 +28,7 @@ const DropDownMenu = ({ onLogout }: Props) => {
         </div>
       </div>
       <div className="flex flex-col gap-4 border-t border-gray-300 p-4">
-        {accountInfo.role === ROLE_ACCOUNT.BOOSTER && (
+        {accountInfo.role === "customer" && (
           <div>
             <div className="hover cursor-pointer rounded-md px-4 py-2 hover:bg-white hover:text-black">
               <Link href={"/my-jobs"}>My Jobs</Link>
@@ -43,6 +44,12 @@ const DropDownMenu = ({ onLogout }: Props) => {
             />
             <div className="hover cursor-pointer rounded-md px-4 mt-2 py-2 hover:bg-white hover:text-black">
               <Link href={"/messages"}>Messages</Link>
+            </div>
+            <div className="hover cursor-pointer rounded-md px-4 mt-2 py-2 hover:bg-white hover:text-black">
+              <Link href="/payment-account">Payment Information</Link>
+            </div>
+            <div className="hover cursor-pointer rounded-md px-4 mt-2 py-2 hover:bg-white hover:text-black">
+              <Link href="/change-password">Change Password</Link>
             </div>
           </div>
         )}

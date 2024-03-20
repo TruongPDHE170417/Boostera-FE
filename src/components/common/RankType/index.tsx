@@ -1,5 +1,5 @@
-import React from 'react'
 import Image from 'next/image'
+import React from 'react'
 import { RANK_IMAGES, RANK_TYPE } from '@models/rank'
 
 type Props = {

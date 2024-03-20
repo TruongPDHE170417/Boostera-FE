@@ -1,10 +1,8 @@
-import React, { memo, useEffect, useRef, useState } from "react"
-import Link from "next/link"
-import { useBoundStore } from "@zustand/total"
-import Navigation from "./components/Navigation"
-import { useClickOutside } from "@hooks/useClickOutside"
-import { ROLE_ACCOUNT } from "@models/common"
 import Image from "next/image"
+import Link from "next/link"
+import React, { memo, useEffect, useRef, useState } from "react"
+import { useClickOutside } from "@hooks/useClickOutside"
+import Navigation from "./components/Navigation"
 
 const SCROLL_THRESHOLD = 100
 
@@ -13,22 +11,6 @@ const Header = () => {
   const [isOpenDropDownMenu, setIsOpenDropDownMenu] = useState<boolean>(false)
   const toggleRef = useRef<HTMLDivElement>(null)
   const dropDownRef = useRef<HTMLDivElement>(null)
-
-  const { accountInfo, removeAccountInfo, saveAccountInfo } = useBoundStore((store) => ({
-    accountInfo: store.accountInfo,
-    removeAccountInfo: store.removeAccountInfo,
-    saveAccountInfo: store.saveAccountInfo,
-  }))
-
-  useEffect(() => {
-    saveAccountInfo({
-      userId: null,
-      username: "AnPT",
-      gmail: "abc@",
-      picture: null,
-      role: ROLE_ACCOUNT.BOOSTER,
-    })
-  }, [])
 
   useClickOutside(dropDownRef, toggleRef, () => setIsOpenDropDownMenu(false))
 
@@ -73,8 +55,8 @@ const Header = () => {
             <p className="text-xl font-bold">
               <span className="text-white">BOOSTERA</span>
             </p>
+            <span className="font-bold text-red-500">LOL ELO BOOST</span>
           </Link>
-          <span className="font-bold text-red-500">LOL ELO BOOST</span>
         </div>
       </div>
       <Navigation />

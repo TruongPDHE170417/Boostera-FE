@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
 import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Select, SelectItem, useDisclosure } from "@nextui-org/react";
+import { Pencil } from "lucide-react";
+import React, { useEffect, useState } from "react";
 import { API_ENDPOINT } from "@models/api";
 import { User } from "@models/user";
-import { Pencil } from "lucide-react";
 
 const statusList = [
     { label: "Pending", value: "pending" },

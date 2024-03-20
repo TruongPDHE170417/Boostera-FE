@@ -1,5 +1,5 @@
+import { Button, Image, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@nextui-org/react'
 import React, { ChangeEvent } from 'react'
-import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Image } from '@nextui-org/react'
 
 type Props = {
   boosterName?: string

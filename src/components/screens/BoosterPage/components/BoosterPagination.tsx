@@ -1,5 +1,5 @@
-import React, { useState } from "react";
 import { Pagination } from "@nextui-org/react";
+import React, { useState } from "react";
 
 interface BoosterPaginationProps {
     total: number;

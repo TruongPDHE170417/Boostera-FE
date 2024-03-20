@@ -1,5 +1,6 @@
 import React from 'react'
 import MainLayout from '@components/layouts/MainLayout'
+import withAuth from '@components/layouts/withAuth'
 import ReportScreen from '@components/screens/Report'
 
 const Report = () => {
@@ -10,4 +11,4 @@ const Report = () => {
   )
 }
 
-export default Report
+export default withAuth(Report, ['admin, manager'])

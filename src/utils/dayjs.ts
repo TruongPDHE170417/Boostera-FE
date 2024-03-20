@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
-import utc from 'dayjs/plugin/utc'
-import updateLocale from 'dayjs/plugin/updateLocale'
 import duration from 'dayjs/plugin/duration'
+import updateLocale from 'dayjs/plugin/updateLocale'
+import utc from 'dayjs/plugin/utc'
 
 dayjs.extend(utc)
 dayjs.extend(updateLocale)

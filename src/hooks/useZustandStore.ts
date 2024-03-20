@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useEffect, useState } from "react"
 import { INITIAL_STATE } from "@zustand/total"
 
 const useZustandStore = <TStore, TReturnFuncValue>(

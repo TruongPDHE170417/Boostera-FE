@@ -1,5 +1,5 @@
-import React, { useId, memo } from 'react'
 import SearchIcon from '@components/icons/SearchIcon'
+import React, { memo, useId } from 'react'
 import SpinnerLoading from '../SpinnerLoading'
 
 type Props = {

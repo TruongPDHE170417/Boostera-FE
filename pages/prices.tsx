@@ -4,7 +4,7 @@ import PricesScreen from "@components/screens/Prices"
 
 const PricesPage = () => {
   return (
-    <MainLayout>
+    <MainLayout title="Prices">
       <PricesScreen />
     </MainLayout>
   )

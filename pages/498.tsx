@@ -1,6 +1,6 @@
 import { useRouter } from "next/router"
-import MainLayout from "@components/layouts/MainLayout"
 import CustomButton from "@components/common/CustomButton"
+import MainLayout from "@components/layouts/MainLayout"
 
 const Page498 = () => {
   const router = useRouter()

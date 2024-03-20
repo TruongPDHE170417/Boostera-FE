@@ -1,7 +1,7 @@
-import { NextApiHandler, NextApiRequest } from "next";
 import formidable from "formidable";
-import path from "path";
+import { NextApiHandler, NextApiRequest } from "next";
 import fs from "fs/promises";
+import path from "path";
 
 export const config = {
   api: {

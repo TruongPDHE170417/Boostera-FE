@@ -1,5 +1,5 @@
-import React, { ChangeEvent } from "react"
 import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@nextui-org/react"
+import React, { ChangeEvent } from "react"
 
 type Props = {
   isOpenModal: boolean

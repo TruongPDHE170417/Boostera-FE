@@ -1,6 +1,6 @@
-import React, { useState } from "react"
 import { Button, Divider } from "@nextui-org/react"
 import { motion } from "framer-motion"
+import React, { useState } from "react"
 
 const variant = {
   open: { opacity: 1, y: 0, height: "auto", overflow: "visible" },

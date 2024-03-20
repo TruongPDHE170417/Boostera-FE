@@ -23,7 +23,7 @@ const GuestNav = () => {
       </Link>
       <Link href="/become-booster">
         <p className="cursor-pointer rounded-lg px-4 py-2 text-white transition-all delay-[20ms] hover:text-red-500">
-          Jobs
+          Become Booster
         </p>
       </Link>
       <Link href="/login" className="rounded-xl bg-red-400 px-4 py-2 hover:bg-red-500">

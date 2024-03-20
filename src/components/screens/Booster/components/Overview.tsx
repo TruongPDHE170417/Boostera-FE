@@ -52,7 +52,7 @@ export default function App() {
             <div className="self-stretch flex flex-row items-center justify-between py-0 pr-1 pl-[3px] gap-[20px] mq450:flex-wrap">
               <div className="flex flex-row items-center justify-start gap-[9px]">
                 <b className="relative leading-[21px]">43.81%</b>
-                <div className="h-[17px] flex flex-row items-end justify-end pt-0 px-0 pb-0 box-border opacity-[0.5] mix-blend-normal text-sm">
+                <div className="h-[17px] flex flex-row items-end justify-end p-0 box-border opacity-[0.5] mix-blend-normal text-sm">
                   <div className="relative leading-[21px] font-light">
                     46 Boosters
                   </div>
@@ -77,7 +77,7 @@ export default function App() {
             <div className="self-stretch flex flex-row items-center justify-between py-0 pr-1 pl-[3px] gap-[20px] mq450:flex-wrap">
               <div className="flex flex-row items-center justify-start gap-[9px]">
                 <b className="relative leading-[21px]">22.86%</b>
-                <div className="h-[17px] flex flex-row items-end justify-end pt-0 px-0 pb-0 box-border opacity-[0.5] mix-blend-normal text-sm">
+                <div className="h-[17px] flex flex-row items-end justify-end p-0 box-border opacity-[0.5] mix-blend-normal text-sm">
                   <div className="relative leading-[21px] font-light">
                     24 Boosters
                   </div>
@@ -102,7 +102,7 @@ export default function App() {
             <div className="self-stretch flex flex-row items-center justify-between py-0 pr-[5px] pl-[3px] gap-[20px] mq450:flex-wrap">
               <div className="flex flex-row items-center justify-start gap-[9px]">
                 <b className="relative leading-[21px]">18.1%</b>
-                <div className="h-[17px] flex flex-row items-end justify-end pt-0 px-0 pb-0 box-border opacity-[0.5] mix-blend-normal text-sm">
+                <div className="h-[17px] flex flex-row items-end justify-end p-0 box-border opacity-[0.5] mix-blend-normal text-sm">
                   <div className="relative leading-[21px] font-light">
                     19 Boosters
                   </div>
@@ -125,7 +125,7 @@ export default function App() {
             <div className="self-stretch flex flex-row items-center justify-between py-0 px-1 gap-[20px] mq450:flex-wrap">
               <div className="flex flex-row items-center justify-start gap-[9px]">
                 <b className="relative leading-[21px]">1.9%</b>
-                <div className="h-4 flex flex-row items-end justify-end pt-0 px-0 pb-0 box-border opacity-[0.5] mix-blend-normal text-sm">
+                <div className="h-4 flex flex-row items-end justify-end p-0 box-border opacity-[0.5] mix-blend-normal text-sm">
                   <div className="relative leading-[21px] font-light">
                     2 Boosters
                   </div>
@@ -150,7 +150,7 @@ export default function App() {
             <div className="self-stretch flex flex-row items-center justify-between py-0 pr-[5px] pl-[3px] gap-[20px] mq450:flex-wrap">
               <div className="flex flex-row items-center justify-start gap-[9px]">
                 <b className="relative leading-[21px]">13.33%</b>
-                <div className="h-[17px] flex flex-row items-end justify-end pt-0 px-0 pb-0 box-border opacity-[0.5] mix-blend-normal text-sm">
+                <div className="h-[17px] flex flex-row items-end justify-end p-0 box-border opacity-[0.5] mix-blend-normal text-sm">
                   <div className="relative leading-[21px] font-light">
                     14 Boosters
                   </div>
