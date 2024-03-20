@@ -47,7 +47,6 @@ const UserTable = ({users, handleGetBoosterList}: Props) => {
     <Table className="dark text-foreground" isStriped aria-label="Example static collection table">
       <TableHeader>
         <TableColumn>#</TableColumn>
-        <TableColumn>Name</TableColumn>
         <TableColumn>Email</TableColumn>
         <TableColumn>Role</TableColumn>
         <TableColumn>Status</TableColumn>
@@ -57,7 +56,6 @@ const UserTable = ({users, handleGetBoosterList}: Props) => {
       {users.map((user, index) => (
         <TableRow key={index}>
           <TableCell>{index + 1}</TableCell>
-          <TableCell>{user.name}</TableCell>
           <TableCell>{user.email}</TableCell>
           <TableCell className="capitalize">{user.role}</TableCell>
           <TableCell>

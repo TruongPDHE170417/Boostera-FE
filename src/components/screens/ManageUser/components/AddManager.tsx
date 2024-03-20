@@ -1,11 +1,16 @@
 import React, { useState } from "react";
-import {Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure} from "@nextui-org/react";
+import {Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Select, SelectItem, useDisclosure} from "@nextui-org/react";
 import { API_ENDPOINT } from "@models/api";
+
+const roleList = [
+  { label: "Admin", value: "admin" },
+  { label: "Manager", value: "manager" }
+];
 
 export default function AddManager() {
   const {isOpen, onOpen, onOpenChange, onClose} = useDisclosure();
   const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
+  const [role, setRole] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleCreate = async () => {
@@ -14,7 +19,7 @@ export default function AddManager() {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ email, name })
+      body: JSON.stringify({ email, role })
     });
 
     if (response.ok) {
@@ -28,7 +33,9 @@ export default function AddManager() {
 
   return (
     <>
-      <Button color="danger" onPress={onOpen}>Add Manager</Button>
+      <Button color="danger" onPress={onOpen}>
+        <p>Add Manager/Admin</p>
+      </Button>
       <Modal className="dark text-foreground" isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
@@ -39,18 +46,24 @@ export default function AddManager() {
                   isRequired
                   type="email"
                   label="Email"
-                  className="max-w-xs"
+                  className="max-w-lg"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
-                <Input
-                  isRequired
-                  type="text"
-                  label="Name"
-                  className="max-w-xs"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
+                <Select
+                    isRequired
+                    label="Role"
+                    value={role}
+                    defaultSelectedKeys={[role]}
+                    onChange={(e) => setRole(e.target.value)}
+                    className="max-w-lg"
+                >
+                {roleList.map((role) => (
+                        <SelectItem key={role.value} value={role.value}>
+                        {role.label}
+                        </SelectItem>
+                ))}
+                </Select>
                 {errorMessage && <p color="danger">{errorMessage}</p>}
               </ModalBody>
               <ModalFooter>
